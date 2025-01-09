@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "tarmed-validator-v1",
-    "slug": "tarmed-validator-v1",
+    "slug": "tarmed-validation-tool",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -36,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "9cd5ad7d-bc74-4154-a6ac-8aa1c37bb9f1"
+      }
+    },
+    "owner": "andreirobertooleniuc"
   }
 }
