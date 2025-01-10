@@ -1,30 +1,25 @@
 import React from "react";
-import { View, Button, StyleSheet, Text, SafeAreaView } from "react-native";
-import { Link } from "expo-router";
-import { useAppSelector, useAppDispatch } from "../store/hooks"; // Adjust the path as necessary
 import {
-  increment,
-  decrement,
-  incrementByAmount,
-} from "../store/reducers/exampleReducer"; // Import your actions
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
+import { Link } from "expo-router";
 
 export default function Index() {
-  const value = useAppSelector((state) => state.example.value);
-  const dispatch = useAppDispatch();
-
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Tarmed Validation Tool</Text>
+      <Text style={styles.title}>Tarmed Validation Scanner</Text>
+      <Text style={styles.subtitle}>
+        Hilft bei der Validation der Rückforderungsbelege
+      </Text>
       <Link href="/documents" asChild>
-        <Button title="Get Started" />
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Get Started</Text>
+        </TouchableOpacity>
       </Link>
-      {/* <Text>{value}</Text>
-      <Button onPress={() => dispatch(increment())} title="Increment" />
-      <Button onPress={() => dispatch(decrement())} title="Decrement" />
-      <Button
-        onPress={() => dispatch(incrementByAmount(5))}
-        title="Increment by 5"
-      /> */}
     </SafeAreaView>
   );
 }
@@ -34,7 +29,30 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F0F0F0",
-    color: "black",
+    backgroundColor: "#FFFFFF",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+    color: "#000000",
+  },
+  subtitle: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 40,
+    color: "#000000",
+  },
+  button: {
+    backgroundColor: "#E0E0E0",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 16,
+    color: "#000000",
   },
 });

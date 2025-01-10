@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
-import { useCameraPermissions } from "expo-camera";
+import { CameraCapturedPicture, useCameraPermissions } from "expo-camera";
 import CameraComponent from "../components/CameraComponent";
 import PreviewComponent from "../components/PreviewComponent";
 import { router } from "expo-router";
 
 const Scanner: React.FC = () => {
   const [permission, requestPermission] = useCameraPermissions();
-  const [capturedPhotoUri, setCapturedPhotoUri] = useState<string | null>(null);
+  const [capturedPhotoUri, setCapturedPhotoUri] =
+    useState<CameraCapturedPicture | null>(null);
   const [showCamera, setShowCamera] = useState<boolean>(true);
 
   useEffect(() => {
@@ -75,7 +76,7 @@ const Scanner: React.FC = () => {
 
   return (
     <PreviewComponent
-      photoUri={capturedPhotoUri!}
+      photoUri={capturedPhotoUri!.uri}
       onRetake={() => {
         setCapturedPhotoUri(null);
         setShowCamera(true);

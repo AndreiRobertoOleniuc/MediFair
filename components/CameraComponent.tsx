@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { CameraView } from "expo-camera";
+import { CameraCapturedPicture, CameraView } from "expo-camera";
 
 interface CameraComponentProps {
-  onCapture: (photoUri: string) => void;
+  onCapture: (photoUri: CameraCapturedPicture) => void;
 }
 
 const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
@@ -13,7 +13,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
     if (cameraRef.current) {
       const photo = await cameraRef.current.takePictureAsync();
       if (photo) {
-        onCapture(photo.uri);
+        onCapture(photo);
       } else {
         console.error("Failed to take picture");
       }
