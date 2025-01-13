@@ -4,12 +4,17 @@ import { CameraCapturedPicture, useCameraPermissions } from "expo-camera";
 import CameraComponent from "../components/CameraComponent";
 import PreviewComponent from "../components/PreviewComponent";
 import { router } from "expo-router";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { Document } from "@/models/Document";
+import { addDocument } from "@/store/reducers/docuemtReducer";
 
 export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [capturedPhotoUri, setCapturedPhotoUri] =
+  const [capturedPhoto, setCapturedPhoto] =
     useState<CameraCapturedPicture | null>(null);
   const [showCamera, setShowCamera] = useState<boolean>(true);
+  const documents = useAppSelector((state) => state.document.documents);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     (async () => {
@@ -49,9 +54,14 @@ export default function Scanner() {
   };
 
   const continueWithImage = async () => {
-    if (capturedPhotoUri) {
+    if (capturedPhoto) {
       try {
         //await uploadImage(capturedPhotoUri);
+        const document: Document = {
+          id: documents.length.toString(),
+          documemtImages: [capturedPhoto],
+        };
+        dispatch(addDocument(document));
         router.replace("/documents");
       } catch (error) {
         console.error("Failed to upload:", error);
@@ -63,11 +73,11 @@ export default function Scanner() {
     return <View />;
   }
 
-  if (showCamera && !capturedPhotoUri) {
+  if (showCamera && !capturedPhoto) {
     return (
       <CameraComponent
         onCapture={(uri) => {
-          setCapturedPhotoUri(uri);
+          setCapturedPhoto(uri);
           setShowCamera(false);
         }}
       />
@@ -76,9 +86,9 @@ export default function Scanner() {
 
   return (
     <PreviewComponent
-      photoUri={capturedPhotoUri!.uri}
+      photoUri={capturedPhoto!.uri}
       onRetake={() => {
-        setCapturedPhotoUri(null);
+        setCapturedPhoto(null);
         setShowCamera(true);
       }}
       onContinue={() => continueWithImage()}

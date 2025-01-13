@@ -1,9 +1,9 @@
 // store/reducers/index.ts
 import { combineReducers } from "@reduxjs/toolkit";
-import exampleReducer from "./exampleReducer"; // Import your individual reducers
+import documentReducer from "./docuemtReducer"; // Import your individual reducers
 
 const rootReducer = combineReducers({
-  example: exampleReducer,
+  document: documentReducer,
   // Add other reducers here
 });
 

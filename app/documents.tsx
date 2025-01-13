@@ -6,22 +6,21 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Link } from "expo-router";
+import { useAppSelector } from "@/store/hooks";
 
 export default function Documents() {
+  const documents = useAppSelector((state) => state.document.documents);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Your Scanned Documents</Text>
         <View style={styles.documents}>
-          <View style={styles.documentItem}>
-            <Text style={styles.documentText}>Document 1</Text>
-          </View>
-          <View style={styles.documentItem}>
-            <Text style={styles.documentText}>Document 2</Text>
-          </View>
-          <View style={styles.documentItem}>
-            <Text style={styles.documentText}>Document 3</Text>
-          </View>
+          {documents.map((document) => (
+            <View key={document.id} style={styles.documentItem}>
+              <Text style={styles.documentText}>Document {document.id}</Text>
+            </View>
+          ))}
         </View>
       </View>
       <View style={styles.bottomContainer}>
