@@ -1,92 +1,70 @@
-import React, { useRef } from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
-import { CameraCapturedPicture, CameraView } from "expo-camera";
+import React, { useEffect, useState } from "react";
+import { Image, View, StyleSheet, ImageStyle, Button } from "react-native";
+import { CameraCapturedPicture } from "expo-camera";
+import DocumentScanner from "react-native-document-scanner-plugin";
 
 interface CameraComponentProps {
   onCapture: (photoUri: CameraCapturedPicture) => void;
 }
 
 const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
-  const cameraRef = useRef<CameraView>(null);
+  const [scannedImage, setScannedImage] = useState<string | null>(null);
 
-  const takePicture = async () => {
-    if (cameraRef.current) {
-      const photo = await cameraRef.current.takePictureAsync();
-      if (photo) {
-        onCapture(photo);
-      } else {
-        console.error("Failed to take picture");
+  const scanDocument = async () => {
+    try {
+      const { scannedImages } = await DocumentScanner.scanDocument({
+        maxNumDocuments: 2,
+      });
+      if (scannedImages && scannedImages.length > 0) {
+        setScannedImage(scannedImages[0]);
       }
+    } catch (error) {
+      console.error("Error scanning document:", error);
     }
   };
 
+  useEffect(() => {
+    scanDocument();
+  }, []);
+
   return (
-    <View style={styles.cameraContainer}>
-      <CameraView style={styles.camera} facing="back" ref={cameraRef}>
-        <View style={styles.gridContainer}>
-          <View
-            style={[styles.gridLine, styles.horizontalLine, { top: "33.33%" }]}
-          />
-          <View
-            style={[styles.gridLine, styles.horizontalLine, { top: "66.66%" }]}
-          />
-          <View
-            style={[styles.gridLine, styles.verticalLine, { left: "33.33%" }]}
-          />
-          <View
-            style={[styles.gridLine, styles.verticalLine, { left: "66.66%" }]}
-          />
-        </View>
-      </CameraView>
-      <View style={styles.bottomSection}>
-        <TouchableOpacity style={styles.captureButton} onPress={takePicture} />
+    <View style={styles.container}>
+      <Image
+        resizeMode="contain"
+        style={styles.image}
+        source={{ uri: scannedImage || undefined }}
+      />
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Continue with Scan"
+          onPress={() => {
+            if (scannedImage) {
+              onCapture({ uri: scannedImage, width: 0, height: 0 });
+            }
+          }}
+        />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  cameraContainer: {
+  container: {
     flex: 1,
+    position: "relative",
+    height: "100%",
   },
-  camera: {
-    height: "85%",
+  image: {
     width: "100%",
-  },
-  bottomSection: {
-    height: "15%",
-    backgroundColor: "black",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  captureButton: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: "white",
-    borderWidth: 5,
-    borderColor: "rgba(255, 255, 255, 0.5)",
-    marginBottom: 20,
-  },
-  gridContainer: {
+    height: "100%",
+    marginBottom: 16,
+  } as ImageStyle,
+  buttonContainer: {
     position: "absolute",
-    top: 0,
+    bottom: 32,
     left: 0,
     right: 0,
-    bottom: 0,
-  },
-  gridLine: {
-    position: "absolute",
-    backgroundColor: "rgba(255,255,255,0.4)",
-  },
-  horizontalLine: {
-    height: 1,
-    width: "100%",
-  },
-  verticalLine: {
-    width: 1,
-    height: "100%",
+    paddingHorizontal: 16,
   },
 });
 
