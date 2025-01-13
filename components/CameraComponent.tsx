@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Image, View, StyleSheet, ImageStyle, Button } from "react-native";
 import { CameraCapturedPicture } from "expo-camera";
 import DocumentScanner from "react-native-document-scanner-plugin";
+import { router } from "expo-router";
 
 interface CameraComponentProps {
   onCapture: (photoUri: CameraCapturedPicture) => void;
@@ -20,6 +21,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
       }
     } catch (error) {
       console.error("Error scanning document:", error);
+      router.replace("/documents");
     }
   };
 
