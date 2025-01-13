@@ -9,16 +9,20 @@ export const documentApi = {
       name: "photo.jpg",
     } as any);
 
-    const response = await fetch("https://tarmed-backend.pages.dev/", {
-      method: "POST",
-      body: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "x-api-key": Secrets.tarmedAPIKEY,
-      },
-    });
+    const response = await fetch(
+      "https://tarmed-backend.pages.dev/api/process",
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "x-api-key": Secrets.tarmedAPIKEY,
+        },
+      }
+    );
 
     if (!response.ok) {
+      console.log(response);
       throw new Error("Network response was not ok");
     }
 

@@ -5,9 +5,10 @@ import CameraComponent from "../components/CameraComponent";
 import PreviewComponent from "../components/PreviewComponent";
 import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Document } from "@/models/Document";
+import { Document, ScanResponse } from "@/models/Document";
 import { addDocument } from "@/store/reducers/docuemtReducer";
 import { documentApi } from "@/services/api";
+import DemoData from "@/assets/data/3.json";
 
 export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -28,11 +29,14 @@ export default function Scanner() {
   const continueWithImage = async () => {
     if (capturedPhoto) {
       try {
+        //await documentApi.uploadImage(document.documemtImages[0].uri);
+        // Use demo data instead of uploading the image, the data is in json so convert to good format
+        let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
         const document: Document = {
           id: documents.length.toString(),
           documemtImages: [capturedPhoto],
+          scanResponse: response,
         };
-        await documentApi.uploadImage(document.documemtImages[0].uri);
         dispatch(addDocument(document));
         router.replace("/documents");
       } catch (error) {
