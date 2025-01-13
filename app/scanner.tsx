@@ -5,7 +5,7 @@ import CameraComponent from "../components/CameraComponent";
 import PreviewComponent from "../components/PreviewComponent";
 import { router } from "expo-router";
 
-const Scanner: React.FC = () => {
+export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
   const [capturedPhotoUri, setCapturedPhotoUri] =
     useState<CameraCapturedPicture | null>(null);
@@ -84,6 +84,4 @@ const Scanner: React.FC = () => {
       onContinue={() => continueWithImage()}
     />
   );
-};
-
-export default Scanner;
+}
