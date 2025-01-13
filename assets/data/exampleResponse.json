@@ -1,0 +1,43 @@
+{
+    "original": {
+        "rechnungspositionen": [
+            {
+                "datum": "11.01.2022",
+                "tarif": "001",
+                "tarifziffer": "001",
+                "beschreibung": "Notfall-Inkovenienzenpauschale B, Mo-So 19-22, Sa 12-19, So 7-19",
+                "anzahl": 1,
+                "betrag": 93
+            },
+            {
+                "datum": "11.01.2022",
+                "tarif": "001",
+                "tarifziffer": "0001",
+                "beschreibung": "Konsultation, erste 5 Min. (Grundkonsultation)",
+                "anzahl": 1,
+                "betrag": 16.27
+            },
+            {
+                "datum": "11.01.2022",
+                "tarif": "001",
+                "tarifziffer": "0250",
+                "beschreibung": "(+) Zuschlag für Notfall B, Mo-So 19-22, Sa 12-19, So 7-19",
+                "anzahl": 1,
+                "betrag": 2.29
+            }
+        ]
+    },
+    "summaries": [
+        {
+            "datum": "11.01.2022",
+            "beschreibung": "Notfall-Inkovenienzenpauschale B für die Nutzung zwischen Mo-So 19-22, Sa 12-19, So 7-19, sowie Grundkonsultation und Zuschlag für Notfall B.",
+            "operation": "+",
+            "relevant_ids": [
+                0,
+                1,
+                2
+            ],
+            "betrag": 111.56
+        }
+    ]
+}
