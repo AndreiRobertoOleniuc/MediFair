@@ -7,6 +7,7 @@ import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Document } from "@/models/Document";
 import { addDocument } from "@/store/reducers/docuemtReducer";
+import { Secrets } from "@/Secrets";
 
 export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -33,11 +34,12 @@ export default function Scanner() {
         name: "photo.jpg",
       } as any);
 
-      const response = await fetch("YOUR_API_ENDPOINT", {
+      const response = await fetch("https://tarmed-backend.pages.dev/", {
         method: "POST",
         body: formData,
         headers: {
           "Content-Type": "multipart/form-data",
+          "x-api-key": Secrets.tarmedAPIKEY,
         },
       });
 
@@ -56,7 +58,7 @@ export default function Scanner() {
   const continueWithImage = async () => {
     if (capturedPhoto) {
       try {
-        //await uploadImage(capturedPhotoUri);
+        //await uploadImage(capturedPhoto.uri);
         const document: Document = {
           id: documents.length.toString(),
           documemtImages: [capturedPhoto],
