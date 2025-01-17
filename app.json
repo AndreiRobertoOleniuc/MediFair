@@ -13,8 +13,10 @@
       "bundleIdentifier": "com.andreirobertooleniuc.tarmedvalidationtool",
       "infoPlist": {
         "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": false,
           "NSExceptionDomains": {
-            "your.backend.domain": {
+            "192.168.1.43": {
+              "NSIncludesSubdomains": true,
               "NSExceptionAllowsInsecureHTTPLoads": true
             }
           }

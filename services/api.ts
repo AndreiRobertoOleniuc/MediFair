@@ -9,8 +9,6 @@ export const documentApi = {
       name: "photo.jpg",
     } as any);
 
-    console.log(Secrets.tarmedAPIURI);
-
     const response = await fetch(`${Secrets.tarmedAPIURI}/api/process`, {
       method: "POST",
       body: formData,
