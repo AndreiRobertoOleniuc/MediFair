@@ -8,18 +8,25 @@ import {
 import { Link } from "expo-router";
 import { useAppSelector } from "@/store/hooks";
 
-export default function Documents() {
+export default function Document() {
   const documents = useAppSelector((state) => state.document.documents);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Your Scanned Documents</Text>
+        <Text style={styles.title}>Your Scanned Document</Text>
         <View style={styles.documents}>
           {documents.map((document) => (
-            <View key={document.id} style={styles.documentItem}>
+            <Link
+              key={document.id}
+              style={styles.documentItem}
+              href={{
+                pathname: "/document/[id]",
+                params: { id: document.id },
+              }}
+            >
               <Text style={styles.documentText}>Document {document.id}</Text>
-            </View>
+            </Link>
           ))}
         </View>
       </View>

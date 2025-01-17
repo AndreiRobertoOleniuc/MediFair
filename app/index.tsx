@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-} from "react-native";
+import { Text, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
 import { Link } from "expo-router";
 
 export default function Index() {
@@ -15,7 +9,7 @@ export default function Index() {
       <Text style={styles.subtitle}>
         Hilft bei der Validation der Rückforderungsbelege
       </Text>
-      <Link href="/documents" asChild>
+      <Link href="/document" asChild>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>

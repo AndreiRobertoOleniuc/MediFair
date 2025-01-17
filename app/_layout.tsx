@@ -13,6 +13,8 @@ import { Provider } from "react-redux";
 import store from "../store/store"; // Adjust the path as necessary
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { Button } from "react-native";
+import { useRouter } from "expo-router";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -22,6 +24,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
+  const router = useRouter();
 
   useEffect(() => {
     if (loaded) {
@@ -35,11 +38,24 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={DefaultTheme}>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="scanner" options={{ headerShown: false }} />
-          <Stack.Screen name="documents" options={{ headerShown: false }} />
+          <Stack.Screen name="document" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="document/[id]"
+            options={{
+              headerShown: true,
+              title: "Rückforderungsbeleg Analysieren",
+              headerLeft: () => (
+                <Button
+                  title="Back"
+                  onPress={() => router.dismissTo("/document")}
+                />
+              ),
+            }}
+          />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>

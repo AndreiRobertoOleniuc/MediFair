@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Document, ScanResponse } from "@/models/Document";
 import { addDocument } from "@/store/reducers/docuemtReducer";
 import { documentApi } from "@/services/api";
-import DemoData from "@/assets/data/3.json";
+import DemoData from "@/assets/data/exampleResponse.json";
 
 export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -31,16 +31,19 @@ export default function Scanner() {
       try {
         //await documentApi.uploadImage(document.documemtImages[0].uri);
         // Use demo data instead of uploading the image, the data is in json so convert to good format
-        let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
+        //let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
+        let response: ScanResponse = await documentApi.uploadImage(
+          capturedPhoto.uri
+        );
         const document: Document = {
           id: documents.length.toString(),
           documemtImages: [capturedPhoto],
           scanResponse: response,
         };
         dispatch(addDocument(document));
-        router.replace("/documents");
+        router.replace("/document");
       } catch (error) {
-        console.error("Failed to upload:", error);
+        console.error(error);
       }
     }
   };
