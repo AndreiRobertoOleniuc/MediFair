@@ -13,7 +13,7 @@ export default function Document() {
   const { colors } = useColorScheme();
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1">
       <View className="flex-1 p-5">
         <Text
           variant="title1"
@@ -33,7 +33,7 @@ export default function Document() {
                 });
               }}
             >
-              <Text className="text-lg text-gray-800">{document?.name}</Text>
+              <Text className="text-lg">{document?.name}</Text>
               <MaterialIcon
                 name="arrow-forward-ios"
                 size={13}
@@ -43,7 +43,7 @@ export default function Document() {
           ))}
         </View>
       </View>
-      <View className="p-5 border-t border-gray-300 bg-white">
+      <View className="p-5">
         <Link href="/scanner" asChild>
           <Button size={Platform.select({ ios: "lg", default: "md" })}>
             <Text>Rechnung Scannen</Text>
