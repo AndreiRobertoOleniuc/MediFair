@@ -1,71 +1,103 @@
-import React from "react";
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-} from "react-native";
+import { Icon } from "@roninoss/icons";
 import { Link } from "expo-router";
+import { Platform, View, type ViewStyle } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 
-export default function Index() {
+import { Button } from "../components/nativewindui/Button";
+import { Text } from "../components/nativewindui/Text";
+import { useColorScheme } from "../lib/useColorScheme";
+
+const ROOT_STYLE: ViewStyle = { flex: 1 };
+
+export default function WelcomeConsentScreen() {
+  const { colors } = useColorScheme();
   return (
-    // <SafeAreaView style={styles.container}>
-    //   <Text style={styles.title}>Tarmed Validation Scanner</Text>
-    //   <Text style={styles.subtitle}>
-    //     Hilft bei der Validation der Rückforderungsbelege
-    //   </Text>
-    //   <Link href="/document" asChild>
-    //     <TouchableOpacity style={styles.button}>
-    //       <Text style={styles.buttonText}>Get Started</Text>
-    //     </TouchableOpacity>
-    //   </Link>
-    // </SafeAreaView>
-    <SafeAreaView className="bg-primary h-full flex justify-center items-center">
-      <ScrollView contentContainerStyle={{ height: "100%" }}>
-        <View className="w-full items-center justify-center min-h-[85vh] px-4">
-          <Text className="text-white text-3xl">Tarmed Validation Scanner</Text>
+    <SafeAreaView style={ROOT_STYLE}>
+      <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4">
+        <View className="ios:pt-8 pt-12">
+          <Text
+            variant="largeTitle"
+            className="ios:text-left ios:font-black text-center font-bold"
+          >
+            Willkommen bei
+          </Text>
+          <Text
+            variant="largeTitle"
+            className="ios:text-left ios:font-black text-primary text-center font-bold"
+          >
+            TARMED Scanner
+          </Text>
         </View>
-        <Text className="text-sm  text-gray-100 mt-7 text-center">
-          Hilft bei der Validation der Rückforderungsbelege
-        </Text>
-      </ScrollView>
-      <StatusBar backgroundColor="#161622" barStyle="light-content" />
+        <View className="gap-8">
+          {FEATURES.map((feature) => (
+            <View key={feature.title} className="flex-row gap-4">
+              <View className="pt-px">
+                <MaterialIcon
+                  name={feature.icon}
+                  size={38}
+                  color={colors.primary}
+                />
+              </View>
+              <View className="flex-1">
+                <Text className="font-bold">{feature.title}</Text>
+                <Text variant="footnote">{feature.description}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
+        <View className="gap-4">
+          <View className="items-center">
+            <MaterialIcon
+              name="group"
+              size={24}
+              color={colors.primary}
+              ios={{ renderingMode: "hierarchical" }}
+            />
+            <Text variant="caption2" className="pt-1 text-center">
+              Durch Drücken von "Weiter" stimmen Sie unseren{" "}
+              <Link href="/">
+                <Text variant="caption2" className="text-primary">
+                  Nutzungsbedingungen
+                </Text>
+              </Link>{" "}
+              zu und bestätigen, dass Sie unsere{" "}
+              <Link href="/">
+                <Text variant="caption2" className="text-primary">
+                  Datenschutzrichtlinie
+                </Text>
+              </Link>{" "}
+              gelesen haben.
+            </Text>
+          </View>
+          <Link href="/document" replace asChild>
+            <Button size={Platform.select({ ios: "lg", default: "md" })}>
+              <Text>Weiter</Text>
+            </Button>
+          </Link>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
+const FEATURES = [
+  {
+    title: "TARMED-Rechnungen scannen",
+    description:
+      "Fotografieren Sie Ihre TARMED-Rückforderungsbelege und lassen Sie sie automatisch analysieren.",
+    icon: "document-scanner",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-    color: "#000000",
+  {
+    title: "Leistungen zusammenfassen",
+    description:
+      "Erhalten Sie eine klare Übersicht über alle vom Arzt erbrachten Leistungen.",
+    icon: "description",
   },
-  subtitle: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 40,
-    color: "#000000",
+  {
+    title: "Komplexe Begriffe erklären",
+    description:
+      "Verstehen Sie medizinische Fachbegriffe durch einfache Erklärungen.",
+    icon: "help",
   },
-  button: {
-    backgroundColor: "#E0E0E0",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  buttonText: {
-    fontSize: 16,
-    color: "#000000",
-  },
-});
+] as const;
