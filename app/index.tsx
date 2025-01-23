@@ -1,19 +1,38 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+} from "react-native";
 import { Link } from "expo-router";
 
 export default function Index() {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Tarmed Validation Scanner</Text>
-      <Text style={styles.subtitle}>
-        Hilft bei der Validation der Rückforderungsbelege
-      </Text>
-      <Link href="/document" asChild>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Get Started</Text>
-        </TouchableOpacity>
-      </Link>
+    // <SafeAreaView style={styles.container}>
+    //   <Text style={styles.title}>Tarmed Validation Scanner</Text>
+    //   <Text style={styles.subtitle}>
+    //     Hilft bei der Validation der Rückforderungsbelege
+    //   </Text>
+    //   <Link href="/document" asChild>
+    //     <TouchableOpacity style={styles.button}>
+    //       <Text style={styles.buttonText}>Get Started</Text>
+    //     </TouchableOpacity>
+    //   </Link>
+    // </SafeAreaView>
+    <SafeAreaView className="bg-primary h-full flex justify-center items-center">
+      <ScrollView contentContainerStyle={{ height: "100%" }}>
+        <View className="w-full items-center justify-center min-h-[85vh] px-4">
+          <Text className="text-white text-3xl">Tarmed Validation Scanner</Text>
+        </View>
+        <Text className="text-sm  text-gray-100 mt-7 text-center">
+          Hilft bei der Validation der Rückforderungsbelege
+        </Text>
+      </ScrollView>
+      <StatusBar backgroundColor="#161622" barStyle="light-content" />
     </SafeAreaView>
   );
 }
