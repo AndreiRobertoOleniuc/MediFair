@@ -1,29 +1,27 @@
-import React from "react";
 import { useAppSelector } from "@/store/hooks";
 import { selectDocumentById } from "@/store/selectors/documentSelectors";
-import { useLocalSearchParams, Link } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import {
   View,
-  Text,
-  StyleSheet,
-  FlatList,
   ScrollView,
   SafeAreaView,
   Image,
-  Button,
+  TouchableOpacity,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { Text } from "@/components/nativewindui/Text";
+import { useState } from "react";
+import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 
 export default function DetailsScreen() {
   const { id } = useLocalSearchParams();
   const document = useAppSelector(selectDocumentById(id as string));
-  const router = useRouter();
+  const [isFitMode, setIsFitMode] = useState(true);
 
   if (!document || !document.scanResponse) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.center}>
-          <Text>Document not found</Text>
+      <SafeAreaView className="flex-1 bg-background">
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-foreground">Document not found</Text>
         </View>
       </SafeAreaView>
     );
@@ -33,119 +31,58 @@ export default function DetailsScreen() {
   const photoUri = document.documemtImages?.[0]?.uri;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.imagePreviewContainer}>
+    <SafeAreaView className="flex-1 bg-background">
+      <View className="h-2/5 bg-card">
+        <View className="absolute top-2 right-2 z-10">
+          <TouchableOpacity
+            onPress={() => setIsFitMode(!isFitMode)}
+            className="bg-card/80 rounded-full p-2"
+          >
+            <MaterialIcon
+              name={isFitMode ? "fit-screen" : "fullscreen"}
+              size={24}
+              className="text-foreground"
+            />
+          </TouchableOpacity>
+        </View>
+
         {photoUri ? (
-          <Image source={{ uri: photoUri }} style={styles.image} />
+          <Image
+            source={{ uri: photoUri }}
+            className="w-full h-full"
+            resizeMode={isFitMode ? "contain" : "cover"}
+          />
         ) : (
-          <View style={styles.imageFallback}>
-            <Text style={styles.imageFallbackText}>Kein Bild verfügbar</Text>
+          <View className="w-full h-full justify-center items-center bg-muted/10">
+            <Text className="text-muted-foreground">Kein Bild verfügbar</Text>
           </View>
         )}
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.subheading}>Zusammenfassung / Erklärung</Text>
-        {summaries.map((summary, index) => (
-          <View key={index} style={styles.summary}>
-            <Text style={styles.summaryText}>Datum: {summary.datum}</Text>
-            <Text style={styles.summaryText}>
-              Beschreibung: {summary.beschreibung}
-            </Text>
-            <Text style={styles.summaryText}>
-              Betrag: {summary.betrag.toFixed(2)} CHF
-            </Text>
-          </View>
-        ))}
-      </ScrollView>
+      <View className="p-4">
+        <Text variant="title3" className="mb-4 text-foreground">
+          Zusammenfassung / Erklärung
+        </Text>
+        <ScrollView
+          className="h-96"
+          contentContainerStyle={{ paddingBottom: 80 }}
+        >
+          {summaries.map((summary, index) => (
+            <View
+              key={index}
+              className="bg-card rounded-sm mb-4 shadow-xsm p-3"
+            >
+              <Text className="text-foreground">Datum: {summary.datum}</Text>
+              <Text className="text-foreground">
+                Beschreibung: {summary.beschreibung}
+              </Text>
+              <Text className="text-foreground">
+                Betrag: {summary.betrag.toFixed(2)} CHF
+              </Text>
+            </View>
+          ))}
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  backButton: {
-    padding: 10,
-    backgroundColor: "#ECECEC",
-    alignSelf: "flex-start",
-    marginTop: 10,
-    marginLeft: 10,
-    borderRadius: 8,
-  },
-  backButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-  },
-  imagePreviewContainer: {
-    height: "40%",
-    backgroundColor: "#F8F8F8",
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ECECEC",
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
-  },
-  imageFallback: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ECECEC",
-  },
-  imageFallbackText: {
-    fontSize: 16,
-    color: "#999",
-  },
-  scrollContainer: {
-    padding: 16,
-  },
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  heading: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 16,
-  },
-  subheading: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  row: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    paddingVertical: 8,
-  },
-  cell: {
-    flex: 1,
-    fontSize: 14,
-    paddingHorizontal: 4,
-  },
-  header: {
-    fontWeight: "bold",
-  },
-  summary: {
-    padding: 8,
-    backgroundColor: "#F9F9F9",
-    marginVertical: 4,
-    borderRadius: 4,
-  },
-  summaryText: {
-    fontSize: 14,
-  },
-});

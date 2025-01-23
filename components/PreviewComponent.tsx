@@ -1,5 +1,7 @@
 import React from "react";
-import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, Image, Platform } from "react-native";
+import { Button } from "@/components/nativewindui/Button";
+import { Text } from "@/components/nativewindui/Text";
 
 interface PreviewComponentProps {
   photoUri: string;
@@ -13,83 +15,39 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
   onContinue,
 }) => {
   return (
-    <View style={styles.previewContainer}>
-      <Text style={styles.title}>Preview Scanned Document</Text>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: photoUri }} style={styles.image} />
+    <View className="flex-1 justify-center items-center bg-background p-5">
+      <Text variant="title2" className="mb-5 text-foreground">
+        Rechnungs Vorschau
+      </Text>
+
+      <View className="w-[300px] h-[400px] bg-card justify-center items-center rounded-lg border border-border mb-8">
+        <Image
+          source={{ uri: photoUri }}
+          className="w-full h-full rounded-lg"
+          resizeMode="contain"
+        />
       </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
+
+      <View className="flex-row justify-between w-full gap-3">
+        <Button
+          variant="secondary"
+          size={Platform.select({ ios: "lg", default: "md" })}
+          className="flex-1"
           onPress={onRetake}
-          style={[styles.button, styles.retakeButton]}
         >
-          <Text style={styles.buttonText}>Retake Picture</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+          <Text>Erneut Scannen</Text>
+        </Button>
+
+        <Button
+          size={Platform.select({ ios: "lg", default: "md" })}
+          className="flex-1"
           onPress={onContinue}
-          style={[styles.button, styles.continueButton]}
         >
-          <Text style={styles.buttonText}>Continue</Text>
-        </TouchableOpacity>
+          <Text>Analysieren</Text>
+        </Button>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  previewContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    padding: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#333333",
-  },
-  imageContainer: {
-    width: 300,
-    height: 400,
-    backgroundColor: "#F8F8F8",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#ECECEC",
-    marginBottom: 30,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
-    borderRadius: 8,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  button: {
-    flex: 1,
-    marginHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  retakeButton: {
-    backgroundColor: "#FF6B6B",
-  },
-  continueButton: {
-    backgroundColor: "#4CAF50",
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
 
 export default PreviewComponent;

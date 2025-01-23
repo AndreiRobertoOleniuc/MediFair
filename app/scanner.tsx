@@ -37,6 +37,7 @@ export default function Scanner() {
         // );
         const document: Document = {
           id: documents.length.toString(),
+          name: "Rechung von " + new Date().toLocaleDateString(),
           documemtImages: [capturedPhoto],
           scanResponse: response,
         };
