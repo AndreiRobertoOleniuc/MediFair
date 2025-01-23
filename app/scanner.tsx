@@ -42,7 +42,10 @@ export default function Scanner() {
           scanResponse: response,
         };
         dispatch(addDocument(document));
-        router.replace("/document");
+        router.replace({
+          pathname: "/document/[id]",
+          params: { id: document.id },
+        });
       } catch (error) {
         console.error(error);
       }

@@ -16,7 +16,10 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
 }) => {
   return (
     <View className="flex-1 justify-center items-center bg-background p-5">
-      <Text variant="title2" className="mb-5 text-foreground">
+      <Text
+        variant="title1"
+        className="text-center font-bold ios:text-left ios:font-black mb-4"
+      >
         Rechnungs Vorschau
       </Text>
 
