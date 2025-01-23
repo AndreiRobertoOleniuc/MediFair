@@ -31,10 +31,10 @@ export default function Scanner() {
       try {
         //await documentApi.uploadImage(document.documemtImages[0].uri);
         // Use demo data instead of uploading the image, the data is in json so convert to good format
-        //let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
-        let response: ScanResponse = await documentApi.uploadImage(
-          capturedPhoto.uri
-        );
+        let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
+        // let response: ScanResponse = await documentApi.uploadImage(
+        //   capturedPhoto.uri
+        // );
         const document: Document = {
           id: documents.length.toString(),
           documemtImages: [capturedPhoto],

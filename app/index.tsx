@@ -1,4 +1,3 @@
-import { Icon } from "@roninoss/icons";
 import { Link } from "expo-router";
 import { Platform, View, type ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";

@@ -1,96 +1,55 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { View, SafeAreaView, Platform, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import { useAppSelector } from "@/store/hooks";
+import { Button } from "../components/nativewindui/Button";
+import { Text } from "../components/nativewindui/Text";
+import MaterialIcon from "@expo/vector-icons/MaterialIcons";
+import { useColorScheme } from "../lib/useColorScheme";
+import { router } from "expo-router";
 
 export default function Document() {
   const documents = useAppSelector((state) => state.document.documents);
+  const { colors } = useColorScheme();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Your Scanned Document</Text>
-        <View style={styles.documents}>
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="flex-1 p-5">
+        <Text
+          variant="title1"
+          className="text-center font-bold ios:text-left ios:font-black mb-4"
+        >
+          Rechnungen
+        </Text>
+        <View className="flex-1 gap-4">
           {documents.map((document) => (
-            <Link
+            <TouchableOpacity
+              className="flex flex-row items-center justify-between w-full"
               key={document.id}
-              style={styles.documentItem}
-              href={{
-                pathname: "/document/[id]",
-                params: { id: document.id },
+              onPress={() => {
+                router.push({
+                  pathname: "/document/[id]",
+                  params: { id: document.id },
+                });
               }}
             >
-              <Text style={styles.documentText}>Document {document.id}</Text>
-            </Link>
+              <Text className="text-lg text-gray-800">{document?.name}</Text>
+              <MaterialIcon
+                name="arrow-forward-ios"
+                size={13}
+                color={colors.primary}
+              />
+            </TouchableOpacity>
           ))}
         </View>
       </View>
-      <View style={styles.bottomContainer}>
+      <View className="p-5 border-t border-gray-300 bg-white">
         <Link href="/scanner" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Open Scanner</Text>
-          </TouchableOpacity>
+          <Button size={Platform.select({ ios: "lg", default: "md" })}>
+            <Text>Rechnung Scannen</Text>
+          </Button>
         </Link>
       </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20,
-    color: "#333333",
-  },
-  documents: {
-    flex: 1,
-    marginTop: 10,
-  },
-  documentItem: {
-    backgroundColor: "#f5f5f5",
-    padding: 15,
-    marginBottom: 10,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 2,
-  },
-  documentText: {
-    fontSize: 16,
-    color: "#333333",
-  },
-  bottomContainer: {
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: "#E0E0E0",
-    backgroundColor: "#FFFFFF",
-  },
-  button: {
-    backgroundColor: "#4CAF50",
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonText: {
-    fontSize: 16,
-    color: "#FFFFFF",
-    fontWeight: "bold",
-  },
-});

@@ -2,6 +2,7 @@ import { CameraCapturedPicture } from "expo-camera";
 
 export interface Document {
   id: string;
+  name?: string;
   documemtImages: CameraCapturedPicture[];
   scanResponse?: ScanResponse;
 }
