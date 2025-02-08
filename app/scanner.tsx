@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Document, ScanResponse } from "@/models/Document";
 import { addDocument } from "@/store/reducers/docuemtReducer";
 import { documentApi } from "@/services/api";
-import DemoData from "@/assets/data/exampleResponse.json";
+import DemoData from "@/assets/data/sampleInvoice2.json";
 
 export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();

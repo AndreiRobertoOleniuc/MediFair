@@ -1,7 +1,7 @@
 import { Document, ScanResponse } from "./../../models/Document";
 // store/reducers/exampleReducer.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import DemoData from "@/assets/data/exampleResponse.json";
+import DemoData from "@/assets/data/sampleInvoice2.json";
 // Define a type for the slice state
 interface DocumentState {
   documents: Document[];
