@@ -18,15 +18,22 @@ export interface TarmedPosition {
 
 export interface TarmedSummary {
   datum: string;
+  emoij: string;
+  titel: string;
   beschreibung: string;
   operation: string;
   relevant_ids: number[];
   betrag: number;
 }
 
+export interface OverallSummary {
+  datum: string;
+  titel: string;
+  gesamtbetrag: number;
+}
+
 export interface ScanResponse {
-  original: {
-    rechnungspositionen: TarmedPosition[];
-  };
+  original: TarmedPosition[];
   summaries: TarmedSummary[];
+  overallSummary: OverallSummary;
 }

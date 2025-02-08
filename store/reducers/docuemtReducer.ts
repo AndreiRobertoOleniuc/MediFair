@@ -1,30 +1,35 @@
 import { Document, ScanResponse } from "./../../models/Document";
 // store/reducers/exampleReducer.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import DemoData from "@/assets/data/sampleInvoice2.json";
+import DemoData1 from "@/assets/data/sampleInvoiceV2.1.json";
+import DemoData2 from "@/assets/data/sampleInvoiceV2.2.json";
+
 // Define a type for the slice state
 interface DocumentState {
   documents: Document[];
 }
+
+const demoData1 = JSON.parse(JSON.stringify(DemoData1)) as ScanResponse;
+const demoData2 = JSON.parse(JSON.stringify(DemoData2)) as ScanResponse;
 
 // Define the initial state using that type
 const initialState: DocumentState = {
   documents: [
     {
       id: "0",
-      name: "Rechung von 20.05.2017",
+      name: demoData1.overallSummary.titel,
       documemtImages: [
         /* capturedPhoto */
       ],
-      scanResponse: JSON.parse(JSON.stringify(DemoData)) as ScanResponse,
+      scanResponse: demoData1,
     },
     {
       id: "1",
-      name: "Rechung von 21.11.2017",
+      name: demoData2.overallSummary.titel,
       documemtImages: [
         /* capturedPhoto */
       ],
-      scanResponse: JSON.parse(JSON.stringify(DemoData)) as ScanResponse,
+      scanResponse: demoData2,
     },
   ],
 };

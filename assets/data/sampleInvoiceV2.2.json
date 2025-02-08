@@ -1,0 +1,141 @@
+{
+    "original": [
+        {
+            "datum": "10.12.2024",
+            "tarif": "001",
+            "tarifziffer": "000.10",
+            "beschreibung": "Konsultation, erste 5 Min. (Grundkonsultation)",
+            "anzahl": 1,
+            "betrag": 16.56
+        },
+        {
+            "datum": "10.12.2024",
+            "tarif": "001",
+            "tarifziffer": "000.20",
+            "beschreibung": "Konsultation mit Personen über 6 Jahren und unter 75 Jahren, jede weiteren 5 Min. (Konsultationszuschlag)",
+            "anzahl": 2,
+            "betrag": 33.13
+        },
+        {
+            "datum": "10.12.2024",
+            "tarif": "001",
+            "tarifziffer": "000.10",
+            "beschreibung": "Konsultation, letzte 5 Min. (Konsultationszuschlag)",
+            "anzahl": 1,
+            "betrag": 100.54
+        },
+        {
+            "datum": "10.12.2024",
+            "tarif": "001",
+            "tarifziffer": "093.40",
+            "beschreibung": "Reintonaudiogramm, Luftleitung und Knochenleitung, beidseitig",
+            "anzahl": 1,
+            "betrag": 39.49
+        },
+        {
+            "datum": "10.12.2024",
+            "tarif": "001",
+            "tarifziffer": "093.09",
+            "beschreibung": "Erschwerte Gehörgangsreinigung mittels Mikroskop, pro Seite",
+            "anzahl": 1,
+            "betrag": 39.49
+        },
+        {
+            "datum": "10.12.2024",
+            "tarif": "001",
+            "tarifziffer": "093.09",
+            "beschreibung": "Erschwerte Gehörgangsreinigung mittels Mikroskop, pro Seite",
+            "anzahl": 1,
+            "betrag": 39.49
+        },
+        {
+            "datum": "19.12.2024",
+            "tarif": "001",
+            "tarifziffer": "000.10",
+            "beschreibung": "Konsultation, erste 5 Min. (Grundkonsultation)",
+            "anzahl": 1,
+            "betrag": 8.29
+        },
+        {
+            "datum": "19.12.2024",
+            "tarif": "001",
+            "tarifziffer": "000.10",
+            "beschreibung": "Konsultation, letzte 5 Min. (Konsultationszuschlag)",
+            "anzahl": 1,
+            "betrag": 7.9
+        },
+        {
+            "datum": "19.12.2024",
+            "tarif": "001",
+            "tarifziffer": "012.00",
+            "beschreibung": "Untersuchung mit Ohrmikroskop, pro Seite",
+            "anzahl": 1,
+            "betrag": 7.9
+        },
+        {
+            "datum": "19.12.2024",
+            "tarif": "001",
+            "tarifziffer": "093.40",
+            "beschreibung": "Reintonaudiogramm, Luftleitung und Knochenleitung, beidseitig",
+            "anzahl": 1,
+            "betrag": 100.54
+        }
+    ],
+    "summaries": [
+        {
+            "datum": "10.12.2024",
+            "emoji": "👩‍⚕️",
+            "titel": "Konsultation",
+            "beschreibung": "Konsultation, insgesamt 30 Minuten (einschließlich Grundkonsultation und Konsultationszuschläge)",
+            "operation": "+",
+            "relevant_ids": [
+                0,
+                1,
+                2,
+                6,
+                7
+            ],
+            "betrag": 199.55
+        },
+        {
+            "datum": "10.12.2024, 19.12.2024",
+            "emoji": "🎧",
+            "titel": "Audiogramm",
+            "beschreibung": "Reintonaudiogramm, Luftleitung und Knochenleitung, beidseitig",
+            "operation": "+",
+            "relevant_ids": [
+                3,
+                9
+            ],
+            "betrag": 140.03
+        },
+        {
+            "datum": "10.12.2024",
+            "emoji": "🔬",
+            "titel": "Gehörgangsreinigung",
+            "beschreibung": "Erschwerte Gehörgangsreinigung mittels Mikroskop, pro Seite",
+            "operation": "+",
+            "relevant_ids": [
+                4,
+                5
+            ],
+            "betrag": 78.98
+        },
+        {
+            "datum": "19.12.2024",
+            "emoji": "🔎",
+            "titel": "Ohrmikroskopie",
+            "beschreibung": "Untersuchung mit Ohrmikroskop (1 Seite)",
+            "operation": "+",
+            "relevant_ids": [
+                8
+            ],
+            "betrag": 7.9
+        }
+    ],
+    "overallSummary": {
+        "datum": "10.12.2024 - 19.12.2024",
+        "titel": "Konsultation und Hördiagnostik",
+        "gesamtbetrag": 393.33
+    }
+}
