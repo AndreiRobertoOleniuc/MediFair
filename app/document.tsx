@@ -24,7 +24,7 @@ export default function Document() {
         <View className="flex-1 gap-4">
           {documents.map((document) => (
             <TouchableOpacity
-              className="flex flex-row items-center justify-between w-full"
+              className="flex flex-col w-full"
               key={document.id}
               onPress={() => {
                 router.push({
@@ -33,12 +33,17 @@ export default function Document() {
                 });
               }}
             >
-              <Text className="text-lg">{document?.name}</Text>
-              <MaterialIcon
-                name="arrow-forward-ios"
-                size={13}
-                color={colors.primary}
-              />
+              <Text className="text-sm text-gray-500">
+                {document.scanResponse?.overallSummary.datum}
+              </Text>
+              <View className="flex-row items-center justify-between w-full">
+                <Text className="text-lg">{document?.name}</Text>
+                <MaterialIcon
+                  name="arrow-forward-ios"
+                  size={13}
+                  color={colors.primary}
+                />
+              </View>
             </TouchableOpacity>
           ))}
         </View>
