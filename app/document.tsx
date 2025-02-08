@@ -49,6 +49,10 @@ export default function Document() {
         </View>
       </View>
       <View className="p-5">
+        <Text className="text-xs text-gray-400 text-center mb-2">
+          Alle Daten werden lokal auf Ihrem Gerät gespeichert und niemals auf
+          einem Server übertragen.
+        </Text>
         <Link href="/scanner" asChild>
           <Button size={Platform.select({ ios: "lg", default: "md" })}>
             <Text>Rechnung Scannen</Text>
