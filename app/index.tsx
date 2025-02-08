@@ -99,4 +99,10 @@ const FEATURES = [
       "Verstehen Sie medizinische Fachbegriffe durch einfache Erklärungen.",
     icon: "help",
   },
+  {
+    title: "Datenschutz und Sicherheit",
+    description:
+      "Alle Daten werden ausschließlich lokal auf Ihrem Gerät gespeichert und nie auf einen Server übertragen.",
+    icon: "cloud-off",
+  },
 ] as const;
