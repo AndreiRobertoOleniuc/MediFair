@@ -11,6 +11,7 @@ import {
 import { Text } from "@/components/nativewindui/Text";
 import { useState } from "react";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
+import { Secrets } from "~/Secrets";
 
 export default function DetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -28,7 +29,11 @@ export default function DetailsScreen() {
   }
 
   const { summaries } = document.scanResponse;
-  const photoUri = document.documemtImages?.[0]?.uri;
+  let photoUri = document.documemtImages?.[0]?.uri;
+  if (Secrets.imageSimulatorMode) {
+    photoUri =
+      "https://storage.googleapis.com/exercise-app-assets/imageV2.2.jpg";
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-background">
