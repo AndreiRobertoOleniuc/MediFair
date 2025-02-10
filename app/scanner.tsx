@@ -8,12 +8,13 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Document, ScanResponse } from "@/models/Document";
 import { addDocument } from "@/store/reducers/docuemtReducer";
 import { documentApi } from "@/services/api";
-import DemoData from "@/assets/data/sampleInvoice2.json";
+import DemoData from "@/assets/data/sampleInvoiceV2.3.json";
 
 export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [capturedPhoto, setCapturedPhoto] =
-    useState<CameraCapturedPicture | null>(null);
+  const [capturedPhotos, setCapturedPhotos] = useState<CameraCapturedPicture[]>(
+    []
+  );
   const [showCamera, setShowCamera] = useState<boolean>(true);
   const documents = useAppSelector((state) => state.document.documents);
   const dispatch = useAppDispatch();
@@ -26,19 +27,16 @@ export default function Scanner() {
     })();
   }, []);
 
-  const continueWithImage = async () => {
-    if (capturedPhoto) {
+  const continueWithImages = async () => {
+    if (capturedPhotos.length > 0) {
       try {
-        //await documentApi.uploadImage(document.documemtImages[0].uri);
-        // Use demo data instead of uploading the image, the data is in json so convert to good format
+        // For multi page scanning, you might want to handle uploading multiple images.
+        // Here we use demo data for illustration.
         let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
-        // let response: ScanResponse = await documentApi.uploadImage(
-        //   capturedPhoto.uri
-        // );
         const document: Document = {
           id: documents.length.toString(),
-          name: "Rechung von " + new Date().toLocaleDateString(),
-          documemtImages: [capturedPhoto],
+          name: response.overallSummary.titel,
+          documemtImages: capturedPhotos, // store all pages images
           scanResponse: response,
         };
         dispatch(addDocument(document));
@@ -56,11 +54,11 @@ export default function Scanner() {
     return <View />;
   }
 
-  if (showCamera && !capturedPhoto) {
+  if (showCamera && capturedPhotos.length === 0) {
     return (
       <CameraComponent
-        onCapture={(uri) => {
-          setCapturedPhoto(uri);
+        onCapture={(photos: CameraCapturedPicture[]) => {
+          setCapturedPhotos(photos);
           setShowCamera(false);
         }}
       />
@@ -69,12 +67,12 @@ export default function Scanner() {
 
   return (
     <PreviewComponent
-      photoUri={capturedPhoto!.uri}
+      photoUris={capturedPhotos.map((photo) => photo.uri)}
       onRetake={() => {
-        setCapturedPhoto(null);
+        setCapturedPhotos([]);
         setShowCamera(true);
       }}
-      onContinue={() => continueWithImage()}
+      onContinue={() => continueWithImages()}
     />
   );
 }

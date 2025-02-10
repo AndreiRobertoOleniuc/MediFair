@@ -6,25 +6,34 @@ import { router } from "expo-router";
 import { Secrets } from "@/Secrets";
 
 interface CameraComponentProps {
-  onCapture: (photoUri: CameraCapturedPicture) => void;
+  onCapture: (photos: CameraCapturedPicture[]) => void;
 }
 
 const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
   const scanDocument = async () => {
     try {
       const { scannedImages } = await DocumentScanner.scanDocument({
-        maxNumDocuments: 2,
+        maxNumDocuments: 5, // allow up to 5 pages
       });
       if (scannedImages && scannedImages.length > 0) {
-        onCapture({ uri: scannedImages[0], width: 0, height: 0 });
+        const photos: CameraCapturedPicture[] = scannedImages.map(
+          (uri: string) => ({
+            uri,
+            width: 0,
+            height: 0,
+          })
+        );
+        onCapture(photos);
       }
     } catch (error) {
       if (Secrets.disableScan) {
-        onCapture({
-          uri: "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/thumbnails/image/file.jpg",
-          width: 0,
-          height: 0,
-        });
+        onCapture([
+          {
+            uri: "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/thumbnails/image/file.jpg",
+            width: 0,
+            height: 0,
+          },
+        ]);
       } else {
         console.error("Error scanning document:", error);
         router.replace("/document");
@@ -36,7 +45,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
     scanDocument();
   }, []);
 
-  return <View></View>;
+  return <View />;
 };
 
 export default CameraComponent;
