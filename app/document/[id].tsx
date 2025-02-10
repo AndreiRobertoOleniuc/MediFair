@@ -42,7 +42,10 @@ export default function DetailsScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      {/* Use full screen for image if zoomed */}
+      <View>
+        <Text className="text-xl font-bold text-left p-4">{document.name}</Text>
+      </View>
+
       <View
         className={`relative bg-card ${isFitMode ? "h-2/5" : "flex-1 px-4"}`}
       >
@@ -98,10 +101,9 @@ export default function DetailsScreen() {
         </View>
       </View>
 
-      {/* Only show summaries when in fit mode */}
       {isFitMode && (
         <View className="p-4">
-          <Text variant="title3" className="mb-4 text-foreground">
+          <Text variant="title3" className="mb-4 text-foreground font-semibold">
             Zusammenfassung / Erklärung
           </Text>
           <ScrollView
