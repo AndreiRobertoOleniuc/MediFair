@@ -1,12 +1,8 @@
-import {
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { Text } from "@/components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
+import { useColorScheme } from "../../lib/useColorScheme";
 
-// Reusable Image Slider component
 export default function ImageSlider({
   images,
   currentIndex,
@@ -14,7 +10,6 @@ export default function ImageSlider({
   onNext,
   isFitMode,
   toggleFitMode,
-  colors,
 }: {
   images: string[];
   currentIndex: number;
@@ -22,8 +17,9 @@ export default function ImageSlider({
   onNext: () => void;
   isFitMode: boolean;
   toggleFitMode: () => void;
-  colors: { foreground: string; grey: string };
 }) {
+  const { colors } = useColorScheme();
+
   return (
     <View className={`relative bg-card ${isFitMode ? "h-2/5" : "flex-1 px-4"}`}>
       <View className="absolute top-2 right-2 z-10">

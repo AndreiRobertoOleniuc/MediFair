@@ -16,7 +16,6 @@ export default function DetailsScreen() {
   const { id } = useLocalSearchParams();
   const document = useAppSelector(selectDocumentById(id as string));
   const [isFitMode, setIsFitMode] = useState(true);
-  const { colors } = useColorScheme();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!document || !document.scanResponse) {
@@ -62,9 +61,16 @@ export default function DetailsScreen() {
         onNext={handleNext}
         isFitMode={isFitMode}
         toggleFitMode={() => setIsFitMode(!isFitMode)}
-        colors={colors}
       />
-      {isFitMode && <SummaryList summaries={summaries} colors={colors} />}
+      {isFitMode && (
+        <SummaryList
+          summaries={summaries.map((summary, index) => ({
+            ...summary,
+            documentId: document.id,
+            id: index.toString(), // use the index instead of summary.titel
+          }))}
+        />
+      )}
     </SafeAreaView>
   );
 }

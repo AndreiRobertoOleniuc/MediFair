@@ -1,19 +1,23 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, TouchableOpacity } from "react-native";
 import { Text } from "@/components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
+import { router } from "expo-router";
+import { useColorScheme } from "../../lib/useColorScheme";
 
 export default function SummaryList({
   summaries,
-  colors,
 }: {
   summaries: Array<{
     datum: string;
     titel: string;
     emoji: string;
     betrag: number;
+    documentId: string; // Ensure your summary object includes documentId
+    id: string; // And a summary id
   }>;
-  colors: { foreground: string; grey: string };
 }) {
+  const { colors } = useColorScheme();
+
   return (
     <View className="p-4">
       <Text variant="title3" className="mb-4 text-foreground font-semibold">
@@ -24,7 +28,19 @@ export default function SummaryList({
         contentContainerStyle={{ paddingBottom: 80 }}
       >
         {summaries.map((summary, index) => (
-          <View key={index} className="bg-card rounded-sm mb-4 shadow-xsm p-3">
+          <TouchableOpacity
+            className="bg-card rounded-sm mb-4 shadow-xsm p-3"
+            key={index}
+            onPress={() => {
+              router.push({
+                pathname: "/document/detail/[documentId]/[summaryId]",
+                params: {
+                  documentId: summary.documentId, // pass the document's id
+                  summaryId: summary.id, // pass the summary's id
+                },
+              });
+            }}
+          >
             <View className="flex-row justify-between">
               <Text className="text-foreground"></Text>
               <Text className="text-foreground text-muted-foreground">
@@ -44,7 +60,7 @@ export default function SummaryList({
             <Text className="text-foreground">
               CHF {summary.betrag.toFixed(2)}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>

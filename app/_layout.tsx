@@ -21,7 +21,6 @@ import {
 } from "../lib/useColorScheme";
 import { NAV_THEME } from "../theme";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -60,6 +59,16 @@ export default function RootLayout() {
                   title="Back"
                   onPress={() => router.dismissTo("/document")}
                 />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="document/detail/[documentId]/[summaryId]"
+            options={{
+              headerShown: true,
+              title: "",
+              headerLeft: () => (
+                <Button title="Back" onPress={() => router.back()} />
               ),
             }}
           />
