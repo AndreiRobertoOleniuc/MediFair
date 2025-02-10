@@ -1,9 +1,10 @@
 // filepath: /Users/andreioleniuc/Documents/Code/Projects/tarmed-validator/tarmed-frontend/app/document/detail/[documentId]/[summaryId].tsx
 import React from "react";
-import { View, Text, SafeAreaView, ScrollView } from "react-native";
+import { View, SafeAreaView, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useAppSelector } from "~/store/hooks";
 import { selectDocumentById } from "~/store/selectors/documentSelectors";
+import { Text } from "@/components/nativewindui/Text";
 
 export default function DocumentDetail() {
   const { documentId, summaryId } = useLocalSearchParams();
