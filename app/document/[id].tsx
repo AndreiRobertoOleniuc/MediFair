@@ -69,6 +69,7 @@ export default function DetailsScreen() {
               currentImageIndex > 0 &&
               setCurrentImageIndex(currentImageIndex - 1)
             }
+            disabled={currentImageIndex === 0}
           >
             <MaterialIcon name="chevron-left" size={30} color={colors.grey} />
           </TouchableOpacity>
@@ -79,6 +80,7 @@ export default function DetailsScreen() {
               currentImageIndex < photoUri.length - 1 &&
               setCurrentImageIndex(currentImageIndex + 1)
             }
+            disabled={currentImageIndex === photoUri.length - 1}
           >
             <MaterialIcon name="chevron-right" size={30} color={colors.grey} />
           </TouchableOpacity>
