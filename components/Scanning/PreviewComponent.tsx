@@ -44,7 +44,7 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
           ))}
         </ScrollView>
 
-        <View className="flex-row justify-between w-full gap-3">
+        <View className="flex-row justify-between w-full gap-3 px-5">
           <Button
             variant="secondary"
             size={Platform.select({ ios: "lg", default: "md" })}
