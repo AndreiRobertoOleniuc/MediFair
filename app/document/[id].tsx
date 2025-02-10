@@ -12,11 +12,13 @@ import { Text } from "@/components/nativewindui/Text";
 import { useState } from "react";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { Secrets } from "~/Secrets";
+import { useColorScheme } from "../../lib/useColorScheme";
 
 export default function DetailsScreen() {
   const { id } = useLocalSearchParams();
   const document = useAppSelector(selectDocumentById(id as string));
   const [isFitMode, setIsFitMode] = useState(true);
+  const { colors } = useColorScheme();
 
   if (!document || !document.scanResponse) {
     return (
@@ -77,12 +79,24 @@ export default function DetailsScreen() {
               key={index}
               className="bg-card rounded-sm mb-4 shadow-xsm p-3"
             >
-              <Text className="text-foreground">Datum: {summary.datum}</Text>
+              <View className="flex-row justify-between">
+                <Text className="text-foreground"></Text>
+                <Text className="text-foreground text-muted-foreground">
+                  {summary.datum}
+                </Text>
+              </View>
+              <View className="flex-row justify-between items-center">
+                <Text className="text-foreground text-xl font-bold my-3 w-4/5">
+                  {summary.emoji} {summary.titel}
+                </Text>
+                <MaterialIcon
+                  name="arrow-forward-ios"
+                  size={13}
+                  color={colors.grey}
+                />
+              </View>
               <Text className="text-foreground">
-                Beschreibung: {summary.beschreibung}
-              </Text>
-              <Text className="text-foreground">
-                Betrag: {summary.betrag.toFixed(2)} CHF
+                CHF {summary.betrag.toFixed(2)}
               </Text>
             </View>
           ))}

@@ -19,7 +19,7 @@ export interface TarmedPosition {
 
 export interface TarmedSummary {
   datum: string;
-  emoij: string;
+  emoji: string;
   titel: string;
   beschreibung: string;
   operation: string;
