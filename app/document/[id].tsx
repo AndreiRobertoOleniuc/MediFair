@@ -42,7 +42,10 @@ export default function DetailsScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <View className="h-2/5 bg-card relative">
+      {/* Use full screen for image if zoomed */}
+      <View
+        className={`relative bg-card ${isFitMode ? "h-2/5" : "flex-1 px-4"}`}
+      >
         <View className="absolute top-2 right-2 z-10">
           <TouchableOpacity
             onPress={() => setIsFitMode(!isFitMode)}
@@ -51,7 +54,7 @@ export default function DetailsScreen() {
             <MaterialIcon
               name={isFitMode ? "fit-screen" : "fullscreen"}
               size={24}
-              className="text-foreground"
+              color={colors.foreground}
             />
           </TouchableOpacity>
         </View>
@@ -60,11 +63,12 @@ export default function DetailsScreen() {
           <Image
             source={{ uri: photoUri[currentImageIndex] }}
             className="w-full h-full"
-            resizeMode={isFitMode ? "contain" : "cover"}
+            // Use contain regardless so that the entire image fits
+            resizeMode="contain"
           />
 
           <TouchableOpacity
-            className="absolute left-2 top-1/2 -translate-y-1/2"
+            className={`absolute ${isFitMode ? "left-2 top-1/2 -translate-y-1/2" : "left-2 bottom-2"}`}
             onPress={() =>
               currentImageIndex > 0 &&
               setCurrentImageIndex(currentImageIndex - 1)
@@ -75,7 +79,7 @@ export default function DetailsScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            className="absolute right-2 top-1/2 -translate-y-1/2"
+            className={`absolute ${isFitMode ? "right-2 top-1/2 -translate-y-1/2" : "right-2 bottom-2"}`}
             onPress={() =>
               currentImageIndex < photoUri.length - 1 &&
               setCurrentImageIndex(currentImageIndex + 1)
@@ -94,42 +98,45 @@ export default function DetailsScreen() {
         </View>
       </View>
 
-      <View className="p-4">
-        <Text variant="title3" className="mb-4 text-foreground">
-          Zusammenfassung / Erklärung
-        </Text>
-        <ScrollView
-          className="h-96"
-          contentContainerStyle={{ paddingBottom: 80 }}
-        >
-          {summaries.map((summary, index) => (
-            <View
-              key={index}
-              className="bg-card rounded-sm mb-4 shadow-xsm p-3"
-            >
-              <View className="flex-row justify-between">
-                <Text className="text-foreground"></Text>
-                <Text className="text-foreground text-muted-foreground">
-                  {summary.datum}
+      {/* Only show summaries when in fit mode */}
+      {isFitMode && (
+        <View className="p-4">
+          <Text variant="title3" className="mb-4 text-foreground">
+            Zusammenfassung / Erklärung
+          </Text>
+          <ScrollView
+            className="h-96"
+            contentContainerStyle={{ paddingBottom: 80 }}
+          >
+            {summaries.map((summary, index) => (
+              <View
+                key={index}
+                className="bg-card rounded-sm mb-4 shadow-xsm p-3"
+              >
+                <View className="flex-row justify-between">
+                  <Text className="text-foreground"></Text>
+                  <Text className="text-foreground text-muted-foreground">
+                    {summary.datum}
+                  </Text>
+                </View>
+                <View className="flex-row justify-between items-center">
+                  <Text className="text-foreground text-xl font-bold my-3 w-4/5">
+                    {summary.emoji} {summary.titel}
+                  </Text>
+                  <MaterialIcon
+                    name="arrow-forward-ios"
+                    size={13}
+                    color={colors.grey}
+                  />
+                </View>
+                <Text className="text-foreground">
+                  CHF {summary.betrag.toFixed(2)}
                 </Text>
               </View>
-              <View className="flex-row justify-between items-center">
-                <Text className="text-foreground text-xl font-bold my-3 w-4/5">
-                  {summary.emoji} {summary.titel}
-                </Text>
-                <MaterialIcon
-                  name="arrow-forward-ios"
-                  size={13}
-                  color={colors.grey}
-                />
-              </View>
-              <Text className="text-foreground">
-                CHF {summary.betrag.toFixed(2)}
-              </Text>
-            </View>
-          ))}
-        </ScrollView>
-      </View>
+            ))}
+          </ScrollView>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
