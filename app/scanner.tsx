@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
 import { CameraCapturedPicture, useCameraPermissions } from "expo-camera";
-import CameraComponent from "../components/CameraComponent";
-import PreviewComponent from "../components/PreviewComponent";
+import CameraComponent from "../components/Scanning/CameraComponent";
+import PreviewComponent from "../components/Scanning/PreviewComponent";
 import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Document, ScanResponse } from "@/models/Document";
