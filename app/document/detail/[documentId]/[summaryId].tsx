@@ -1,4 +1,3 @@
-// filepath: /Users/andreioleniuc/Documents/Code/Projects/tarmed-validator/tarmed-frontend/app/document/detail/[documentId]/[summaryId].tsx
 import React from "react";
 import { View, SafeAreaView, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
@@ -12,10 +11,8 @@ export default function DocumentDetail() {
 
   if (!document) {
     return (
-      <SafeAreaView className="flex-1 bg-background">
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-foreground">Document not found</Text>
-        </View>
+      <SafeAreaView className="flex-1 bg-background justify-center items-center">
+        <Text className="text-foreground">Document not found</Text>
       </SafeAreaView>
     );
   }
@@ -23,10 +20,8 @@ export default function DocumentDetail() {
   const { scanResponse } = document;
   if (!scanResponse) {
     return (
-      <SafeAreaView className="flex-1 bg-background">
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-foreground">No scan data available</Text>
-        </View>
+      <SafeAreaView className="flex-1 bg-background justify-center items-center">
+        <Text className="text-foreground">No scan data available</Text>
       </SafeAreaView>
     );
   }
@@ -41,10 +36,8 @@ export default function DocumentDetail() {
   // Summary not found fallback
   if (!summary) {
     return (
-      <SafeAreaView className="flex-1 bg-background">
-        <View className="flex-1 justify-center items-center">
-          <Text className="text-foreground">Summary not found</Text>
-        </View>
+      <SafeAreaView className="flex-1 bg-background justify-center items-center">
+        <Text className="text-foreground">Summary not found</Text>
       </SafeAreaView>
     );
   }
@@ -55,47 +48,55 @@ export default function DocumentDetail() {
   );
 
   return (
-    <SafeAreaView>
-      <View className="px-6 py-4">
-        <View className="flex-col w-full">
-          <View className="flex-row justify-between mb-4">
-            <Text className="text-foreground text-xl font-bold">
+    <SafeAreaView className="flex-1 bg-background">
+      <ScrollView
+        contentContainerStyle={{ padding: 16 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header / Summary Info */}
+        <View className="mb-6">
+          <View className="flex-row justify-between items-center">
+            <Text className="text-xl font-bold text-foreground">
               {summary.emoji} {summary.titel}
             </Text>
-            <Text className="text-foreground text-muted-foreground">
+            <Text className="text-sm text-muted-foreground">
               {summary.datum}
             </Text>
           </View>
-          <Text>{summary.beschreibung}</Text>
+          <Text className="mt-2 text-foreground">{summary.beschreibung}</Text>
         </View>
 
-        <ScrollView className="mt-4 h-3/5">
-          {relevantOriginals.map((original, index) => (
-            <View
-              className="bg-card rounded-sm mb-4 shadow-xsm p-3"
-              key={index}
-            >
-              <View className="flex-row justify-end mb-4">
-                <Text className="text-foreground text-muted-foreground">
-                  CHF {original.betrag.toFixed(2)}
-                </Text>
-              </View>
-              <Text className="text-foreground mb-4">
-                {original.beschreibung}
+        {relevantOriginals.map((item, index) => (
+          <View
+            key={index}
+            className="bg-card w-full rounded-md shadow px-4 py-3 mb-4"
+          >
+            {/* Row with description and amount side by side */}
+            <View className="flex-row items-center justify-between mb-1">
+              <Text
+                className="flex-1 text-base font-semibold text-foreground mr-2"
+                numberOfLines={2} // optional if you want to truncate
+              >
+                {item.beschreibung}
               </Text>
-              <Text className="text-foreground text-muted-foreground">
-                {original.tarifziffer}
+              <Text className="text-base text-muted-foreground">
+                CHF {item.betrag.toFixed(2)}
               </Text>
             </View>
-          ))}
-        </ScrollView>
+            {/* Tarifziffer or other metadata below */}
+            <Text className="text-sm text-muted-foreground">
+              {item.tarifziffer}
+            </Text>
+          </View>
+        ))}
 
-        <View className="flex-row justify-between mt-4 self-end">
-          <Text className="text-foreground text-xl font-bold">
+        {/* Total */}
+        <View className="mt-4 border-t border-divider pt-4 flex-row justify-end">
+          <Text className="text-xl font-bold text-foreground">
             Total: CHF {summary.betrag.toFixed(2)}
           </Text>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
