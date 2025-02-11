@@ -66,27 +66,31 @@ export default function DocumentDetail() {
           <Text className="mt-2 text-foreground">{summary.beschreibung}</Text>
         </View>
 
+        {/* Line Items */}
         {relevantOriginals.map((item, index) => (
           <View
             key={index}
             className="bg-card w-full rounded-md shadow px-4 py-3 mb-4"
           >
-            {/* Row with description and amount side by side */}
-            <View className="flex-row items-center justify-between mb-1">
-              <Text
-                className="flex-1 text-base font-semibold text-foreground mr-2"
-                numberOfLines={2} // optional if you want to truncate
-              >
-                {item.beschreibung}
-              </Text>
-              <Text className="text-base text-muted-foreground">
-                CHF {item.betrag.toFixed(2)}
-              </Text>
+            {/* Flex row with description and amount */}
+            <View className="flex-row">
+              {/* Left side (grows vertically if needed) */}
+              <View className="flex-1 mr-2">
+                <Text className="text-base font-semibold text-foreground">
+                  {item.beschreibung}
+                </Text>
+                {/* Tarifziffer or other metadata below */}
+                <Text className="text-sm text-muted-foreground mt-1">
+                  {item.tarifziffer}
+                </Text>
+              </View>
+              {/* Right side (amount pinned at the top) */}
+              <View className="justify-start">
+                <Text className="text-base text-muted-foreground">
+                  CHF {item.betrag.toFixed(2)}
+                </Text>
+              </View>
             </View>
-            {/* Tarifziffer or other metadata below */}
-            <Text className="text-sm text-muted-foreground">
-              {item.tarifziffer}
-            </Text>
           </View>
         ))}
 
