@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import { useAppSelector } from "@/store/hooks";
 import { selectDocumentById } from "@/store/selectors/documentSelectors";
-import { useColorScheme } from "../../lib/useColorScheme";
 
 import { Secrets } from "~/Secrets";
 

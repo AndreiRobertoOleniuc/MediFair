@@ -57,15 +57,44 @@ export default function DocumentDetail() {
   return (
     <SafeAreaView>
       <View className="px-6 py-4">
-        <Text>Document ID: {documentId}</Text>
-        <Text>Summary ID: {summaryId}</Text>
-        <ScrollView className="mt-4">
+        <View className="flex-col w-full">
+          <View className="flex-row justify-between mb-4">
+            <Text className="text-foreground text-xl font-bold">
+              {summary.emoji} {summary.titel}
+            </Text>
+            <Text className="text-foreground text-muted-foreground">
+              {summary.datum}
+            </Text>
+          </View>
+          <Text>{summary.beschreibung}</Text>
+        </View>
+
+        <ScrollView className="mt-4 h-3/5">
           {relevantOriginals.map((original, index) => (
-            <View key={index}>
-              <Text>{original.beschreibung}</Text>
+            <View
+              className="bg-card rounded-sm mb-4 shadow-xsm p-3"
+              key={index}
+            >
+              <View className="flex-row justify-end mb-4">
+                <Text className="text-foreground text-muted-foreground">
+                  CHF {original.betrag.toFixed(2)}
+                </Text>
+              </View>
+              <Text className="text-foreground mb-4">
+                {original.beschreibung}
+              </Text>
+              <Text className="text-foreground text-muted-foreground">
+                {original.tarifziffer}
+              </Text>
             </View>
           ))}
         </ScrollView>
+
+        <View className="flex-row justify-between mt-4 self-end">
+          <Text className="text-foreground text-xl font-bold">
+            Total: CHF {summary.betrag.toFixed(2)}
+          </Text>
+        </View>
       </View>
     </SafeAreaView>
   );
