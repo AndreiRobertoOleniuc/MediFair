@@ -22,30 +22,34 @@ export default function Document() {
           Rechnungen
         </Text>
         <View className="flex-1 gap-4">
-          {documents.map((document) => (
-            <TouchableOpacity
-              className="flex flex-col w-full"
-              key={document.id}
-              onPress={() => {
-                router.push({
-                  pathname: "/document/[id]",
-                  params: { id: document.id },
-                });
-              }}
-            >
-              <Text className="text-sm text-gray-500">
-                {document.scanResponse?.overallSummary.datum}
-              </Text>
-              <View className="flex-row items-center justify-between w-full">
-                <Text className="text-lg">{document?.name}</Text>
-                <MaterialIcon
-                  name="arrow-forward-ios"
-                  size={13}
-                  color={colors.primary}
-                />
-              </View>
-            </TouchableOpacity>
-          ))}
+          {documents.length === 0 ? (
+            <Text>Keine Rechnung sind hinzugefügt worden</Text>
+          ) : (
+            documents.map((document) => (
+              <TouchableOpacity
+                className="flex flex-col w-full"
+                key={document.id}
+                onPress={() => {
+                  router.push({
+                    pathname: "/document/[id]",
+                    params: { id: document.id },
+                  });
+                }}
+              >
+                <Text className="text-sm text-gray-500">
+                  {document.scanResponse?.overallSummary.datum}
+                </Text>
+                <View className="flex-row items-center justify-between w-full">
+                  <Text className="text-lg">{document?.name}</Text>
+                  <MaterialIcon
+                    name="arrow-forward-ios"
+                    size={13}
+                    color={colors.primary}
+                  />
+                </View>
+              </TouchableOpacity>
+            ))
+          )}
         </View>
       </View>
       <View className="p-5">
