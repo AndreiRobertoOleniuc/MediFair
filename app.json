@@ -63,7 +63,8 @@
         {
           "cameraPermission": "We need camera access so you can scan documents"
         }
-      ]
+      ],
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true

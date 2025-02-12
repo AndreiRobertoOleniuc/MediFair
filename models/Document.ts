@@ -7,6 +7,12 @@ export interface Document {
   scanResponse?: ScanResponse;
 }
 
+export interface ScanResponse {
+  original: TarmedPosition[];
+  summaries: TarmedSummary[];
+  overallSummary: OverallSummary;
+}
+
 export interface TarmedPosition {
   datum: string;
   tarif: string;
@@ -31,10 +37,4 @@ export interface OverallSummary {
   datum: string;
   titel: string;
   gesamtbetrag: number;
-}
-
-export interface ScanResponse {
-  original: TarmedPosition[];
-  summaries: TarmedSummary[];
-  overallSummary: OverallSummary;
 }
