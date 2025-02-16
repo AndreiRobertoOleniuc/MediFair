@@ -1,78 +1,143 @@
 import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
+import type { CameraCapturedPicture } from "expo-camera";
 
-// Overall Summary Table
-export const overAllSummary = sqliteTable("overAllSummary", {
-  id: integer().primaryKey({ autoIncrement: true }),
-  datum: text(),
-  titel: text(),
-  gesamtbetrag: real(),
+// Main Document table
+export const documents = sqliteTable("documents", {
+  id: text("id").primaryKey(),
+  name: text("name"),
 });
 
-// Scan Response Table
-export const scanResponse = sqliteTable("scanResponse", {
-  id: integer().primaryKey({ autoIncrement: true }),
-  overAllSummaryId: integer()
+// Document Images table
+export const documentImages = sqliteTable("document_images", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  documentId: text("document_id")
     .notNull()
-    .references(() => overAllSummary.id),
+    .references(() => documents.id),
+  uri: text("uri").notNull(),
+  width: integer("width").notNull(),
+  height: integer("height").notNull(),
+  exif: text("exif"),
 });
 
-// Original Line Items Table
-export const originalLineItems = sqliteTable("originalLineItems", {
-  id: integer().primaryKey({ autoIncrement: true }),
-  datum: text(),
-  tarif: text(),
-  tarifziffer: text(),
-  bezugsziffer: text(),
-  beschreibung: text(),
-  anzahl: integer(),
-  betrag: real(),
-  scanResponseId: integer()
+// TarmedPositions table (original array in scanResponse)
+export const tarmedPositions = sqliteTable("tarmed_positions", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  documentId: text("document_id")
     .notNull()
-    .references(() => scanResponse.id),
+    .references(() => documents.id),
+  datum: text("datum").notNull(),
+  tarif: text("tarif").notNull(),
+  tarifziffer: text("tarifziffer").notNull(),
+  bezugsziffer: text("bezugsziffer").notNull(),
+  beschreibung: text("beschreibung").notNull(),
+  anzahl: integer("anzahl").notNull(),
+  betrag: real("betrag").notNull(),
 });
 
-// Summeries Table (for TarmedSummary)
-// Note: "relevant_ids" is now stored as text containing JSON.
-export const summeries = sqliteTable("summeries", {
-  id: integer().primaryKey({ autoIncrement: true }),
-  datum: text(),
-  emoji: text(),
-  titel: text(),
-  beschreibung: text(),
-  operation: text(),
-  relevant_ids: text(), // JSON-encoded array of numbers
-  betrag: real(),
-  scanResponseId: integer()
+// TarmedSummaries table without the inline relevant_ids column.
+export const tarmedSummaries = sqliteTable("tarmed_summaries", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  documentId: text("document_id")
     .notNull()
-    .references(() => scanResponse.id),
+    .references(() => documents.id),
+  datum: text("datum").notNull(),
+  emoji: text("emoji").notNull(),
+  titel: text("titel").notNull(),
+  beschreibung: text("beschreibung").notNull(),
+  operation: text("operation").notNull(),
+  reasoning: text("reasoning"),
+  betrag: real("betrag").notNull(),
 });
 
-// Document Table
-export const document = sqliteTable("document", {
-  id: integer().primaryKey({ autoIncrement: true }),
-  name: text(),
-  scanResponseId: integer()
-    .notNull()
-    .references(() => scanResponse.id),
+// New table for relevant IDs for each TarmedSummary.
+export const tarmedSummaryRelevantIds = sqliteTable(
+  "tarmed_summary_relevant_ids",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    tarmedSummaryId: integer("tarmed_summary_id")
+      .notNull()
+      .references(() => tarmedSummaries.id),
+    relevantId: integer("relevant_id").notNull(),
+  }
+);
+
+// OverallSummary table (one-to-one relation with Document)
+export const overallSummaries = sqliteTable("overall_summaries", {
+  documentId: text("document_id")
+    .primaryKey()
+    .references(() => documents.id),
+  datum: text("datum").notNull(),
+  titel: text("titel").notNull(),
+  gesamtbetrag: real("gesamtbetrag").notNull(),
 });
 
-// Document Images Table
-// Represents an array of CameraCapturedPicture for a Document.
-export const documentImages = sqliteTable("documentImages", {
-  id: integer().primaryKey({ autoIncrement: true }),
-  documentId: integer()
-    .notNull()
-    .references(() => document.id),
-  width: integer(),
-  height: integer(),
-  uri: text(),
-  base64: text(), // Optional: Base64 representation if needed.
-  exif: text(), // Optional: JSON-encoded EXIF data.
-});
+// Relations
+export const documentsRelations = relations(documents, ({ many, one }) => ({
+  documentImages: many(documentImages),
+  tarmedPositions: many(tarmedPositions),
+  tarmedSummaries: many(tarmedSummaries),
+  overallSummary: one(overallSummaries, {
+    fields: [documents.id],
+    references: [overallSummaries.documentId],
+  }),
+}));
 
-export type TableOverAllSummary = typeof overAllSummary.$inferSelect;
-export type TableScanResponse = typeof scanResponse.$inferSelect;
-export type TableOriginalLineItems = typeof originalLineItems.$inferSelect;
-export type TableSummeries = typeof summeries.$inferSelect;
-export type TableDocument = typeof document.$inferSelect;
-export type TableDocumentImages = typeof documentImages.$inferSelect;
+export const documentImagesRelations = relations(documentImages, ({ one }) => ({
+  document: one(documents, {
+    fields: [documentImages.documentId],
+    references: [documents.id],
+  }),
+}));
+
+export const tarmedPositionsRelations = relations(
+  tarmedPositions,
+  ({ one }) => ({
+    document: one(documents, {
+      fields: [tarmedPositions.documentId],
+      references: [documents.id],
+    }),
+  })
+);
+
+export const tarmedSummariesRelations = relations(
+  tarmedSummaries,
+  ({ one, many }) => ({
+    document: one(documents, {
+      fields: [tarmedSummaries.documentId],
+      references: [documents.id],
+    }),
+    // New relation for relevant IDs.
+    relevantIds: many(tarmedSummaryRelevantIds),
+  })
+);
+
+export const tarmedSummaryRelevantIdsRelations = relations(
+  tarmedSummaryRelevantIds,
+  ({ one }) => ({
+    tarmedSummary: one(tarmedSummaries, {
+      fields: [tarmedSummaryRelevantIds.tarmedSummaryId],
+      references: [tarmedSummaries.id],
+    }),
+  })
+);
+
+export const overallSummariesRelations = relations(
+  overallSummaries,
+  ({ one }) => ({
+    document: one(documents, {
+      fields: [overallSummaries.documentId],
+      references: [documents.id],
+    }),
+  })
+);
+
+// Infer types (note: TarmedSummary type now expects a relevant_ids array)
+export type Document = typeof documents.$inferSelect;
+export type DocumentImage = typeof documentImages.$inferSelect;
+export type TarmedPosition = typeof tarmedPositions.$inferSelect;
+export type TarmedSummary = Omit<
+  typeof tarmedSummaries.$inferSelect,
+  "relevantIds"
+> & { relevant_ids: number[] };
+export type OverallSummary = typeof overallSummaries.$inferSelect;

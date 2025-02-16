@@ -29,6 +29,7 @@ export interface TarmedSummary {
   titel: string;
   beschreibung: string;
   operation: string;
+  reasoning?: string;
   relevant_ids: number[];
   betrag: number;
 }

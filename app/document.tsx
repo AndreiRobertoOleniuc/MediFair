@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, SafeAreaView, Platform, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Button } from "../components/nativewindui/Button";
 import { Text } from "../components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { useColorScheme } from "../lib/useColorScheme";
 import { router } from "expo-router";
+import { fetchDocuments } from "~/store/asyncThunks/documentThunks";
 
 export default function Document() {
   const documents = useAppSelector((state) => state.document.documents);
   const { colors } = useColorScheme();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // Dispatch the fetchDocuments thunk once migrations are successful.
+    // You might want to check a condition (e.g., migration success) if needed.
+    dispatch(fetchDocuments());
+  }, [dispatch]);
 
   return (
     <SafeAreaView className="flex-1">

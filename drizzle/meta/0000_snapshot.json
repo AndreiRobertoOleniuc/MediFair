@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "981ef470-5bd0-4051-a6d9-8ceb2ec5a0fb",
+  "id": "d0758b42-6c96-4356-a8bd-8272c75a4e4b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "document": {
-      "name": "document",
+    "document_images": {
+      "name": "document_images",
       "columns": {
         "id": {
           "name": "id",
@@ -14,54 +14,16 @@
           "notNull": true,
           "autoincrement": true
         },
-        "name": {
-          "name": "name",
+        "document_id": {
+          "name": "document_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "scanResponseId": {
-          "name": "scanResponseId",
-          "type": "integer",
-          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "document_scanResponseId_scanResponse_id_fk": {
-          "name": "document_scanResponseId_scanResponse_id_fk",
-          "tableFrom": "document",
-          "tableTo": "scanResponse",
-          "columnsFrom": [
-            "scanResponseId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "documentImages": {
-      "name": "documentImages",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
         },
-        "documentId": {
-          "name": "documentId",
-          "type": "integer",
+        "uri": {
+          "name": "uri",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -70,28 +32,14 @@
           "name": "width",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "height": {
           "name": "height",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "uri": {
-          "name": "uri",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "base64": {
-          "name": "base64",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "exif": {
@@ -104,12 +52,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "documentImages_documentId_document_id_fk": {
-          "name": "documentImages_documentId_document_id_fk",
-          "tableFrom": "documentImages",
-          "tableTo": "document",
+        "document_images_document_id_documents_id_fk": {
+          "name": "document_images_document_id_documents_id_fk",
+          "tableFrom": "document_images",
+          "tableTo": "documents",
           "columnsFrom": [
-            "documentId"
+            "document_id"
           ],
           "columnsTo": [
             "id"
@@ -122,120 +70,19 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "originalLineItems": {
-      "name": "originalLineItems",
+    "documents": {
+      "name": "documents",
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
-        "datum": {
-          "name": "datum",
+        "name": {
+          "name": "name",
           "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "tarif": {
-          "name": "tarif",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "tarifziffer": {
-          "name": "tarifziffer",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "bezugsziffer": {
-          "name": "bezugsziffer",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "beschreibung": {
-          "name": "beschreibung",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "anzahl": {
-          "name": "anzahl",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "betrag": {
-          "name": "betrag",
-          "type": "real",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "scanResponseId": {
-          "name": "scanResponseId",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "originalLineItems_scanResponseId_scanResponse_id_fk": {
-          "name": "originalLineItems_scanResponseId_scanResponse_id_fk",
-          "tableFrom": "originalLineItems",
-          "tableTo": "scanResponse",
-          "columnsFrom": [
-            "scanResponseId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "overAllSummary": {
-      "name": "overAllSummary",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "datum": {
-          "name": "datum",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "titel": {
-          "name": "titel",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "gesamtbetrag": {
-          "name": "gesamtbetrag",
-          "type": "real",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -247,19 +94,33 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "scanResponse": {
-      "name": "scanResponse",
+    "overall_summaries": {
+      "name": "overall_summaries",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
+        "document_id": {
+          "name": "document_id",
+          "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
-        "overAllSummaryId": {
-          "name": "overAllSummaryId",
-          "type": "integer",
+        "datum": {
+          "name": "datum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "titel": {
+          "name": "titel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "gesamtbetrag": {
+          "name": "gesamtbetrag",
+          "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -267,12 +128,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "scanResponse_overAllSummaryId_overAllSummary_id_fk": {
-          "name": "scanResponse_overAllSummaryId_overAllSummary_id_fk",
-          "tableFrom": "scanResponse",
-          "tableTo": "overAllSummary",
+        "overall_summaries_document_id_documents_id_fk": {
+          "name": "overall_summaries_document_id_documents_id_fk",
+          "tableFrom": "overall_summaries",
+          "tableTo": "documents",
           "columnsFrom": [
-            "overAllSummaryId"
+            "document_id"
           ],
           "columnsTo": [
             "id"
@@ -285,8 +146,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "summeries": {
-      "name": "summeries",
+    "tarmed_positions": {
+      "name": "tarmed_positions",
       "columns": {
         "id": {
           "name": "id",
@@ -295,43 +156,137 @@
           "notNull": true,
           "autoincrement": true
         },
+        "document_id": {
+          "name": "document_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "datum": {
           "name": "datum",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "emoji": {
-          "name": "emoji",
+        "tarif": {
+          "name": "tarif",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "titel": {
-          "name": "titel",
+        "tarifziffer": {
+          "name": "tarifziffer",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "bezugsziffer": {
+          "name": "bezugsziffer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "beschreibung": {
           "name": "beschreibung",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "anzahl": {
+          "name": "anzahl",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "betrag": {
+          "name": "betrag",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tarmed_positions_document_id_documents_id_fk": {
+          "name": "tarmed_positions_document_id_documents_id_fk",
+          "tableFrom": "tarmed_positions",
+          "tableTo": "documents",
+          "columnsFrom": [
+            "document_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "tarmed_summaries": {
+      "name": "tarmed_summaries",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "document_id": {
+          "name": "document_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "datum": {
+          "name": "datum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "emoji": {
+          "name": "emoji",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "titel": {
+          "name": "titel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "beschreibung": {
+          "name": "beschreibung",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "operation": {
           "name": "operation",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "relevant_ids": {
-          "name": "relevant_ids",
+        "reasoning": {
+          "name": "reasoning",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -341,11 +296,49 @@
           "name": "betrag",
           "type": "real",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tarmed_summaries_document_id_documents_id_fk": {
+          "name": "tarmed_summaries_document_id_documents_id_fk",
+          "tableFrom": "tarmed_summaries",
+          "tableTo": "documents",
+          "columnsFrom": [
+            "document_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "tarmed_summary_relevant_ids": {
+      "name": "tarmed_summary_relevant_ids",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "tarmed_summary_id": {
+          "name": "tarmed_summary_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
-        "scanResponseId": {
-          "name": "scanResponseId",
+        "relevant_id": {
+          "name": "relevant_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -354,12 +347,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "summeries_scanResponseId_scanResponse_id_fk": {
-          "name": "summeries_scanResponseId_scanResponse_id_fk",
-          "tableFrom": "summeries",
-          "tableTo": "scanResponse",
+        "tarmed_summary_relevant_ids_tarmed_summary_id_tarmed_summaries_id_fk": {
+          "name": "tarmed_summary_relevant_ids_tarmed_summary_id_tarmed_summaries_id_fk",
+          "tableFrom": "tarmed_summary_relevant_ids",
+          "tableTo": "tarmed_summaries",
           "columnsFrom": [
-            "scanResponseId"
+            "tarmed_summary_id"
           ],
           "columnsTo": [
             "id"

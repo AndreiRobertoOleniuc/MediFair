@@ -6,9 +6,9 @@ import PreviewComponent from "../components/Scanning/PreviewComponent";
 import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Document, ScanResponse } from "@/models/Document";
-import { addDocument } from "@/store/reducers/docuemtReducer";
 import { documentApi } from "@/services/api";
 import DemoData from "@/assets/data/sampleInvoiceV2.3.json";
+import { insertDocument } from "~/store/asyncThunks/documentThunks";
 
 export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -39,7 +39,7 @@ export default function Scanner() {
           documemtImages: capturedPhotos, // store all pages images
           scanResponse: response,
         };
-        dispatch(addDocument(document));
+        dispatch(insertDocument(document));
         router.replace({
           pathname: "/document/[id]",
           params: { id: document.id },
