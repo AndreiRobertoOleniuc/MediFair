@@ -3,14 +3,14 @@ import { relations } from "drizzle-orm";
 
 // Main Document table
 export const documents = sqliteTable("documents", {
-  id: text("id").primaryKey(),
+  id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name"),
 });
 
 // Document Images table
 export const documentImages = sqliteTable("document_images", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  documentId: text("document_id")
+  documentId: integer("document_id")
     .notNull()
     .references(() => documents.id),
   uri: text("uri").notNull(),
@@ -22,13 +22,13 @@ export const documentImages = sqliteTable("document_images", {
 // TarmedPositions table (original array in scanResponse)
 export const tarmedPositions = sqliteTable("tarmed_positions", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  documentId: text("document_id")
+  documentId: integer("document_id")
     .notNull()
     .references(() => documents.id),
   datum: text("datum").notNull(),
   tarif: text("tarif").notNull(),
   tarifziffer: text("tarifziffer").notNull(),
-  bezugsziffer: text("bezugsziffer").notNull(),
+  bezugsziffer: text("bezugsziffer"),
   beschreibung: text("beschreibung").notNull(),
   anzahl: integer("anzahl").notNull(),
   betrag: real("betrag").notNull(),
@@ -37,7 +37,7 @@ export const tarmedPositions = sqliteTable("tarmed_positions", {
 // TarmedSummaries table without the inline relevant_ids column.
 export const tarmedSummaries = sqliteTable("tarmed_summaries", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  documentId: text("document_id")
+  documentId: integer("document_id")
     .notNull()
     .references(() => documents.id),
   datum: text("datum").notNull(),
@@ -63,7 +63,7 @@ export const tarmedSummaryRelevantIds = sqliteTable(
 
 // OverallSummary table (one-to-one relation with Document)
 export const overallSummaries = sqliteTable("overall_summaries", {
-  documentId: text("document_id")
+  documentId: integer("document_id")
     .primaryKey()
     .references(() => documents.id),
   datum: text("datum").notNull(),

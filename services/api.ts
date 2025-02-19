@@ -1,7 +1,7 @@
 import { Secrets } from "@/Secrets";
 
 export const documentApi = {
-  uploadImage: async (uri: string) => {
+  analyseDocument: async (uri: string) => {
     const formData = new FormData();
     formData.append("image", {
       uri: uri,
@@ -19,7 +19,8 @@ export const documentApi = {
     });
 
     if (!response.ok) {
-      console.log(response);
+      console.log(response.status);
+      console.log("Error", response);
       throw new Error("Network response was not ok");
     }
 

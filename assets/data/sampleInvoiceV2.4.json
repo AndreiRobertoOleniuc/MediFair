@@ -1,0 +1,230 @@
+{
+	"original": [
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "00.0010",
+			"bezugsziffer": "",
+			"beschreibung": "Konsultation, erste 5 Min. (Grundkonsultation)",
+			"anzahl": 1,
+			"betrag": 16.93
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "00.0020",
+			"bezugsziffer": "",
+			"beschreibung": "Konsultation bei Personen über 6 Jahren und unter 75 Jahren, jede weiteren 5 Min. (Konsultationszuschlag)",
+			"anzahl": 1,
+			"betrag": 8.47
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "00.0040",
+			"bezugsziffer": "",
+			"beschreibung": "Konsultation, letzte 5 Min. (Konsultationszuschlag)",
+			"anzahl": 1,
+			"betrag": 48.59
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "08.0140",
+			"bezugsziffer": "1 R",
+			"beschreibung": "Refraktionsbestimmung, subjektiv, durch Facharzt, beidseitig",
+			"anzahl": 1,
+			"betrag": 16.2
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "08.0140",
+			"bezugsziffer": "1 L",
+			"beschreibung": "Untersuchung mit dem Amslernetz, pro Seite",
+			"anzahl": 1,
+			"betrag": 16.2
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "08.0220",
+			"bezugsziffer": "",
+			"beschreibung": "Applanationstonometrie und stereoskopische Papillenbeurteilung, beidseitig",
+			"anzahl": 1,
+			"betrag": 32.4
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "08.1110",
+			"bezugsziffer": "",
+			"beschreibung": "Untersuchung mit dem Amslernetz, pro Seite",
+			"anzahl": 1,
+			"betrag": 94.56
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "08.1230",
+			"bezugsziffer": "1 R",
+			"beschreibung": "Fundusaufnahmen, beidseitig",
+			"anzahl": 1,
+			"betrag": 12.15
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "08.3020",
+			"bezugsziffer": "08.3010 1 R",
+			"beschreibung": "Spaltlampenuntersuchung der vorderen Augenabschnitte, beidseitig",
+			"anzahl": 1,
+			"betrag": 20.25
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "08.3020",
+			"bezugsziffer": "08.3010 1 L",
+			"beschreibung": "Biomikroskopie des zentralen Fundus, beidseitig",
+			"anzahl": 1,
+			"betrag": 12.15
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "08.3020",
+			"bezugsziffer": "08.3010 1 R",
+			"beschreibung": "Zuschlag für eingehende Untersuchung der Fundusperipherie, pro Seite",
+			"anzahl": 1,
+			"betrag": 12.15
+		},
+		{
+			"datum": "21.01.2025",
+			"tarif": "001",
+			"tarifziffer": "08.3020",
+			"bezugsziffer": "08.3010 1 L",
+			"beschreibung": "Zuschlag für eingehende Untersuchung der Fundusperipherie, pro Seite",
+			"anzahl": 1,
+			"betrag": 12.15
+		}
+	],
+	"analysis": [
+		[
+			0,
+			1,
+			2
+		],
+		[
+			3
+		],
+		[
+			4,
+			6
+		],
+		[
+			5
+		],
+		[
+			7
+		],
+		[
+			8
+		],
+		[
+			9,
+			10,
+			11
+		]
+	],
+	"summaries": [
+		{
+			"datum": "21.01.2025",
+			"emoji": "💬",
+			"titel": "Konsultation",
+			"beschreibung": "Konsultation durchgeführt für Personen über 6 Jahre und unter 75 Jahre über eine Gesamtdauer von 15 Minuten.",
+			"operation": "+",
+			"relevant_ids": [
+				0,
+				1,
+				2
+			],
+			"betrag": 73.99000000000001
+		},
+		{
+			"datum": "21.01.2025",
+			"emoji": "👀",
+			"titel": "Refraktionsbestimmung",
+			"beschreibung": "Subjektive Refraktionsbestimmung durch einen Facharzt für beide Augen.",
+			"operation": "+",
+			"relevant_ids": [
+				3
+			],
+			"betrag": 16.2
+		},
+		{
+			"datum": "21.01.2025",
+			"emoji": "👁️",
+			"titel": "Untersuchung mit Amslernetz",
+			"beschreibung": "Untersuchung der Augen mit dem Amslernetz an beiden Seiten.",
+			"operation": "+",
+			"relevant_ids": [
+				4,
+				6
+			],
+			"betrag": 110.76
+		},
+		{
+			"reasoning": "Die Rechnungsposition beschreibt eine spezialisierte Untersuchung der Augen, nämlich die Applanationstonometrie zur Messung des Augeninnendrucks und eine stereoskopische Beurteilung der Sehnervenpapille auf beiden Seiten.",
+			"datum": "21.01.2025",
+			"emoji": "👁️",
+			"titel": "Augenuntersuchung",
+			"beschreibung": "Applanationstonometrie und stereoskopische Beurteilung der Sehnervenpapille beider Augen.",
+			"operation": "+",
+			"relevant_ids": [
+				5
+			],
+			"betrag": 32.4
+		},
+		{
+			"datum": "21.01.2025",
+			"emoji": "📸",
+			"titel": "Fundusaufnahmen",
+			"beschreibung": "Beidseitige Fundusaufnahmen zur Untersuchung der Netzhaut.",
+			"operation": "+",
+			"relevant_ids": [
+				7
+			],
+			"betrag": 12.15
+		},
+		{
+			"datum": "21.01.2025",
+			"emoji": "👁️",
+			"titel": "Spaltlampenuntersuchung",
+			"beschreibung": "Untersuchung der vorderen Abschnitte beider Augen mit einer Spaltlampe.",
+			"operation": "+",
+			"relevant_ids": [
+				8
+			],
+			"betrag": 20.25
+		},
+		{
+			"datum": "21.01.2025",
+			"emoji": "👁️",
+			"titel": "Augenuntersuchung",
+			"beschreibung": "Biomikroskopie des zentralen Fundus beidseitig und eingehende Untersuchung der Fundusperipherie an beiden Augen.",
+			"operation": "+",
+			"relevant_ids": [
+				9,
+				10,
+				11
+			],
+			"betrag": 36.45
+		}
+	],
+	"overallSummary": {
+		"datum": "21.01.2025",
+		"titel": "Umfassende Augenuntersuchung mit Applanationstonometrie und Netzhautdiagnostik",
+		"gesamtbetrag": 307
+	}
+}

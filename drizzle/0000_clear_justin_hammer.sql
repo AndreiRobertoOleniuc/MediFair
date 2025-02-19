@@ -1,6 +1,6 @@
 CREATE TABLE `document_images` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`document_id` text NOT NULL,
+	`document_id` integer NOT NULL,
 	`uri` text NOT NULL,
 	`width` integer NOT NULL,
 	`height` integer NOT NULL,
@@ -9,12 +9,12 @@ CREATE TABLE `document_images` (
 );
 --> statement-breakpoint
 CREATE TABLE `documents` (
-	`id` text PRIMARY KEY NOT NULL,
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text
 );
 --> statement-breakpoint
 CREATE TABLE `overall_summaries` (
-	`document_id` text PRIMARY KEY NOT NULL,
+	`document_id` integer PRIMARY KEY NOT NULL,
 	`datum` text NOT NULL,
 	`titel` text NOT NULL,
 	`gesamtbetrag` real NOT NULL,
@@ -23,11 +23,11 @@ CREATE TABLE `overall_summaries` (
 --> statement-breakpoint
 CREATE TABLE `tarmed_positions` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`document_id` text NOT NULL,
+	`document_id` integer NOT NULL,
 	`datum` text NOT NULL,
 	`tarif` text NOT NULL,
 	`tarifziffer` text NOT NULL,
-	`bezugsziffer` text NOT NULL,
+	`bezugsziffer` text,
 	`beschreibung` text NOT NULL,
 	`anzahl` integer NOT NULL,
 	`betrag` real NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `tarmed_positions` (
 --> statement-breakpoint
 CREATE TABLE `tarmed_summaries` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`document_id` text NOT NULL,
+	`document_id` integer NOT NULL,
 	`datum` text NOT NULL,
 	`emoji` text NOT NULL,
 	`titel` text NOT NULL,

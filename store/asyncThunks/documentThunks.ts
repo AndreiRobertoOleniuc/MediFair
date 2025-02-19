@@ -28,78 +28,83 @@ export const insertDocument = createAsyncThunk<
   { rejectValue: string }
 >("documents/insert", async (doc, { rejectWithValue }) => {
   try {
-    // Insert the main Document record.
-    await db.insert(documents).values({
-      id: doc.id,
-      name: doc.name,
-    });
+    await db.transaction(async (tx) => {
+      // Insert the main Document record.
+      const [insertedDoc] = await tx
+        .insert(documents)
+        .values({
+          name: doc.name,
+        })
+        .returning({ id: documents.id, name: documents.name });
 
-    // Insert document images.
-    for (const image of doc.documemtImages) {
-      await db.insert(documentImages).values({
-        documentId: doc.id,
-        uri: image.uri,
-        width: image.width,
-        height: image.height,
-        exif: image.exif ? JSON.stringify(image.exif) : null,
-      });
-    }
+      const newId = insertedDoc.id;
 
-    if (doc.scanResponse) {
-      // Insert each TarmedPosition record.
-      for (const pos of doc.scanResponse.original) {
-        await db.insert(tarmedPositions).values({
-          documentId: doc.id,
-          datum: pos.datum,
-          tarif: pos.tarif,
-          tarifziffer: pos.tarifziffer,
-          bezugsziffer: pos.bezugsziffer,
-          beschreibung: pos.beschreibung,
-          anzahl: pos.anzahl,
-          betrag: pos.betrag,
+      // Insert document images.
+      for (const image of doc.documemtImages) {
+        await tx.insert(documentImages).values({
+          documentId: newId,
+          uri: image.uri,
+          width: image.width,
+          height: image.height,
+          exif: image.exif ? JSON.stringify(image.exif) : null,
         });
       }
 
-      // Insert each TarmedSummary record and its associated relevant IDs.
-      for (const sum of doc.scanResponse.summaries) {
-        // Insert the summary record and get its generated ID.
-        const insertedSummary = await db
-          .insert(tarmedSummaries)
-          .values({
-            documentId: doc.id,
-            datum: sum.datum,
-            emoji: sum.emoji,
-            titel: sum.titel,
-            beschreibung: sum.beschreibung,
-            operation: sum.operation,
-            reasoning: sum.reasoning,
-            betrag: sum.betrag,
-          })
-          .returning({ id: tarmedSummaries.id });
-        const summaryId = insertedSummary[0].id;
-
-        // For each relevant ID, insert a row in the new table.
-        for (const rid of sum.relevant_ids) {
-          await db.insert(tarmedSummaryRelevantIds).values({
-            tarmedSummaryId: summaryId,
-            relevantId: rid,
+      if (doc.scanResponse) {
+        // Insert each TarmedPosition record.
+        for (const pos of doc.scanResponse.original) {
+          await tx.insert(tarmedPositions).values({
+            documentId: newId,
+            datum: pos.datum,
+            tarif: pos.tarif,
+            tarifziffer: pos.tarifziffer,
+            bezugsziffer: pos.bezugsziffer,
+            beschreibung: pos.beschreibung,
+            anzahl: pos.anzahl,
+            betrag: pos.betrag,
           });
         }
+
+        // Insert each TarmedSummary record and its associated relevant IDs.
+        for (const sum of doc.scanResponse.summaries) {
+          const insertedSummary = await tx
+            .insert(tarmedSummaries)
+            .values({
+              documentId: newId,
+              datum: sum.datum,
+              emoji: sum.emoji,
+              titel: sum.titel,
+              beschreibung: sum.beschreibung,
+              operation: sum.operation,
+              reasoning: sum.reasoning,
+              betrag: sum.betrag,
+            })
+            .returning({ id: tarmedSummaries.id });
+          const summaryId = insertedSummary[0].id;
+
+          for (const rid of sum.relevant_ids) {
+            await tx.insert(tarmedSummaryRelevantIds).values({
+              tarmedSummaryId: summaryId,
+              relevantId: rid,
+            });
+          }
+        }
+
+        // Insert OverallSummary record.
+        await tx.insert(overallSummaries).values({
+          documentId: newId,
+          datum: doc.scanResponse.overallSummary.datum,
+          titel: doc.scanResponse.overallSummary.titel,
+          gesamtbetrag: doc.scanResponse.overallSummary.gesamtbetrag,
+        });
       }
+    });
 
-      // Insert OverallSummary record.
-      await db.insert(overallSummaries).values({
-        documentId: doc.id,
-        datum: doc.scanResponse.overallSummary.datum,
-        titel: doc.scanResponse.overallSummary.titel,
-        gesamtbetrag: doc.scanResponse.overallSummary.gesamtbetrag,
-      });
-    }
-
-    // Return the inserted document to match your Redux store structure.
+    // If the transaction completes without error, the document and all its related data are committed.
     return doc;
   } catch (error: any) {
-    return rejectWithValue(error.message);
+    // Any error will cause the transaction to roll back automatically.
+    return rejectWithValue(error);
   }
 });
 
@@ -131,7 +136,7 @@ export const fetchDocuments = createAsyncThunk<
 
     // Map the returned rows to match your Document interface.
     const documentsFromDb: Document[] = rows.map((row) => ({
-      id: row.id,
+      id: row.id.toString(),
       name: row.name ?? undefined,
       documemtImages: row.documentImages.map((img) => ({
         uri: img.uri,
@@ -141,7 +146,15 @@ export const fetchDocuments = createAsyncThunk<
       })),
       scanResponse: row.overallSummary
         ? {
-            original: row.tarmedPositions,
+            original: row.tarmedPositions.map((pos) => ({
+              datum: pos.datum,
+              tarif: pos.tarif,
+              tarifziffer: pos.tarifziffer,
+              bezugsziffer: pos.bezugsziffer ?? undefined,
+              beschreibung: pos.beschreibung,
+              anzahl: pos.anzahl,
+              betrag: pos.betrag,
+            })),
             summaries: row.tarmedSummaries.map((sum) => ({
               datum: sum.datum,
               emoji: sum.emoji,
@@ -149,7 +162,6 @@ export const fetchDocuments = createAsyncThunk<
               beschreibung: sum.beschreibung,
               operation: sum.operation,
               reasoning: sum.reasoning === null ? undefined : sum.reasoning,
-              // Map the nested relevant IDs into a simple number array.
               relevant_ids: sum.relevantIds.map((rel) => rel.relevantId),
               betrag: sum.betrag,
             })),

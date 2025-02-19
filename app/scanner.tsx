@@ -32,7 +32,10 @@ export default function Scanner() {
       try {
         // For multi page scanning, you might want to handle uploading multiple images.
         // Here we use demo data for illustration.
-        let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
+        //let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
+        let response: ScanResponse = await documentApi.analyseDocument(
+          capturedPhotos[0].uri
+        );
         const document: Document = {
           id: documents.length.toString(),
           name: response.overallSummary.titel,

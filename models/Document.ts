@@ -17,7 +17,7 @@ export interface TarmedPosition {
   datum: string;
   tarif: string;
   tarifziffer: string;
-  bezugsziffer: string;
+  bezugsziffer?: string;
   beschreibung: string;
   anzahl: number;
   betrag: number;

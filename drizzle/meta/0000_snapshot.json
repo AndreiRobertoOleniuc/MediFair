@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d0758b42-6c96-4356-a8bd-8272c75a4e4b",
+  "id": "57c29c68-c8dc-4c24-9fbf-5e2a2d24521d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "document_images": {
@@ -16,7 +16,7 @@
         },
         "document_id": {
           "name": "document_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -75,10 +75,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": true
         },
         "name": {
           "name": "name",
@@ -99,7 +99,7 @@
       "columns": {
         "document_id": {
           "name": "document_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
@@ -158,7 +158,7 @@
         },
         "document_id": {
           "name": "document_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -188,7 +188,7 @@
           "name": "bezugsziffer",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "beschreibung": {
@@ -245,7 +245,7 @@
         },
         "document_id": {
           "name": "document_id",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
