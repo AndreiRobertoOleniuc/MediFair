@@ -7,7 +7,7 @@ import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Document, ScanResponse } from "@/models/Document";
 import { documentApi } from "@/services/api";
-import DemoData from "@/assets/data/sampleInvoiceV2.3.json";
+import DemoData from "@/assets/data/sampleInvoiceV2.4.json";
 import { insertDocument } from "~/store/asyncThunks/documentThunks";
 
 export default function Scanner() {
@@ -30,10 +30,10 @@ export default function Scanner() {
   const continueWithImages = async () => {
     if (capturedPhotos.length > 0) {
       try {
-        //let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
-        let response: ScanResponse = await documentApi.analyseDocument(
-          capturedPhotos[0].uri
-        );
+        let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
+        // let response: ScanResponse = await documentApi.analyseDocument(
+        //   capturedPhotos[0].uri
+        // );
         const document: Document = {
           id: documents.length.toString(),
           name: response.overallSummary.titel,

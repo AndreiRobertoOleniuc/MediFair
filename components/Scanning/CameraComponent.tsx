@@ -13,7 +13,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
   const scanDocument = async () => {
     try {
       const { scannedImages } = await DocumentScanner.scanDocument({
-        maxNumDocuments: 5, // allow up to 5 pages
+        maxNumDocuments: 3,
       });
       if (scannedImages && scannedImages.length > 0) {
         const photos: CameraCapturedPicture[] = scannedImages.map(

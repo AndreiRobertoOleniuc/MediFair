@@ -21,7 +21,7 @@ export default function ImageSlider({
   const { colors } = useColorScheme();
 
   return (
-    <View className={`relative bg-card ${isFitMode ? "h-2/5" : "flex-1 px-4"}`}>
+    <View className={`relative bg-card ${isFitMode ? "h-2/6" : "flex-1 px-4"}`}>
       <View className="absolute top-2 right-2 z-10">
         <TouchableOpacity
           onPress={toggleFitMode}
@@ -43,7 +43,7 @@ export default function ImageSlider({
         />
 
         <TouchableOpacity
-          className={`absolute ${isFitMode ? "left-2 top-1/2 -translate-y-1/2" : "left-2 bottom-2"}`}
+          className={`absolute ${isFitMode ? "left-2 top-1/2 -translate-y-1/2" : "left-2 bottom-2"}  ${images.length === 1 ? "hidden" : ""}`}
           onPress={onPrev}
           disabled={currentIndex === 0}
         >
@@ -51,7 +51,7 @@ export default function ImageSlider({
         </TouchableOpacity>
 
         <TouchableOpacity
-          className={`absolute ${isFitMode ? "right-2 top-1/2 -translate-y-1/2" : "right-2 bottom-2"}`}
+          className={`absolute ${isFitMode ? "right-2 top-1/2 -translate-y-1/2" : "right-2 bottom-2"} ${images.length === 1 ? "hidden" : ""}`}
           onPress={onNext}
           disabled={currentIndex === images.length - 1}
         >
@@ -59,7 +59,9 @@ export default function ImageSlider({
         </TouchableOpacity>
 
         {/* Pagination Indicator */}
-        <View className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-card/80 rounded-full px-3 py-1">
+        <View
+          className={`absolute bottom-2 left-1/2 -translate-x-1/2 bg-card/80 rounded-full px-3 py-1  ${images.length === 1 ? "hidden" : ""}`}
+        >
           <Text className="text-foreground text-sm">
             {currentIndex + 1} von {images.length}
           </Text>
