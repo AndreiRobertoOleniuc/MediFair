@@ -1,13 +1,3 @@
-CREATE TABLE `document_images` (
-	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`document_id` integer NOT NULL,
-	`uri` text NOT NULL,
-	`width` integer NOT NULL,
-	`height` integer NOT NULL,
-	`exif` text,
-	FOREIGN KEY (`document_id`) REFERENCES `documents`(`id`) ON UPDATE no action ON DELETE no action
-);
---> statement-breakpoint
 CREATE TABLE `documents` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text

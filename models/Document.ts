@@ -1,9 +1,7 @@
-import { CameraCapturedPicture } from "expo-camera";
-
 export interface Document {
-  id: string;
+  id: number;
   name?: string;
-  documemtImages: CameraCapturedPicture[];
+  imageUris: string[];
   scanResponse?: ScanResponse;
 }
 

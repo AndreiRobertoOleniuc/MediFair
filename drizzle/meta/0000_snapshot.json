@@ -1,75 +1,9 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "57c29c68-c8dc-4c24-9fbf-5e2a2d24521d",
+  "id": "dc066ec8-192a-4d43-90c9-a71e7be74bad",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "document_images": {
-      "name": "document_images",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "document_id": {
-          "name": "document_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "uri": {
-          "name": "uri",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "width": {
-          "name": "width",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "height": {
-          "name": "height",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "exif": {
-          "name": "exif",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "document_images_document_id_documents_id_fk": {
-          "name": "document_images_document_id_documents_id_fk",
-          "tableFrom": "document_images",
-          "tableTo": "documents",
-          "columnsFrom": [
-            "document_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "documents": {
       "name": "documents",
       "columns": {

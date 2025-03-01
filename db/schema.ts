@@ -7,19 +7,7 @@ export const documents = sqliteTable("documents", {
   name: text("name"),
 });
 
-// Document Images table
-export const documentImages = sqliteTable("document_images", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  documentId: integer("document_id")
-    .notNull()
-    .references(() => documents.id),
-  uri: text("uri").notNull(),
-  width: integer("width").notNull(),
-  height: integer("height").notNull(),
-  exif: text("exif"),
-});
-
-// TarmedPositions table (original array in scanResponse)
+// TarmedPositions table
 export const tarmedPositions = sqliteTable("tarmed_positions", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   documentId: integer("document_id")
@@ -34,7 +22,7 @@ export const tarmedPositions = sqliteTable("tarmed_positions", {
   betrag: real("betrag").notNull(),
 });
 
-// TarmedSummaries table without the inline relevant_ids column.
+// TarmedSummaries table
 export const tarmedSummaries = sqliteTable("tarmed_summaries", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   documentId: integer("document_id")
@@ -49,7 +37,7 @@ export const tarmedSummaries = sqliteTable("tarmed_summaries", {
   betrag: real("betrag").notNull(),
 });
 
-// New table for relevant IDs for each TarmedSummary.
+// Table for relevant IDs for each TarmedSummary.
 export const tarmedSummaryRelevantIds = sqliteTable(
   "tarmed_summary_relevant_ids",
   {
@@ -61,7 +49,7 @@ export const tarmedSummaryRelevantIds = sqliteTable(
   }
 );
 
-// OverallSummary table (one-to-one relation with Document)
+// OverallSummary table
 export const overallSummaries = sqliteTable("overall_summaries", {
   documentId: integer("document_id")
     .primaryKey()
@@ -71,21 +59,13 @@ export const overallSummaries = sqliteTable("overall_summaries", {
   gesamtbetrag: real("gesamtbetrag").notNull(),
 });
 
-// Relations
+// Relations: Remove the documentImages key
 export const documentsRelations = relations(documents, ({ many, one }) => ({
-  documentImages: many(documentImages),
   tarmedPositions: many(tarmedPositions),
   tarmedSummaries: many(tarmedSummaries),
   overallSummary: one(overallSummaries, {
     fields: [documents.id],
     references: [overallSummaries.documentId],
-  }),
-}));
-
-export const documentImagesRelations = relations(documentImages, ({ one }) => ({
-  document: one(documents, {
-    fields: [documentImages.documentId],
-    references: [documents.id],
   }),
 }));
 
@@ -133,7 +113,6 @@ export const overallSummariesRelations = relations(
 
 // Infer types (note: TarmedSummary type now expects a relevant_ids array)
 export type Document = typeof documents.$inferSelect;
-export type DocumentImage = typeof documentImages.$inferSelect;
 export type TarmedPosition = typeof tarmedPositions.$inferSelect;
 export type TarmedSummary = Omit<
   typeof tarmedSummaries.$inferSelect,

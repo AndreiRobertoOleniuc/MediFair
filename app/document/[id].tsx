@@ -5,15 +5,13 @@ import { useState } from "react";
 import { useAppSelector } from "@/store/hooks";
 import { selectDocumentById } from "@/store/selectors/documentSelectors";
 
-import { Secrets } from "~/Secrets";
-
 import ImageSlider from "@/components/DetailScreen/ImageSlider";
 import SummaryList from "@/components/DetailScreen/SummaryList";
 import { Text } from "@/components/nativewindui/Text";
 
 export default function DetailsScreen() {
   const { id } = useLocalSearchParams();
-  const document = useAppSelector(selectDocumentById(id as string));
+  const document = useAppSelector(selectDocumentById(Number(id)));
   const [isFitMode, setIsFitMode] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -28,13 +26,8 @@ export default function DetailsScreen() {
   }
 
   const { summaries } = document.scanResponse;
-  let photoUri: string[] = document.documemtImages.map((img) => img.uri);
-  if (Secrets.imageSimulatorMode) {
-    photoUri = [
-      "https://storage.googleapis.com/exercise-app-assets/imageV2.2.jpg",
-      "https://storage.googleapis.com/exercise-app-assets/imageV2.1.jpg",
-    ];
-  }
+  let photoUri: string[] = document.imageUris;
+
   const handlePrev = () => {
     if (currentImageIndex > 0) {
       setCurrentImageIndex(currentImageIndex - 1);

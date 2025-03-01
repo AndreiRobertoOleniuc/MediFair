@@ -58,7 +58,6 @@ export default function ImageSlider({
           <MaterialIcon name="chevron-right" size={30} color={colors.grey} />
         </TouchableOpacity>
 
-        {/* Pagination Indicator */}
         <View
           className={`absolute bottom-2 left-1/2 -translate-x-1/2 bg-card/80 rounded-full px-3 py-1  ${images.length === 1 ? "hidden" : ""}`}
         >

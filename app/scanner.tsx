@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
-import { CameraCapturedPicture, useCameraPermissions } from "expo-camera";
+import { useCameraPermissions } from "expo-camera";
 import CameraComponent from "../components/Scanning/CameraComponent";
 import PreviewComponent from "../components/Scanning/PreviewComponent";
 import { router } from "expo-router";
@@ -12,9 +12,7 @@ import { insertDocument } from "~/store/asyncThunks/documentThunks";
 
 export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
-  const [capturedPhotos, setCapturedPhotos] = useState<CameraCapturedPicture[]>(
-    []
-  );
+  const [capturedPhotos, setCapturedPhotos] = useState<string[]>([]);
   const [showCamera, setShowCamera] = useState<boolean>(true);
   const documents = useAppSelector((state) => state.document.documents);
   const dispatch = useAppDispatch();
@@ -35,9 +33,9 @@ export default function Scanner() {
         //   capturedPhotos[0].uri
         // );
         const document: Document = {
-          id: documents.length.toString(),
+          id: documents.length,
           name: response.overallSummary.titel,
-          documemtImages: capturedPhotos, // store all pages images
+          imageUris: capturedPhotos, // now just a string array of URIs
           scanResponse: response,
         };
         dispatch(insertDocument(document));
@@ -58,7 +56,7 @@ export default function Scanner() {
   if (showCamera && capturedPhotos.length === 0) {
     return (
       <CameraComponent
-        onCapture={(photos: CameraCapturedPicture[]) => {
+        onCapture={(photos: string[]) => {
           setCapturedPhotos(photos);
           setShowCamera(false);
         }}
@@ -68,7 +66,7 @@ export default function Scanner() {
 
   return (
     <PreviewComponent
-      photoUris={capturedPhotos.map((photo) => photo.uri)}
+      photoUris={capturedPhotos}
       onRetake={() => {
         setCapturedPhotos([]);
         setShowCamera(true);

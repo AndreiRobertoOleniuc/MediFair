@@ -3,24 +3,11 @@ import { Document } from "@/models/Document";
 import { db } from "@/db/client";
 import {
   documents,
-  documentImages,
   tarmedPositions,
   tarmedSummaries,
   overallSummaries,
   tarmedSummaryRelevantIds,
 } from "~/db/schema";
-
-/**
- * insertDocument thunk
- *
- * Inserts a Document record into the SQLite database.
- * It also inserts related records:
- * - Each CameraCapturedPicture in documemtImages is inserted into document_images.
- * - If a scanResponse is provided, it inserts:
- *   - Each TarmedPosition record (original array)
- *   - Each TarmedSummary record (summaries array)
- *   - The OverallSummary record (one-to-one relation)
- */
 
 export const insertDocument = createAsyncThunk<
   Document,
@@ -28,6 +15,9 @@ export const insertDocument = createAsyncThunk<
   { rejectValue: string }
 >("documents/insert", async (doc, { rejectWithValue }) => {
   try {
+    //TODO: Persist the document image URIs to the filesystem
+
+    //Transaction so the whole document is inserted or nothing.
     await db.transaction(async (tx) => {
       // Insert the main Document record.
       const [insertedDoc] = await tx
@@ -38,17 +28,6 @@ export const insertDocument = createAsyncThunk<
         .returning({ id: documents.id, name: documents.name });
 
       const newId = insertedDoc.id;
-
-      // Insert document images.
-      for (const image of doc.documemtImages) {
-        await tx.insert(documentImages).values({
-          documentId: newId,
-          uri: image.uri,
-          width: image.width,
-          height: image.height,
-          exif: image.exif ? JSON.stringify(image.exif) : null,
-        });
-      }
 
       if (doc.scanResponse) {
         // Insert each TarmedPosition record.
@@ -100,50 +79,34 @@ export const insertDocument = createAsyncThunk<
       }
     });
 
-    // If the transaction completes without error, the document and all its related data are committed.
     return doc;
   } catch (error: any) {
-    // Any error will cause the transaction to roll back automatically.
     return rejectWithValue(error);
   }
 });
 
-/**
- * Fetch documents from SQLite and map the raw result to your Document interface.
- *
- * Note: We convert null values (e.g. in reasoning and relevant_ids) to undefined or default values,
- * so that the shape of the returned data matches your interfaces.
- */
 export const fetchDocuments = createAsyncThunk<
   Document[],
   void,
   { rejectValue: string }
 >("documents/fetch", async (_, { rejectWithValue }) => {
   try {
-    // Fetch documents along with nested relations.
     const rows = await db.query.documents.findMany({
       with: {
-        documentImages: true,
         tarmedPositions: true,
         tarmedSummaries: {
           with: {
-            relevantIds: true, // Include the new relevant IDs relation.
+            relevantIds: true,
           },
         },
         overallSummary: true,
       },
     });
 
-    // Map the returned rows to match your Document interface.
     const documentsFromDb: Document[] = rows.map((row) => ({
-      id: row.id.toString(),
+      id: row.id,
       name: row.name ?? undefined,
-      documemtImages: row.documentImages.map((img) => ({
-        uri: img.uri,
-        width: img.width,
-        height: img.height,
-        exif: img.exif ? JSON.parse(img.exif) : undefined,
-      })),
+      imageUris: [], // no images stored in the db now
       scanResponse: row.overallSummary
         ? {
             original: row.tarmedPositions.map((pos) => ({
@@ -173,6 +136,8 @@ export const fetchDocuments = createAsyncThunk<
           }
         : undefined,
     }));
+
+    //TODO: load images from filesystem and add to the documents before returning
 
     return documentsFromDb;
   } catch (error: any) {

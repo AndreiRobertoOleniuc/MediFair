@@ -2,9 +2,11 @@ import * as FileSystem from "expo-file-system";
 
 const SCANS_FOLDER = FileSystem.documentDirectory + "scans/";
 
+
+//TODO: Store the scanned images with the documentid prefix so I can find it easier then
 // Persist a scanned image into the scans folder
 export const persistScannedImage = async (
-  temporaryUri: string
+  temporaryUri: string,
 ): Promise<string> => {
   const fileName = `scanned_${Date.now()}.jpg`;
   const destinationUri = SCANS_FOLDER + fileName;

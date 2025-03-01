@@ -12,7 +12,7 @@ export default function SummaryList({
     titel: string;
     emoji: string;
     betrag: number;
-    documentId: string; // Ensure your summary object includes documentId
+    documentId: number; // Ensure your summary object includes documentId
     id: string; // And a summary id
   }>;
 }) {
