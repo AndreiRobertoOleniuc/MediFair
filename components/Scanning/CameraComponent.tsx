@@ -11,7 +11,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
   const scanDocument = async () => {
     try {
       const { scannedImages } = await DocumentScanner.scanDocument({
-        maxNumDocuments: 3,
+        maxNumDocuments: 1,
       });
       if (scannedImages && scannedImages.length > 0) {
         onCapture(scannedImages);

@@ -1,0 +1,73 @@
+{
+	"original": [
+		{
+			"beschreibung": "Notfall-Inkonvenienzpauschale B, Mo-So 19-22, Sa 12-19, So 7-19",
+			"betrag": 93.09,
+			"datum": "11.01.2022",
+			"tarifziffer": "00.2520",
+			"bezugsziffer": "",
+			"anzahl": 1,
+			"tarif": "001",
+			"titel": "Notfall-Inkonvenienzpauschale"
+		},
+		{
+			"tarifziffer": "00.0010",
+			"anzahl": 1,
+			"betrag": 16.27,
+			"titel": "Grundkonsultation",
+			"datum": "11.01.2022",
+			"tarif": "001",
+			"bezugsziffer": "",
+			"beschreibung": "Konsultation, erste 5 Min. (Grundkonsultation)"
+		},
+		{
+			"datum": "11.01.2022",
+			"tarifziffer": "00.2530",
+			"bezugsziffer": "00.0010",
+			"betrag": 2.2,
+			"tarif": "001",
+			"beschreibung": "(+) %-Zuschlag für Notfall B, Mo-So 19-22, Sa 12-19, So 7-19",
+			"titel": "Zuschlag Notfall",
+			"anzahl": 1
+		}
+	],
+	"analysis": [
+		[
+			0
+		],
+		[
+			1,
+			2
+		]
+	],
+	"summaries": [
+		{
+			"emoji": "🚑",
+			"datum": "11.01.2022",
+			"titel": "Notfall-Inkonvenienzpauschale",
+			"beschreibung": "Notfall-Inkonvenienzpauschale gemäss Beschreibung.",
+			"operation": "+",
+			"relevant_ids": [
+				0
+			],
+			"betrag": 93.09
+		},
+		{
+			"operation": "+",
+			"beschreibung": "Konsultation mit Notfallzuschlag",
+			"datum": "11.01.2022",
+			"titel": "Konsultation Notfall",
+			"emoji": "🚑",
+			"relevant_ids": [
+				1,
+				2
+			],
+			"betrag": 18.47
+		}
+	],
+	"overallSummary": {
+		"datum": "11.01.2022",
+		"titel": "Notfallbehandlung",
+		"gesamtbetrag": 111.56
+	}
+}

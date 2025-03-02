@@ -30,12 +30,12 @@ export default function Scanner() {
       try {
         let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
         // let response: ScanResponse = await documentApi.analyseDocument(
-        //   capturedPhotos[0].uri
+        //   capturedPhotos[0]
         // );
         const document: Document = {
           id: documents.length,
           name: response.overallSummary.titel,
-          imageUris: capturedPhotos, // now just a string array of URIs
+          imageUris: capturedPhotos,
           scanResponse: response,
         };
         dispatch(insertDocument(document));
