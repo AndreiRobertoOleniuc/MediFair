@@ -8,6 +8,7 @@ import {
   overallSummaries,
   tarmedSummaryRelevantIds,
 } from "~/db/schema";
+import { findImageUri, loadScans, persistScannedImage } from "~/services/file";
 
 export const insertDocument = createAsyncThunk<
   Document,
@@ -15,8 +16,6 @@ export const insertDocument = createAsyncThunk<
   { rejectValue: string }
 >("documents/insert", async (doc, { rejectWithValue }) => {
   try {
-    //TODO: Persist the document image URIs to the filesystem
-
     //Transaction so the whole document is inserted or nothing.
     await db.transaction(async (tx) => {
       // Insert the main Document record.
@@ -28,6 +27,19 @@ export const insertDocument = createAsyncThunk<
         .returning({ id: documents.id, name: documents.name });
 
       const newId = insertedDoc.id;
+
+      // Perist all of the scanned images with Expo File System and update the imageUris.
+      const persistedImageUris = await Promise.all(
+        doc.imageUris.map(async (uri, index) => {
+          return await persistScannedImage(
+            uri,
+            newId,
+            index,
+            doc.name ?? "document"
+          );
+        })
+      );
+      doc.imageUris = persistedImageUris;
 
       if (doc.scanResponse) {
         // Insert each TarmedPosition record.
@@ -137,7 +149,13 @@ export const fetchDocuments = createAsyncThunk<
         : undefined,
     }));
 
-    //TODO: load images from filesystem and add to the documents before returning
+    // Load the scanned images from the file system and add them to the documents.
+    const scans = await loadScans();
+    documentsFromDb.map((doc) => {
+      doc.imageUris =
+        findImageUri(doc.id, doc.name ?? "document", scans ?? []) ?? [];
+      return doc;
+    });
 
     return documentsFromDb;
   } catch (error: any) {
