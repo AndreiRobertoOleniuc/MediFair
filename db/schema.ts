@@ -20,6 +20,7 @@ export const tarmedPositions = sqliteTable("tarmed_positions", {
   beschreibung: text("beschreibung").notNull(),
   anzahl: integer("anzahl").notNull(),
   betrag: real("betrag").notNull(),
+  titel: text("titel").notNull(),
 });
 
 // TarmedSummaries table

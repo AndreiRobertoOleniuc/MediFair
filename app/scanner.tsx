@@ -7,7 +7,7 @@ import { router } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Document, ScanResponse } from "@/models/Document";
 import { documentApi } from "@/services/api";
-import DemoData from "@/assets/data/sampleInvoiceV2.4.json";
+import DemoData from "@/assets/data/sampleInvoiceV3.1.json";
 import { insertDocument } from "~/store/asyncThunks/documentThunks";
 
 export default function Scanner() {

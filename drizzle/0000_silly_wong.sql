@@ -21,6 +21,7 @@ CREATE TABLE `tarmed_positions` (
 	`beschreibung` text NOT NULL,
 	`anzahl` integer NOT NULL,
 	`betrag` real NOT NULL,
+	`titel` text NOT NULL,
 	FOREIGN KEY (`document_id`) REFERENCES `documents`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint

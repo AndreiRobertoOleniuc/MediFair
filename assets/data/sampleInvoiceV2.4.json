@@ -7,7 +7,8 @@
 			"bezugsziffer": "",
 			"beschreibung": "Konsultation, erste 5 Min. (Grundkonsultation)",
 			"anzahl": 1,
-			"betrag": 16.93
+			"betrag": 16.93,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -16,7 +17,8 @@
 			"bezugsziffer": "",
 			"beschreibung": "Konsultation bei Personen über 6 Jahren und unter 75 Jahren, jede weiteren 5 Min. (Konsultationszuschlag)",
 			"anzahl": 1,
-			"betrag": 8.47
+			"betrag": 8.47,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -25,7 +27,8 @@
 			"bezugsziffer": "",
 			"beschreibung": "Konsultation, letzte 5 Min. (Konsultationszuschlag)",
 			"anzahl": 1,
-			"betrag": 48.59
+			"betrag": 48.59,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -34,7 +37,8 @@
 			"bezugsziffer": "1 R",
 			"beschreibung": "Refraktionsbestimmung, subjektiv, durch Facharzt, beidseitig",
 			"anzahl": 1,
-			"betrag": 16.2
+			"betrag": 16.2,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -43,7 +47,8 @@
 			"bezugsziffer": "1 L",
 			"beschreibung": "Untersuchung mit dem Amslernetz, pro Seite",
 			"anzahl": 1,
-			"betrag": 16.2
+			"betrag": 16.2,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -52,7 +57,8 @@
 			"bezugsziffer": "",
 			"beschreibung": "Applanationstonometrie und stereoskopische Papillenbeurteilung, beidseitig",
 			"anzahl": 1,
-			"betrag": 32.4
+			"betrag": 32.4,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -61,7 +67,8 @@
 			"bezugsziffer": "",
 			"beschreibung": "Untersuchung mit dem Amslernetz, pro Seite",
 			"anzahl": 1,
-			"betrag": 94.56
+			"betrag": 94.56,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -70,7 +77,8 @@
 			"bezugsziffer": "1 R",
 			"beschreibung": "Fundusaufnahmen, beidseitig",
 			"anzahl": 1,
-			"betrag": 12.15
+			"betrag": 12.15,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -79,7 +87,8 @@
 			"bezugsziffer": "08.3010 1 R",
 			"beschreibung": "Spaltlampenuntersuchung der vorderen Augenabschnitte, beidseitig",
 			"anzahl": 1,
-			"betrag": 20.25
+			"betrag": 20.25,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -88,7 +97,8 @@
 			"bezugsziffer": "08.3010 1 L",
 			"beschreibung": "Biomikroskopie des zentralen Fundus, beidseitig",
 			"anzahl": 1,
-			"betrag": 12.15
+			"betrag": 12.15,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -97,7 +107,8 @@
 			"bezugsziffer": "08.3010 1 R",
 			"beschreibung": "Zuschlag für eingehende Untersuchung der Fundusperipherie, pro Seite",
 			"anzahl": 1,
-			"betrag": 12.15
+			"betrag": 12.15,
+			"titel": "-"
 		},
 		{
 			"datum": "21.01.2025",
@@ -106,36 +117,9 @@
 			"bezugsziffer": "08.3010 1 L",
 			"beschreibung": "Zuschlag für eingehende Untersuchung der Fundusperipherie, pro Seite",
 			"anzahl": 1,
-			"betrag": 12.15
+			"betrag": 12.15,
+			"titel": "-"
 		}
-	],
-	"analysis": [
-		[
-			0,
-			1,
-			2
-		],
-		[
-			3
-		],
-		[
-			4,
-			6
-		],
-		[
-			5
-		],
-		[
-			7
-		],
-		[
-			8
-		],
-		[
-			9,
-			10,
-			11
-		]
 	],
 	"summaries": [
 		{

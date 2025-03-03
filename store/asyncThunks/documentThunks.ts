@@ -53,6 +53,7 @@ export const insertDocument = createAsyncThunk<
             beschreibung: pos.beschreibung,
             anzahl: pos.anzahl,
             betrag: pos.betrag,
+            titel: pos.titel,
           });
         }
 
@@ -129,6 +130,7 @@ export const fetchDocuments = createAsyncThunk<
               beschreibung: pos.beschreibung,
               anzahl: pos.anzahl,
               betrag: pos.betrag,
+              titel: pos.titel,
             })),
             summaries: row.tarmedSummaries.map((sum) => ({
               datum: sum.datum,

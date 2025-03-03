@@ -19,6 +19,7 @@ export interface TarmedPosition {
   beschreibung: string;
   anzahl: number;
   betrag: number;
+  titel: string;
 }
 
 export interface TarmedSummary {

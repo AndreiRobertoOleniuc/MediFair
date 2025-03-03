@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "dc066ec8-192a-4d43-90c9-a71e7be74bad",
+  "id": "484c71eb-a984-4ea5-b04b-cc7f61a856b1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "documents": {
@@ -142,6 +142,13 @@
         "betrag": {
           "name": "betrag",
           "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "titel": {
+          "name": "titel",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

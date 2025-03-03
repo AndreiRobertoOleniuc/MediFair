@@ -1,13 +1,16 @@
 import React from "react";
-import { View, SafeAreaView, ScrollView } from "react-native";
+import { View, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useAppSelector } from "~/store/hooks";
 import { selectDocumentById } from "~/store/selectors/documentSelectors";
 import { Text } from "@/components/nativewindui/Text";
+import MaterialIcon from "@expo/vector-icons/MaterialIcons";
+import { useColorScheme } from "~/lib/useColorScheme";
 
 export default function DocumentDetail() {
   const { documentId, summaryId } = useLocalSearchParams();
-  const document = useAppSelector(selectDocumentById(documentId as string));
+  const document = useAppSelector(selectDocumentById(Number(documentId)));
+  const { colors } = useColorScheme();
 
   if (!document) {
     return (
@@ -55,8 +58,8 @@ export default function DocumentDetail() {
       >
         {/* Header / Summary Info */}
         <View className="mb-6">
-          <View className="flex-row justify-between items-center">
-            <Text className="text-xl font-bold text-foreground">
+          <View className="flex-row justify-between items-start">
+            <Text className="text-xl font-bold text-foreground w-3/4">
               {summary.emoji} {summary.titel}
             </Text>
             <Text className="text-sm text-muted-foreground">
@@ -72,20 +75,29 @@ export default function DocumentDetail() {
             className="bg-card w-full rounded-md shadow px-4 py-3 mb-4"
           >
             <View className="flex-row">
-              <View className="flex-1 mr-2">
-                <Text className="text-base font-semibold text-foreground">
-                  {item.beschreibung}
-                </Text>
-                <Text className="text-sm text-muted-foreground mt-1">
-                  {item.tarifziffer}
-                </Text>
-              </View>
-              <View className="justify-start">
-                <Text className="text-base text-muted-foreground">
-                  CHF {item.betrag.toFixed(2)}
-                </Text>
-              </View>
+              <Text className="text-xl  font-semibold text-foreground flex-1 mr-2">
+                {item.titel}
+              </Text>
+              <Text className="text-base text-muted-foreground justify-start">
+                CHF {item.betrag.toFixed(2)}
+              </Text>
             </View>
+            <View className="flex-row justify-between items-center">
+              <Text className="text-sm text-foreground mt-1 w-3/4 ">
+                {item.beschreibung}
+              </Text>
+              <TouchableOpacity onPress={() => alert("Preview Available soon")}>
+                <MaterialIcon
+                  name="help-outline"
+                  size={24}
+                  color={colors.primary}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <Text className="text-sm text-muted-foreground mt-1">
+              {item.tarifziffer}
+            </Text>
           </View>
         ))}
 
