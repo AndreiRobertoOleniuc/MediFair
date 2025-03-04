@@ -1,16 +1,32 @@
 import React from "react";
 import { View, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useAppSelector } from "~/store/hooks";
-import { selectDocumentById } from "~/store/selectors/documentSelectors";
+import { useAppDispatch, useAppSelector } from "~/store/hooks";
+import {
+  selectDocumentById,
+  selectDocumentStatus,
+  selectTarmedPositionExplanation,
+} from "~/store/selectors/documentSelectors";
 import { Text } from "@/components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { useColorScheme } from "~/lib/useColorScheme";
+import { TarmedPosition } from "~/models/Document";
+import { explainPosition } from "~/store/asyncThunks/documentThunks";
 
 export default function DocumentDetail() {
   const { documentId, summaryId } = useLocalSearchParams();
   const document = useAppSelector(selectDocumentById(Number(documentId)));
+  const explanation = useAppSelector(selectTarmedPositionExplanation);
+  const status = useAppSelector(selectDocumentStatus);
+
   const { colors } = useColorScheme();
+  //TODO: Use the Explanation Endpoint to fetch the explanation for the TarmedPosition
+  // While fetching open a dialog with skeleton loader -> check the status from documentReducer to determine if loading or not
+  const dispatch = useAppDispatch();
+
+  const fetchExplanation = async (tarmedPosition: TarmedPosition) => {
+    await dispatch(explainPosition(tarmedPosition));
+  };
 
   if (!document) {
     return (
@@ -86,7 +102,7 @@ export default function DocumentDetail() {
               <Text className="text-sm text-foreground mt-1 w-3/4 ">
                 {item.beschreibung}
               </Text>
-              <TouchableOpacity onPress={() => alert("Preview Available soon")}>
+              <TouchableOpacity onPress={() => fetchExplanation(item)}>
                 <MaterialIcon
                   name="help-outline"
                   size={24}

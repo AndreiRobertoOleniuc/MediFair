@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Document } from "@/models/Document";
+import { Document, Explanation, TarmedPosition } from "@/models/Document";
 import { db } from "@/db/client";
 import {
   documents,
@@ -9,6 +9,7 @@ import {
   tarmedSummaryRelevantIds,
 } from "~/db/schema";
 import { findImageUri, loadScans, persistScannedImage } from "~/services/file";
+import { documentApi } from "@/services/api";
 
 export const insertDocument = createAsyncThunk<
   Document,
@@ -164,3 +165,20 @@ export const fetchDocuments = createAsyncThunk<
     return rejectWithValue(error.message);
   }
 });
+
+export const explainPosition = createAsyncThunk<
+  Explanation,
+  TarmedPosition,
+  { rejectValue: string }
+>(
+  "documents/explainPosition",
+  async (position: TarmedPosition, { rejectWithValue }) => {
+    try {
+      // Simulate a server request with a delay.
+      const response = await documentApi.fetchExplainPosition(position);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

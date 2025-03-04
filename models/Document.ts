@@ -38,3 +38,8 @@ export interface OverallSummary {
   titel: string;
   gesamtbetrag: number;
 }
+
+export interface Explanation {
+  titel: string;
+  erklärung: string;
+}
