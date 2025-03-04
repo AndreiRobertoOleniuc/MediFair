@@ -59,6 +59,8 @@ export const documentApi = {
       throw new Error("Network response was not ok");
     }
 
-    return response.json() as Promise<Explanation>;
+    const data = await response.json();
+    // Extract the nested explanation object
+    return data.explanation as Explanation;
   },
 };

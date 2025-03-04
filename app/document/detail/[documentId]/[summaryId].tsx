@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useAppDispatch, useAppSelector } from "~/store/hooks";
@@ -12,22 +12,26 @@ import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { TarmedPosition } from "~/models/Document";
 import { explainPosition } from "~/store/asyncThunks/documentThunks";
+import { Dialog } from "~/components/custom/Dialog";
+import { Skeleton } from "~/components/custom/Skeleton";
 
 export default function DocumentDetail() {
   const { documentId, summaryId } = useLocalSearchParams();
   const document = useAppSelector(selectDocumentById(Number(documentId)));
   const explanation = useAppSelector(selectTarmedPositionExplanation);
   const status = useAppSelector(selectDocumentStatus);
-
   const { colors } = useColorScheme();
-  //TODO: Use the Explanation Endpoint to fetch the explanation for the TarmedPosition
-  // While fetching open a dialog with skeleton loader -> check the status from documentReducer to determine if loading or not
   const dispatch = useAppDispatch();
 
+  // Local state to control dialog visibility
+  const [dialogVisible, setDialogVisible] = useState(false);
+
   const fetchExplanation = async (tarmedPosition: TarmedPosition) => {
+    setDialogVisible(true);
     await dispatch(explainPosition(tarmedPosition));
   };
 
+  // Early returns for error states
   if (!document) {
     return (
       <SafeAreaView className="flex-1 bg-background justify-center items-center">
@@ -45,14 +49,10 @@ export default function DocumentDetail() {
     );
   }
 
-  // Retrieve original items and all summaries
   const { original, summaries } = scanResponse;
-
-  // Convert summaryId to an index, fallback if needed
   const summaryIndex = parseInt(summaryId as string, 10);
   const summary = summaries?.[summaryIndex];
 
-  // Summary not found fallback
   if (!summary) {
     return (
       <SafeAreaView className="flex-1 bg-background justify-center items-center">
@@ -61,13 +61,39 @@ export default function DocumentDetail() {
     );
   }
 
-  // Pull out the relevant originals via summary.relevant_ids
   const relevantOriginals = summary.relevant_ids.map(
     (origIndex: number) => original[origIndex]
   );
 
+  // Determine dialog title based on state
+  const dialogTitle =
+    status === "succeeded" && explanation ? explanation.titel : "Loading...";
+
   return (
     <SafeAreaView className="flex-1 bg-background">
+      <Dialog
+        visible={dialogVisible}
+        onClose={() => setDialogVisible(false)}
+        title={dialogTitle}
+        size="md"
+      >
+        {status === "loading" && (
+          <View className="space-y-4">
+            <Skeleton variant="text" size="md" className="w-4/5 h-4" />
+          </View>
+        )}
+
+        {status === "succeeded" && explanation && (
+          <Text className="text-foreground">{explanation.erklärung}</Text>
+        )}
+
+        {status === "failed" && (
+          <Text className="text-destructive">
+            Failed to load explanation. Please try again.
+          </Text>
+        )}
+      </Dialog>
+
       <ScrollView
         contentContainerStyle={{ padding: 16 }}
         showsVerticalScrollIndicator={false}
@@ -91,7 +117,7 @@ export default function DocumentDetail() {
             className="bg-card w-full rounded-md shadow px-4 py-3 mb-4"
           >
             <View className="flex-row">
-              <Text className="text-xl  font-semibold text-foreground flex-1 mr-2">
+              <Text className="text-xl font-semibold text-foreground flex-1 mr-2">
                 {item.titel}
               </Text>
               <Text className="text-base text-muted-foreground justify-start">
@@ -99,7 +125,7 @@ export default function DocumentDetail() {
               </Text>
             </View>
             <View className="flex-row justify-between items-center">
-              <Text className="text-sm text-foreground mt-1 w-3/4 ">
+              <Text className="text-sm text-foreground mt-1 w-3/4">
                 {item.beschreibung}
               </Text>
               <TouchableOpacity onPress={() => fetchExplanation(item)}>
@@ -110,7 +136,6 @@ export default function DocumentDetail() {
                 />
               </TouchableOpacity>
             </View>
-
             <Text className="text-sm text-muted-foreground mt-1">
               {item.tarifziffer}
             </Text>

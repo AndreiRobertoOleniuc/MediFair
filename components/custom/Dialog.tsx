@@ -50,7 +50,7 @@ const Dialog = React.forwardRef<View, DialogProps>(
         <View className="flex-1 justify-center items-center bg-black/50">
           <View ref={ref} className={cn(dialogVariants({ size }), "bg-card")}>
             {/* Header with title and close icon */}
-            <View className="flex-row justify-between items-center mb-4">
+            <View className="flex-row justify-between mb-4">
               {title && (
                 <Text variant="heading" className="flex-1">
                   {title}
