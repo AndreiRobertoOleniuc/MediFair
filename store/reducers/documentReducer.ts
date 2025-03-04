@@ -3,7 +3,7 @@ import { Document, Explanation } from "../../models/Document";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchDocuments,
-  insertDocument,
+  analyzeDocument,
   explainPosition,
 } from "../asyncThunks/documentThunks";
 
@@ -39,14 +39,14 @@ const documentSlice = createSlice({
         state.status = "succeeded";
         state.documents = action.payload;
       })
-      .addCase(insertDocument.pending, (state) => {
+      .addCase(analyzeDocument.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(insertDocument.rejected, (state, action) => {
+      .addCase(analyzeDocument.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(insertDocument.fulfilled, (state, action) => {
+      .addCase(analyzeDocument.fulfilled, (state, action) => {
         state.documents.push(action.payload);
         state.status = "succeeded";
       })

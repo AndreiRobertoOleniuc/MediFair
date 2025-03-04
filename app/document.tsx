@@ -15,8 +15,6 @@ export default function Document() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // Dispatch the fetchDocuments thunk once migrations are successful.
-    // You might want to check a condition (e.g., migration success) if needed.
     dispatch(fetchDocuments());
   }, [dispatch]);
 
