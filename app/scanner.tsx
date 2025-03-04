@@ -24,11 +24,18 @@ export default function Scanner() {
   const continueWithImages = async () => {
     if (capturedPhotos.length > 0) {
       try {
-        // Dispatch thunk with captured photos
+        // First navigate to document detail page - it will show loading skeleton
+        const tempId = -1; // Temporary ID until real ID is known
+        router.replace({
+          pathname: "/document/[id]",
+          params: { id: tempId },
+        });
+
+        // Then dispatch thunk with captured photos
         const resultAction = await dispatch(analyzeDocument(capturedPhotos));
 
         if (analyzeDocument.fulfilled.match(resultAction)) {
-          // Navigate to document detail on success
+          // Update navigation to the correct document ID
           router.replace({
             pathname: "/document/[id]",
             params: { id: resultAction.payload.id },
