@@ -9,7 +9,7 @@ import { useColorScheme } from "../lib/useColorScheme";
 import { router } from "expo-router";
 import { fetchDocuments } from "~/store/asyncThunks/documentThunks";
 
-export default function Document() {
+export default function Documents() {
   const documents = useAppSelector((state) => state.document.documents);
   const { colors } = useColorScheme();
   const dispatch = useAppDispatch();

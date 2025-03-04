@@ -4,7 +4,7 @@ import { useCameraPermissions } from "expo-camera";
 import CameraComponent from "../screens/Scanning/CameraComponent";
 import PreviewComponent from "../screens/Scanning/PreviewComponent";
 import { router } from "expo-router";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 import { analyzeDocument } from "~/store/asyncThunks/documentThunks";
 
 export default function Scanner() {

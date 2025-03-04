@@ -9,7 +9,7 @@ import ImageSlider from "~/screens/DetailScreen/ImageSlider";
 import SummaryList from "~/screens/DetailScreen/SummaryList";
 import { Text } from "@/components/nativewindui/Text";
 
-export default function DetailsScreen() {
+export default function DocumentDetail() {
   const { id } = useLocalSearchParams();
   const document = useAppSelector(selectDocumentById(Number(id)));
   const [isFitMode, setIsFitMode] = useState(true);

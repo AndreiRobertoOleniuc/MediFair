@@ -15,7 +15,7 @@ import { explainPosition } from "~/store/asyncThunks/documentThunks";
 import { Dialog } from "~/components/custom/Dialog";
 import { Skeleton } from "~/components/custom/Skeleton";
 
-export default function DocumentDetail() {
+export default function SummaryDetail() {
   const { documentId, summaryId } = useLocalSearchParams();
   const document = useAppSelector(selectDocumentById(Number(documentId)));
   const explanation = useAppSelector(selectTarmedPositionExplanation);
