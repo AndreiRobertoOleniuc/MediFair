@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useAppSelector } from "@/store/hooks";
 import { selectDocumentById } from "@/store/selectors/documentSelectors";
 
-import ImageSlider from "@/components/DetailScreen/ImageSlider";
-import SummaryList from "@/components/DetailScreen/SummaryList";
+import ImageSlider from "~/screens/DetailScreen/ImageSlider";
+import SummaryList from "~/screens/DetailScreen/SummaryList";
 import { Text } from "@/components/nativewindui/Text";
 
 export default function DetailsScreen() {
