@@ -71,29 +71,6 @@ export default function DocumentDetail() {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <Dialog
-        visible={dialogVisible}
-        onClose={() => setDialogVisible(false)}
-        title={dialogTitle}
-        size="md"
-      >
-        {status === "loading" && (
-          <View className="space-y-4">
-            <Skeleton variant="text" size="md" className="w-4/5 h-4" />
-          </View>
-        )}
-
-        {status === "succeeded" && explanation && (
-          <Text className="text-foreground">{explanation.erklärung}</Text>
-        )}
-
-        {status === "failed" && (
-          <Text className="text-destructive">
-            Failed to load explanation. Please try again.
-          </Text>
-        )}
-      </Dialog>
-
       <ScrollView
         contentContainerStyle={{ padding: 16 }}
         showsVerticalScrollIndicator={false}
@@ -148,6 +125,28 @@ export default function DocumentDetail() {
           </Text>
         </View>
       </ScrollView>
+      <Dialog
+        visible={dialogVisible}
+        onClose={() => setDialogVisible(false)}
+        title={dialogTitle}
+        size="md"
+      >
+        {status === "loading" && (
+          <View className="space-y-4">
+            <Skeleton variant="text" size="md" className="w-4/5 h-4" />
+          </View>
+        )}
+
+        {status === "succeeded" && explanation && (
+          <Text className="text-foreground">{explanation.erklärung}</Text>
+        )}
+
+        {status === "failed" && (
+          <Text className="text-destructive">
+            Failed to load explanation. Please try again.
+          </Text>
+        )}
+      </Dialog>
     </SafeAreaView>
   );
 }
