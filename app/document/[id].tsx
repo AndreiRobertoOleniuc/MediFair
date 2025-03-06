@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { View, SafeAreaView } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useAppSelector } from "@/store/hooks";
 import {
@@ -20,15 +20,56 @@ export default function DocumentDetail() {
   const [isFitMode, setIsFitMode] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Show loading skeleton when status is loading
+  // Loading Logic
+  const lastRequestDuration = 40000;
+  const messages = [
+    "⏳ Das Dokument wird geprüft ...",
+    "💭 Wir suchen nach Mustern ...",
+    "⏱️ Einen kurzen Moment bitte ...",
+    "💨 Fast fertig ...",
+  ];
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const messageInterval = setInterval(() => {
+      setCurrentMessageIndex((prev) =>
+        prev < messages.length - 1 ? prev + 1 : prev
+      );
+    }, lastRequestDuration / messages.length);
+    return () => clearInterval(messageInterval);
+  }, []);
+
+  useEffect(() => {
+    const intervalMs = 100;
+    const interval = setInterval(() => {
+      setProgress((prev) =>
+        Math.min(prev + (intervalMs / lastRequestDuration) * 100, 100)
+      );
+    }, intervalMs);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Show loading skeleton with progressive messages
   if (status === "loading") {
     return (
       <SafeAreaView className="flex-1 bg-background">
         <View className="p-4">
+          <View className="mb-6">
+            <View className="mb-4">
+              <Text className="text-foreground text-base">
+                {messages[currentMessageIndex]}
+              </Text>
+            </View>
+            <View className="h-2 bg-gray-300 rounded">
+              <View
+                style={{ width: `${progress}%` }}
+                className="h-full bg-primary rounded"
+              />
+            </View>
+          </View>
           <Skeleton variant="text" className="w-3/4 h-8 mb-6" />
-
           <Skeleton className="w-full h-80 mb-4" />
-
           <View className="mt-6 space-y-4">
             <Skeleton className="w-full h-24 rounded-lg mb-2" />
             <Skeleton className="w-full h-24 rounded-lg mb-2" />
@@ -82,7 +123,7 @@ export default function DocumentDetail() {
           summaries={summaries.map((summary, index) => ({
             ...summary,
             documentId: document.id,
-            id: index.toString(), // use the index instead of summary.titel
+            id: index.toString(),
           }))}
         />
       )}
