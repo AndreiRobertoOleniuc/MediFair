@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { cn } from "../../lib/cn";
 import { Text } from "../nativewindui/Text";
-import { useColorScheme } from "../../lib/useColorScheme";
+import { useColorScheme } from "../../hooks/useColorScheme";
 
 const dialogVariants = cva("p-6 rounded-lg shadow-lg", {
   variants: {

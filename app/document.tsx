@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Button } from "../components/nativewindui/Button";
 import { Text } from "../components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
-import { useColorScheme } from "../lib/useColorScheme";
+import { useColorScheme } from "../hooks/useColorScheme";
 import { router } from "expo-router";
 import { fetchDocuments } from "~/store/asyncThunks/documentThunks";
 

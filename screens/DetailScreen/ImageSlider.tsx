@@ -1,7 +1,7 @@
 import { View, Image, TouchableOpacity } from "react-native";
 import { Text } from "@/components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
-import { useColorScheme } from "~/lib/useColorScheme";
+import { useColorScheme } from "~/hooks/useColorScheme";
 
 export default function ImageSlider({
   images,

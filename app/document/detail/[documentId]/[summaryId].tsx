@@ -9,7 +9,7 @@ import {
 } from "~/store/selectors/documentSelectors";
 import { Text } from "@/components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
-import { useColorScheme } from "~/lib/useColorScheme";
+import { useColorScheme } from "~/hooks/useColorScheme";
 import { TarmedPosition } from "~/models/Document";
 import { explainPosition } from "~/store/asyncThunks/documentThunks";
 import { Dialog } from "~/components/custom/Dialog";

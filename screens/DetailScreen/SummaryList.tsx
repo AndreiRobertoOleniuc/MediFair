@@ -2,7 +2,7 @@ import { View, ScrollView, TouchableOpacity } from "react-native";
 import { Text } from "@/components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { router } from "expo-router";
-import { useColorScheme } from "../../lib/useColorScheme";
+import { useColorScheme } from "../../hooks/useColorScheme";
 
 export default function SummaryList({
   summaries,

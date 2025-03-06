@@ -26,7 +26,7 @@ import store from "../store/store"; // Adjust the path as necessary
 import {
   useColorScheme,
   useInitialAndroidBarSync,
-} from "../lib/useColorScheme";
+} from "../hooks/useColorScheme";
 import { NAV_THEME } from "../theme";
 import "../global.css";
 

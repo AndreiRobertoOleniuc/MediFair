@@ -5,7 +5,7 @@ import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 
 import { Button } from "../components/nativewindui/Button";
 import { Text } from "../components/nativewindui/Text";
-import { useColorScheme } from "../lib/useColorScheme";
+import { useColorScheme } from "../hooks/useColorScheme";
 
 const ROOT_STYLE: ViewStyle = { flex: 1 };
 
