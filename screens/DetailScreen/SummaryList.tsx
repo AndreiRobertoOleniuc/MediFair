@@ -43,9 +43,7 @@ export default function SummaryList({
           >
             <View className="flex-row justify-between">
               <Text className="text-foreground"></Text>
-              <Text className="text-foreground text-muted-foreground">
-                {summary.datum}
-              </Text>
+              <Text className="text-muted-foreground">{summary.datum}</Text>
             </View>
             <View className="flex-row justify-between items-center">
               <Text className="text-foreground text-xl font-bold my-3 w-4/5">
@@ -54,7 +52,7 @@ export default function SummaryList({
               <MaterialIcon
                 name="arrow-forward-ios"
                 size={13}
-                color={colors.grey}
+                color={colors.primary}
               />
             </View>
             <Text className="text-foreground">

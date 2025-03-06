@@ -35,7 +35,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const { success, error } = useMigrations(db, migrations);
 
-  const { colorScheme, isDarkColorScheme } = useColorScheme();
+  const { colorScheme, isDarkColorScheme, colors } = useColorScheme();
   useInitialAndroidBarSync();
 
   const [loaded] = useFonts({
@@ -84,6 +84,7 @@ export default function RootLayout() {
                 <Button
                   title="Back"
                   onPress={() => router.dismissTo("/document")}
+                  color={colors.primary}
                 />
               ),
             }}
@@ -94,7 +95,11 @@ export default function RootLayout() {
               headerShown: true,
               title: "",
               headerLeft: () => (
-                <Button title="Back" onPress={() => router.back()} />
+                <Button
+                  title="Back"
+                  onPress={() => router.back()}
+                  color={colors.primary}
+                />
               ),
             }}
           />

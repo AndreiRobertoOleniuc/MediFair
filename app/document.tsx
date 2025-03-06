@@ -19,7 +19,7 @@ export default function Documents() {
   }, [dispatch]);
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-background">
       <View className="flex-1 p-5">
         <Text
           variant="title1"

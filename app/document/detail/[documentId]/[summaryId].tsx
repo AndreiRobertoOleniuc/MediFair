@@ -119,7 +119,7 @@ export default function SummaryDetail() {
           </View>
         ))}
 
-        <View className="mt-4 border-t border-divider pt-4 flex-row justify-end">
+        <View className="mt-4 pt-4 flex-row justify-end">
           <Text className="text-xl font-bold text-foreground">
             Total: CHF {summary.betrag.toFixed(2)}
           </Text>
