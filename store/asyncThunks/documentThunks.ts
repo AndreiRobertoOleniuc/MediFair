@@ -28,12 +28,12 @@ export const analyzeDocument = createAsyncThunk<
     }
 
     // Get scan response from API (currently using demo data)
-    // await new Promise((resolve) => setTimeout(resolve, 20000));
-    // let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
+    await new Promise((resolve) => setTimeout(resolve, 40000));
+    let response: ScanResponse = JSON.parse(JSON.stringify(DemoData));
     // Uncomment for real API:
-    let response: ScanResponse = await documentApi.analyseDocument(
-      photoUris[0]
-    );
+    // let response: ScanResponse = await documentApi.analyseDocument(
+    //   photoUris[0]
+    // );
 
     // Construct document object
     const document: Document = {

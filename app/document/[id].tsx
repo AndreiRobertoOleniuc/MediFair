@@ -23,13 +23,14 @@ export default function DocumentDetail() {
   // Loading Logic
   const lastRequestDuration = 40000;
   const messages = [
-    "⏳ Das Dokument wird geprüft ...",
-    "💭 Wir suchen nach Mustern ...",
-    "⏱️ Einen kurzen Moment bitte ...",
-    "💨 Fast fertig ...",
+    "⏳ Das Dokument wird geprüft",
+    "💭 Wir suchen nach Mustern",
+    "⏱️ Einen kurzen Moment bitte",
+    "💨 Fast fertig",
   ];
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [dotCount, setDotCount] = useState(1);
 
   useEffect(() => {
     const messageInterval = setInterval(() => {
@@ -50,6 +51,14 @@ export default function DocumentDetail() {
     return () => clearInterval(interval);
   }, []);
 
+  // Dot animation
+  useEffect(() => {
+    const dotInterval = setInterval(() => {
+      setDotCount((prev) => (prev < 3 ? prev + 1 : 1));
+    }, 500);
+    return () => clearInterval(dotInterval);
+  }, []);
+
   // Show loading skeleton with progressive messages
   if (status === "loading") {
     return (
@@ -58,7 +67,7 @@ export default function DocumentDetail() {
           <View className="mb-6">
             <View className="mb-4">
               <Text className="text-foreground text-base">
-                {messages[currentMessageIndex]}
+                {messages[currentMessageIndex] + ".".repeat(dotCount)}
               </Text>
             </View>
             <View className="h-2 bg-gray-300 rounded">
