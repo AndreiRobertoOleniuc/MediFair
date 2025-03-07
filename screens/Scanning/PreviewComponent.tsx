@@ -47,18 +47,14 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
         <View className="flex-row justify-between w-full gap-3 px-5">
           <Button
             variant="secondary"
-            size={Platform.select({ ios: "lg", default: "md" })}
+            size={"lg"}
             className="flex-1"
             onPress={onRetake}
           >
             <Text>Erneut Scannen</Text>
           </Button>
 
-          <Button
-            size={Platform.select({ ios: "lg", default: "md" })}
-            className="flex-1"
-            onPress={onContinue}
-          >
+          <Button size={"lg"} className="flex-1" onPress={onContinue}>
             <Text>Analysieren</Text>
           </Button>
         </View>
