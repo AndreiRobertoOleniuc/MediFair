@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MediFair",
-    "slug": "medifair",
+    "slug": "tarmed-validation-tool",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
