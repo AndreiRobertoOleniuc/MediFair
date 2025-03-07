@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, View, Image, ScrollView, Platform } from "react-native";
+import { SafeAreaView, View, Image, ScrollView } from "react-native";
 import { Button } from "@/components/nativewindui/Button";
 import { Text } from "@/components/nativewindui/Text";
 
