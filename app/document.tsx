@@ -33,13 +33,13 @@ export default function Documents() {
         >
           Rechnungen
         </Text>
-        <ScrollView className="flex-1 gap-4">
+        <ScrollView className="flex-1">
           {documents.length === 0 ? (
             <Text>Keine Rechnung sind hinzugefügt worden</Text>
           ) : (
             documents.map((document) => (
               <TouchableOpacity
-                className="flex flex-col w-full"
+                className="flex flex-col w-full mb-4"
                 key={document.id}
                 onPress={() => {
                   router.push({
@@ -52,7 +52,12 @@ export default function Documents() {
                   {document.scanResponse?.overallSummary.datum}
                 </Text>
                 <View className="flex-row items-center justify-between w-full">
-                  <Text className="text-lg">{document?.name}</Text>
+                  <Text
+                    numberOfLines={1}
+                    className="truncate text-lg max-w-[90%]"
+                  >
+                    {document?.name}
+                  </Text>
                   <MaterialIcon
                     name="arrow-forward-ios"
                     size={13}

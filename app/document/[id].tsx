@@ -116,7 +116,9 @@ export default function DocumentDetail() {
   return (
     <SafeAreaView className="flex-1 bg-background">
       <View>
-        <Text className="text-xl font-bold text-left p-4">{document.name}</Text>
+        <Text numberOfLines={2} className="text-xl font-bold text-left p-4">
+          {document.name}
+        </Text>
       </View>
 
       <ImageSlider

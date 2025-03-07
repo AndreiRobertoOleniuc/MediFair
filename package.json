@@ -4,10 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "expo run:android",
+    "android": "expo run:android --device",
     "ios": "expo run:ios --device",
     "web": "expo start --web",
-    "test": "jest --watchAll",
     "lint": "expo lint"
   },
   "jest": {
