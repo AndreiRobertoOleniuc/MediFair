@@ -1,4 +1,4 @@
-const { hairlineWidth, platformSelect } = require('nativewind/theme');
+const { hairlineWidth } = require('nativewind/theme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

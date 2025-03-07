@@ -1,27 +1,16 @@
 {
   "expo": {
-    "name": "tarmed-validator-v1",
-    "slug": "tarmed-validation-tool",
+    "name": "MediFair",
+    "slug": "medifair",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "medifair",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.andreirobertooleniuc.tarmedvalidationtool",
-      "infoPlist": {
-        "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": false,
-          "NSExceptionDomains": {
-            "192.168.1.43": {
-              "NSIncludesSubdomains": true,
-              "NSExceptionAllowsInsecureHTTPLoads": true
-            }
-          }
-        }
-      }
+      "bundleIdentifier": "com.andreirobertooleniuc.medifair"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,7 +21,7 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.andreirobertooleniuc.tarmedvalidationtool"
+      "package": "com.andreirobertooleniuc.medifair"
     },
     "web": {
       "bundler": "metro",
