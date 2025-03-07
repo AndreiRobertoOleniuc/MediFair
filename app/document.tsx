@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { View, SafeAreaView, Platform, TouchableOpacity } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  Platform,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { Link } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Button } from "../components/nativewindui/Button";
@@ -27,7 +33,7 @@ export default function Documents() {
         >
           Rechnungen
         </Text>
-        <View className="flex-1 gap-4">
+        <ScrollView className="flex-1 gap-4">
           {documents.length === 0 ? (
             <Text>Keine Rechnung sind hinzugefügt worden</Text>
           ) : (
@@ -56,7 +62,7 @@ export default function Documents() {
               </TouchableOpacity>
             ))
           )}
-        </View>
+        </ScrollView>
       </View>
       <View className="p-5">
         <Text className="text-xs text-gray-400 text-center mb-2">
