@@ -205,7 +205,8 @@ const persistDocumentToDb = async (doc: Document): Promise<Document> => {
       // Insert OverallSummary record.
       await tx.insert(overallSummaries).values({
         documentId: newId,
-        datum: doc.scanResponse.overallSummary.datum,
+        datum:
+          doc.scanResponse.overallSummary.datum || new Date().toISOString(),
         titel: doc.scanResponse.overallSummary.titel,
         gesamtbetrag: doc.scanResponse.overallSummary.gesamtbetrag,
       });
