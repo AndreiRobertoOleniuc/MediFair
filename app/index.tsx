@@ -12,7 +12,7 @@ export default function WelcomeConsentScreen() {
   return (
     <SafeAreaView className="flex-1 bg-background">
       <View className="mx-auto max-w-sm flex-1 justify-between gap-4 px-8 py-4">
-        <View className="ios:pt-8 pt-12">
+        <View className="pt-12">
           <Text variant="largeTitle" className="text-center font-bold">
             Willkommen bei
           </Text>
@@ -42,12 +42,7 @@ export default function WelcomeConsentScreen() {
         </View>
         <View className="gap-4">
           <View className="items-center">
-            <MaterialIcon
-              name="group"
-              size={24}
-              color={colors.primary}
-              ios={{ renderingMode: "hierarchical" }}
-            />
+            <MaterialIcon name="group" size={24} color={colors.primary} />
             <Text variant="caption2" className="pt-1 text-center">
               Durch Drücken von "Weiter" stimmen Sie unseren{" "}
               <Link href="/">
@@ -65,7 +60,7 @@ export default function WelcomeConsentScreen() {
             </Text>
           </View>
           <Link href="/document" replace asChild>
-            <Button size={Platform.select({ ios: "lg", default: "md" })}>
+            <Button size={Platform.select({ default: "md", ios: "md" })}>
               <Text>Weiter</Text>
             </Button>
           </Link>
