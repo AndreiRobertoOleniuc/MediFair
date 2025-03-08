@@ -14,7 +14,7 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
         maxNumDocuments: 1,
       });
       if (status === "cancel") {
-        router.replace("/document");
+        router.back();
         return;
       }
       if (scannedImages && scannedImages.length > 0) {
