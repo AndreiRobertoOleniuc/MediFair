@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
 import { Link } from "expo-router";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Button } from "../components/nativewindui/Button";
@@ -41,9 +36,11 @@ export default function Documents() {
           <Text variant="title1" className="text-center font-black">
             Rechnungen
           </Text>
-          <TouchableOpacity onPress={() => setIsDeleteOn(!isDeleteOn)}>
-            <MaterialIcon name="edit" size={20} color={colors.grey} />
-          </TouchableOpacity>
+          {documents.length > 0 && (
+            <TouchableOpacity onPress={() => setIsDeleteOn(!isDeleteOn)}>
+              <MaterialIcon name="edit" size={20} color={colors.grey} />
+            </TouchableOpacity>
+          )}
         </View>
         <ScrollView className="flex-1">
           {documents.length === 0 ? (
