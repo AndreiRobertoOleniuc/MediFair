@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 
@@ -60,7 +60,7 @@ export default function WelcomeConsentScreen() {
             </Text>
           </View>
           <Link href="/document" replace asChild>
-            <Button size={Platform.select({ default: "md", ios: "md" })}>
+            <Button size="md">
               <Text>Weiter</Text>
             </Button>
           </Link>

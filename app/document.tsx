@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {
   View,
   SafeAreaView,
-  Platform,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -117,7 +116,7 @@ export default function Documents() {
           einem Server übertragen.
         </Text>
         <Link href="/scanner" asChild>
-          <Button size={Platform.select({ ios: "lg", default: "md" })}>
+          <Button size="lg">
             <Text>Rechnung Scannen</Text>
           </Button>
         </Link>
