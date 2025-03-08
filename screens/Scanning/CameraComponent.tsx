@@ -10,9 +10,13 @@ interface CameraComponentProps {
 const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
   const scanDocument = async () => {
     try {
-      const { scannedImages } = await DocumentScanner.scanDocument({
+      const { scannedImages, status } = await DocumentScanner.scanDocument({
         maxNumDocuments: 1,
       });
+      if (status === "cancel") {
+        router.replace("/document");
+        return;
+      }
       if (scannedImages && scannedImages.length > 0) {
         onCapture(scannedImages);
       }
