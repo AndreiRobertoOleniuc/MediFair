@@ -21,7 +21,7 @@ export default function DocumentDetail() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Loading Logic
-  const lastRequestDuration = 40000;
+  const lastRequestDuration = 20000;
   const messages = [
     "⏳ Das Dokument wird geprüft",
     "💭 Wir suchen nach Mustern",

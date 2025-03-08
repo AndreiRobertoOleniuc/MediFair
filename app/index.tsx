@@ -20,7 +20,7 @@ export default function WelcomeConsentScreen() {
             variant="largeTitle"
             className="text-center text-primary font-bold"
           >
-            MediFair
+            Medifair
           </Text>
         </View>
         <View className="gap-8">

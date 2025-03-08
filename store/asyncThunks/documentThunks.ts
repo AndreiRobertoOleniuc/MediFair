@@ -16,6 +16,7 @@ import {
 import { findImageUri, loadScans, persistScannedImage } from "~/services/file";
 import { documentApi } from "@/services/api";
 import DemoData from "@/assets/data/sampleInvoiceV3.1.json";
+import { eq, inArray } from "drizzle-orm";
 
 export const analyzeDocument = createAsyncThunk<
   Document,
@@ -215,3 +216,50 @@ const persistDocumentToDb = async (doc: Document): Promise<Document> => {
 
   return doc;
 };
+
+export const deleteDocument = createAsyncThunk<
+  Document,
+  Document,
+  { rejectValue: string }
+>("documents/delete", async (doc, { rejectWithValue }) => {
+  try {
+    await db.transaction(async (tx) => {
+      // Retrieve all TarmedSummary records related to the document to get their IDs.
+      const summaries = await tx
+        .select()
+        .from(tarmedSummaries)
+        .where(eq(tarmedSummaries.documentId, doc.id));
+      const summaryIds = summaries.map((s) => s.id);
+
+      // If there are any related summaries, first delete their associated relevant IDs.
+      if (summaryIds.length > 0) {
+        await tx
+          .delete(tarmedSummaryRelevantIds)
+          .where(inArray(tarmedSummaryRelevantIds.tarmedSummaryId, summaryIds));
+      }
+
+      // Delete the TarmedSummary records.
+      await tx
+        .delete(tarmedSummaries)
+        .where(eq(tarmedSummaries.documentId, doc.id));
+
+      // Delete the OverallSummary record.
+      await tx
+        .delete(overallSummaries)
+        .where(eq(overallSummaries.documentId, doc.id));
+
+      // Delete all related TarmedPosition records.
+      await tx
+        .delete(tarmedPositions)
+        .where(eq(tarmedPositions.documentId, doc.id));
+
+      // Finally, delete the main Document record.
+      await tx.delete(documents).where(eq(documents.id, doc.id));
+    });
+
+    // If the transaction completes successfully, return the deleted document.
+    return doc;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
