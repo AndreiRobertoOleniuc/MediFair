@@ -38,7 +38,11 @@ export default function Documents() {
           </Text>
           {documents.length > 0 && (
             <TouchableOpacity onPress={() => setIsDeleteOn(!isDeleteOn)}>
-              <MaterialIcon name="edit" size={20} color={colors.grey} />
+              {isDeleteOn ? (
+                <MaterialIcon name="check" size={20} color={colors.grey} />
+              ) : (
+                <MaterialIcon name="edit" size={20} color={colors.grey} />
+              )}
             </TouchableOpacity>
           )}
         </View>
