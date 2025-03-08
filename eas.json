@@ -7,21 +7,18 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": {
-        "APP_NAME": "MediFair (Dev)"
-      }
+      "environment": "development",
+      "channel": "development"
     },
     "preview": {
       "distribution": "internal",
-      "env": {
-        "APP_NAME": "MediFair (Preview)"
-      }
+      "environment": "preview",
+      "channel": "preview"
     },
     "production": {
       "autoIncrement": true,
-      "env": {
-        "APP_NAME": "MediFair"
-      }
+      "environment": "production",
+      "channel": "production"
     }
   },
   "submit": {
