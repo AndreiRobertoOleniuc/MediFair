@@ -135,67 +135,62 @@ export const explainPosition = createAsyncThunk<
   }
 );
 
-// Extracted function to handle database persistence
 const persistDocumentToDb = async (doc: Document): Promise<Document> => {
   await db.transaction(async (tx) => {
-    // Insert the main Document record.
     const [insertedDoc] = await tx
       .insert(documents)
       .values({
-        name: doc.name,
+        name: doc.name || "",
       })
       .returning({ id: documents.id, name: documents.name });
 
     const newId = insertedDoc.id;
     doc.id = newId;
 
-    // Perist all of the scanned images with Expo File System and update the imageUris.
     const persistedImageUris = await Promise.all(
       doc.imageUris.map(async (uri, index) => {
         return await persistScannedImage(
           uri,
           newId,
           index,
-          doc.name ?? "document"
+          doc.name || "document"
         );
       })
     );
     doc.imageUris = persistedImageUris;
 
     if (doc.scanResponse) {
-      // Insert each TarmedPosition record.
       for (const pos of doc.scanResponse.original) {
         await tx.insert(tarmedPositions).values({
           documentId: newId,
-          datum: pos.datum,
-          tarif: pos.tarif,
-          tarifziffer: pos.tarifziffer,
-          bezugsziffer: pos.bezugsziffer,
-          beschreibung: pos.beschreibung,
-          anzahl: pos.anzahl,
-          betrag: pos.betrag,
-          titel: pos.titel,
+          datum: pos.datum ?? "",
+          tarif: pos.tarif ?? "",
+          tarifziffer: pos.tarifziffer ?? "",
+          bezugsziffer: pos.bezugsziffer, // optional field
+          beschreibung: pos.beschreibung ?? "",
+          anzahl: pos.anzahl ?? 0,
+          betrag: pos.betrag ?? 0,
+          titel: pos.titel ?? "",
         });
       }
 
-      // Insert each TarmedSummary record and its associated relevant IDs.
       for (const sum of doc.scanResponse.summaries) {
         const insertedSummary = await tx
           .insert(tarmedSummaries)
           .values({
             documentId: newId,
-            datum: sum.datum,
-            emoji: sum.emoji,
-            titel: sum.titel,
-            beschreibung: sum.beschreibung,
-            operation: sum.operation,
-            reasoning: sum.reasoning,
-            betrag: sum.betrag,
+            datum: sum.datum ?? "",
+            emoji: sum.emoji ?? "",
+            titel: sum.titel ?? "",
+            beschreibung: sum.beschreibung ?? "",
+            operation: sum.operation ?? "",
+            reasoning: sum.reasoning ?? null,
+            betrag: sum.betrag ?? 0,
           })
           .returning({ id: tarmedSummaries.id });
         const summaryId = insertedSummary[0].id;
 
-        for (const rid of sum.relevant_ids) {
+        for (const rid of sum.relevant_ids || []) {
           await tx.insert(tarmedSummaryRelevantIds).values({
             tarmedSummaryId: summaryId,
             relevantId: rid,
@@ -203,19 +198,20 @@ const persistDocumentToDb = async (doc: Document): Promise<Document> => {
         }
       }
 
-      // Insert OverallSummary record.
+      // Insert OverallSummary record with defaults.
       await tx.insert(overallSummaries).values({
         documentId: newId,
         datum:
           doc.scanResponse.overallSummary.datum || new Date().toISOString(),
-        titel: doc.scanResponse.overallSummary.titel,
-        gesamtbetrag: doc.scanResponse.overallSummary.gesamtbetrag,
+        titel: doc.scanResponse.overallSummary.titel ?? "",
+        gesamtbetrag: doc.scanResponse.overallSummary.gesamtbetrag ?? 0,
       });
     }
   });
 
   return doc;
 };
+// ...existing code...
 
 export const deleteDocument = createAsyncThunk<
   Document,
