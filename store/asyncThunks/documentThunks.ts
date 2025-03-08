@@ -13,7 +13,12 @@ import {
   overallSummaries,
   tarmedSummaryRelevantIds,
 } from "~/db/schema";
-import { findImageUri, loadScans, persistScannedImage } from "~/services/file";
+import {
+  deleteScans,
+  findImageUri,
+  loadScans,
+  persistScannedImage,
+} from "~/services/file";
 import { documentApi } from "@/services/api";
 import DemoData from "@/assets/data/sampleInvoiceV3.1.json";
 import { eq, inArray } from "drizzle-orm";
@@ -251,6 +256,8 @@ export const deleteDocument = createAsyncThunk<
 
       // Finally, delete the main Document record.
       await tx.delete(documents).where(eq(documents.id, doc.id));
+
+      await deleteScans(doc.id, doc.name || "document");
     });
 
     // If the transaction completes successfully, return the deleted document.

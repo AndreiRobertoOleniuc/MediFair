@@ -50,3 +50,14 @@ export const findImageUri = (
   const foundScan = scans.filter((scan) => scan.includes(fileName));
   return foundScan.sort();
 };
+
+export const deleteScans = async (documentId: number, documentName: string) => {
+  const fileName = `${documentName}-${documentId}`;
+  const scans = (await loadScans()) ?? [];
+  const scansToDelete = scans.filter((scan) => scan.includes(fileName));
+  await Promise.all(
+    scansToDelete.map((scan) =>
+      FileSystem.deleteAsync(scan, { idempotent: true })
+    )
+  );
+};
