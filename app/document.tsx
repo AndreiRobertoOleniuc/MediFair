@@ -113,8 +113,7 @@ export default function Documents() {
       </View>
       <View className="p-5">
         <Text className="text-xs text-gray-400 text-center mb-2">
-          Alle Daten werden lokal auf Ihrem Gerät gespeichert und niemals auf
-          einem Server übertragen.
+          Alle Daten werden nur lokal auf Ihrem Gerät gespeichert.
         </Text>
         <Link href="/scanner" asChild>
           <Button size="lg">

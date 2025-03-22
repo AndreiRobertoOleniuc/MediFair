@@ -109,8 +109,7 @@ const FEATURES = [
   },
   {
     title: "Datenschutz und Sicherheit",
-    description:
-      "Alle Daten werden ausschließlich lokal auf Ihrem Gerät gespeichert und nie auf einen Server übertragen.",
+    description: "Alle Daten werden nur lokal auf Ihrem Gerät gespeichert.",
     icon: "cloud-off",
   },
 ] as const;
