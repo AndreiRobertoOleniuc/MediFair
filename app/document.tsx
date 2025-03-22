@@ -1,33 +1,60 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
 import { Link } from "expo-router";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Button } from "../components/nativewindui/Button";
 import { Text } from "../components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { useColorScheme } from "../hooks/useColorScheme";
 import { router } from "expo-router";
-import {
-  deleteDocument,
-  fetchDocuments,
-} from "~/store/asyncThunks/documentThunks";
-import { Document } from "@/models/Document";
+
+import { Invoice } from "~/db/schema";
+
+import { useSQLiteContext } from "expo-sqlite";
+import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
+import * as schema from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export default function Documents() {
-  const documents = useAppSelector((state) => state.document.documents);
+  const db = useSQLiteContext();
+  const drizzleDb = drizzle(db, { schema });
+
+  const { data }: { data: Invoice[] } = useLiveQuery(
+    drizzleDb.query.invoice.findMany()
+  );
   const { colors } = useColorScheme();
-  const dispatch = useAppDispatch();
   const [isDeleteOn, setIsDeleteOn] = React.useState(false);
 
-  const deleteDocumentInView = (document: Document) => {
-    dispatch(deleteDocument(document)).finally(() => {
-      dispatch(fetchDocuments());
-    });
-  };
+  const deleteInvoice = async (invoice: Invoice) => {
+    try {
+      await drizzleDb.transaction(async (tx) => {
+        // 1. Get all summaries related to this invoice
+        const relatedSummaries = await tx.query.summeries.findMany({
+          where: (summeries, { eq }) => eq(summeries.documentId, invoice.id),
+        });
 
-  useEffect(() => {
-    dispatch(fetchDocuments());
-  }, [dispatch]);
+        // 2. For each summary, delete related summariesToPositions entries
+        for (const summary of relatedSummaries) {
+          await tx
+            .delete(schema.summeriesToPositions)
+            .where(eq(schema.summeriesToPositions.summeries_id, summary.id));
+        }
+
+        // 3. Delete all summaries related to this invoice
+        await tx
+          .delete(schema.summeries)
+          .where(eq(schema.summeries.documentId, invoice.id));
+
+        // 4. Finally delete the invoice itself
+        await tx
+          .delete(schema.invoice)
+          .where(eq(schema.invoice.id, invoice.id));
+
+        // No need to refresh data since you're using useLiveQuery
+      });
+    } catch (error) {
+      console.error("Error deleting invoice:", error);
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -36,7 +63,7 @@ export default function Documents() {
           <Text variant="title1" className="text-center font-black">
             Rechnungen
           </Text>
-          {documents.length > 0 && (
+          {data.length > 0 && (
             <TouchableOpacity onPress={() => setIsDeleteOn(!isDeleteOn)}>
               {isDeleteOn ? (
                 <MaterialIcon name="check" size={20} color={colors.grey} />
@@ -47,26 +74,24 @@ export default function Documents() {
           )}
         </View>
         <ScrollView className="flex-1">
-          {documents.length === 0 ? (
+          {data.length === 0 ? (
             <Text>Keine Rechnung sind hinzugefügt worden</Text>
           ) : (
-            documents.map((document) => {
+            data.map((invoice) => {
               if (isDeleteOn) {
                 return (
-                  <View className="flex flex-col w-full mb-4" key={document.id}>
+                  <View className="flex flex-col w-full mb-4" key={invoice.id}>
                     <Text className="text-sm text-gray-500">
-                      {document.scanResponse?.overallSummary.datum}
+                      {invoice.datum}
                     </Text>
                     <View className="flex-row items-center justify-between w-full">
                       <Text
                         numberOfLines={1}
                         className="truncate text-lg max-w-[90%]"
                       >
-                        {document?.name}
+                        {invoice.titel}
                       </Text>
-                      <TouchableOpacity
-                        onPress={() => deleteDocumentInView(document)}
-                      >
+                      <TouchableOpacity onPress={() => deleteInvoice(invoice)}>
                         <MaterialIcon
                           name="delete"
                           size={15}
@@ -80,23 +105,23 @@ export default function Documents() {
                 return (
                   <TouchableOpacity
                     className="flex flex-col w-full mb-4"
-                    key={document.id}
+                    key={invoice.id}
                     onPress={() => {
                       router.push({
                         pathname: "/document/[id]",
-                        params: { id: document.id },
+                        params: { id: invoice.id },
                       });
                     }}
                   >
                     <Text className="text-sm text-gray-500">
-                      {document.scanResponse?.overallSummary.datum}
+                      {invoice.datum}
                     </Text>
                     <View className="flex-row items-center justify-between w-full">
                       <Text
                         numberOfLines={1}
                         className="truncate text-lg max-w-[90%]"
                       >
-                        {document?.name}
+                        {invoice.titel}
                       </Text>
                       <MaterialIcon
                         name="arrow-forward-ios"

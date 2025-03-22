@@ -7,23 +7,19 @@ import { Button } from "../components/nativewindui/Button";
 import { Text } from "../components/nativewindui/Text";
 import { useColorScheme } from "../hooks/useColorScheme";
 
+//DB
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import { useSQLiteContext } from "expo-sqlite";
+
 export default function WelcomeConsentScreen() {
+  const db = useSQLiteContext();
+  useDrizzleStudio(db);
   const { colors } = useColorScheme();
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      {/*
-        Make the ScrollView's content container flex to fill the screen.
-        If there's less content than screen height, it will stretch;
-        if there's more, it will scroll.
-      */}
       <ScrollView className="flex-1" contentContainerStyle={{ flexGrow: 1 }}>
-        {/*
-          The outer View also uses flex-1 + justify-between to spread
-          content from top to bottom if needed.
-        */}
         <View className="flex-1 justify-between px-4 py-8">
-          {/* Title */}
           <View>
             <Text variant="largeTitle" className="text-center font-bold">
               Willkommen bei
@@ -36,7 +32,6 @@ export default function WelcomeConsentScreen() {
             </Text>
           </View>
 
-          {/* Features */}
           <View className="gap-8 mt-8">
             {FEATURES.map((feature) => (
               <View
@@ -56,7 +51,6 @@ export default function WelcomeConsentScreen() {
             ))}
           </View>
 
-          {/* Footer / Consent */}
           <View className="gap-4 mt-8">
             <View className="items-center px-2">
               <MaterialIcon name="group" size={24} color={colors.primary} />

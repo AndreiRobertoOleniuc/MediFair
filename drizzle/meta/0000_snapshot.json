@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "484c71eb-a984-4ea5-b04b-cc7f61a856b1",
+  "id": "5fcc34d4-51dd-46fa-afa5-b1d5fe4be84f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "documents": {
-      "name": "documents",
+    "invoice": {
+      "name": "invoice",
       "columns": {
         "id": {
           "name": "id",
@@ -14,8 +14,36 @@
           "notNull": true,
           "autoincrement": true
         },
-        "name": {
-          "name": "name",
+        "titel": {
+          "name": "titel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "datum": {
+          "name": "datum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "gesamtbetrag": {
+          "name": "gesamtbetrag",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "classification": {
+          "name": "classification",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "language": {
+          "name": "language",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -28,60 +56,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "overall_summaries": {
-      "name": "overall_summaries",
-      "columns": {
-        "document_id": {
-          "name": "document_id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "datum": {
-          "name": "datum",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "titel": {
-          "name": "titel",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "gesamtbetrag": {
-          "name": "gesamtbetrag",
-          "type": "real",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "overall_summaries_document_id_documents_id_fk": {
-          "name": "overall_summaries_document_id_documents_id_fk",
-          "tableFrom": "overall_summaries",
-          "tableTo": "documents",
-          "columnsFrom": [
-            "document_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "tarmed_positions": {
-      "name": "tarmed_positions",
+    "invoicePositions": {
+      "name": "invoicePositions",
       "columns": {
         "id": {
           "name": "id",
@@ -89,13 +65,6 @@
           "primaryKey": true,
           "notNull": true,
           "autoincrement": true
-        },
-        "document_id": {
-          "name": "document_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
         },
         "datum": {
           "name": "datum",
@@ -116,13 +85,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
-        },
-        "bezugsziffer": {
-          "name": "bezugsziffer",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         },
         "beschreibung": {
@@ -152,30 +114,23 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "interpretation": {
+          "name": "interpretation",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "tarmed_positions_document_id_documents_id_fk": {
-          "name": "tarmed_positions_document_id_documents_id_fk",
-          "tableFrom": "tarmed_positions",
-          "tableTo": "documents",
-          "columnsFrom": [
-            "document_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "tarmed_summaries": {
-      "name": "tarmed_summaries",
+    "summeries": {
+      "name": "summeries",
       "columns": {
         "id": {
           "name": "id",
@@ -243,10 +198,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "tarmed_summaries_document_id_documents_id_fk": {
-          "name": "tarmed_summaries_document_id_documents_id_fk",
-          "tableFrom": "tarmed_summaries",
-          "tableTo": "documents",
+        "summeries_document_id_invoice_id_fk": {
+          "name": "summeries_document_id_invoice_id_fk",
+          "tableFrom": "summeries",
+          "tableTo": "invoice",
           "columnsFrom": [
             "document_id"
           ],
@@ -261,8 +216,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "tarmed_summary_relevant_ids": {
-      "name": "tarmed_summary_relevant_ids",
+    "summeriesToPositions": {
+      "name": "summeriesToPositions",
       "columns": {
         "id": {
           "name": "id",
@@ -271,15 +226,15 @@
           "notNull": true,
           "autoincrement": true
         },
-        "tarmed_summary_id": {
-          "name": "tarmed_summary_id",
+        "summeries_id": {
+          "name": "summeries_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "relevant_id": {
-          "name": "relevant_id",
+        "invoicePositions_id": {
+          "name": "invoicePositions_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -288,12 +243,25 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "tarmed_summary_relevant_ids_tarmed_summary_id_tarmed_summaries_id_fk": {
-          "name": "tarmed_summary_relevant_ids_tarmed_summary_id_tarmed_summaries_id_fk",
-          "tableFrom": "tarmed_summary_relevant_ids",
-          "tableTo": "tarmed_summaries",
+        "summeriesToPositions_summeries_id_summeries_id_fk": {
+          "name": "summeriesToPositions_summeries_id_summeries_id_fk",
+          "tableFrom": "summeriesToPositions",
+          "tableTo": "summeries",
           "columnsFrom": [
-            "tarmed_summary_id"
+            "summeries_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "summeriesToPositions_invoicePositions_id_invoicePositions_id_fk": {
+          "name": "summeriesToPositions_invoicePositions_id_invoicePositions_id_fk",
+          "tableFrom": "summeriesToPositions",
+          "tableTo": "invoicePositions",
+          "columnsFrom": [
+            "invoicePositions_id"
           ],
           "columnsTo": [
             "id"
