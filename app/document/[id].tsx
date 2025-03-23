@@ -2,10 +2,13 @@ import { useLocalSearchParams } from "expo-router";
 import { View, SafeAreaView } from "react-native";
 import { useState, useEffect } from "react";
 
-import ImageSlider from "~/screens/DetailScreen/ImageSlider";
+import ImageViewer from "~/screens/DetailScreen/ImageViewer";
 import SummaryList from "~/screens/DetailScreen/SummaryList";
 import { Text } from "@/components/nativewindui/Text";
 import { Skeleton } from "~/components/custom/Skeleton";
+
+//For Simulator
+import DeviceInfo from "react-native-device-info";
 
 //DB
 import { useSQLiteContext } from "expo-sqlite";
@@ -50,6 +53,14 @@ export default function DocumentDetail() {
         const imageUri = findImageUri(+id, data[0]?.invoice?.titel, scans);
         setScannedUri(imageUri);
       }
+
+      (await DeviceInfo.isEmulator()) &&
+        setScannedUri([
+          "https://blocks.astratic.com/img/general-img-square.png",
+          "https://blocks.astratic.com/img/general-img-square.png",
+          "https://blocks.astratic.com/img/general-img-square.png",
+          "https://blocks.astratic.com/img/general-img-square.png",
+        ]);
     };
 
     fetchScans();
@@ -154,7 +165,7 @@ export default function DocumentDetail() {
       </View>
 
       {scannedUri.length > 0 ? (
-        <ImageSlider
+        <ImageViewer
           images={scannedUri}
           currentIndex={currentImageIndex}
           onPrev={handlePrev}

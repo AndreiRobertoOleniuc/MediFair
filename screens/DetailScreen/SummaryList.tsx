@@ -23,7 +23,7 @@ export default function SummaryList({
         Zusammenfassung / Erklärung
       </Text>
       <ScrollView
-        className="h-96"
+        className="h-[80%]"
         contentContainerStyle={{ paddingBottom: 80 }}
       >
         {summaries.map((summary, index) => (
