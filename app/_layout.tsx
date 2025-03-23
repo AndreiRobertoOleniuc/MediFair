@@ -98,7 +98,7 @@ export default function RootLayout() {
               }}
             />
             <Stack.Screen
-              name="document/detail/[documentId]/[summaryId]"
+              name="document/detail/[summaryId]"
               options={{
                 headerShown: true,
                 title: "",

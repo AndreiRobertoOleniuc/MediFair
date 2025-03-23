@@ -12,7 +12,6 @@ export default function SummaryList({
     titel: string;
     emoji: string | null;
     betrag: number;
-    documentId: number; // Ensure your summary object includes documentId
     id: string; // And a summary id
   }>;
 }) {
@@ -33,9 +32,8 @@ export default function SummaryList({
             key={index}
             onPress={() => {
               router.push({
-                pathname: "/document/detail/[documentId]/[summaryId]",
+                pathname: "/document/detail/[summaryId]",
                 params: {
-                  documentId: summary.documentId, // pass the document's id
                   summaryId: summary.id, // pass the summary's id
                 },
               });

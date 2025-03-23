@@ -4,13 +4,17 @@ import { useLocalSearchParams } from "expo-router";
 import { Text } from "@/components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { useColorScheme } from "~/hooks/useColorScheme";
-import { TarmedPosition } from "~/models/ApiResponse";
 import { Dialog } from "~/components/custom/Dialog";
 import { Skeleton } from "~/components/custom/Skeleton";
 
 export default function SummaryDetail() {
-  return <></>;
-  // const { documentId, summaryId } = useLocalSearchParams();
+  const { summaryId } = useLocalSearchParams();
+  return (
+    <View>
+      <Text>{summaryId}</Text>
+    </View>
+  );
+
   // const document = useAppSelector(selectDocumentById(Number(documentId)));
   // const explanation = useAppSelector(selectTarmedPositionExplanation);
   // const status = useAppSelector(selectDocumentStatus);

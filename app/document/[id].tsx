@@ -172,7 +172,6 @@ export default function DocumentDetail() {
           summaries={data.map((entry) => {
             return {
               ...entry.summeries,
-              documentId: +id,
               id: entry.summeries.id.toString(),
             };
           })}
