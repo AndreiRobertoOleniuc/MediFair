@@ -11,7 +11,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
 import * as schema from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { Explanation, Positions } from "~/models/ApiResponse";
+import { Explanation } from "~/models/ApiResponse";
 import { InvoicePositions } from "@/db/schema";
 import { documentApi } from "~/services/api";
 
