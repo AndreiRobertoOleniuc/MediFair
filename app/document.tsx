@@ -29,7 +29,7 @@ export default function Documents() {
       await drizzleDb.transaction(async (tx) => {
         // 1. Get all summaries related to this invoice
         const relatedSummaries = await tx.query.summeries.findMany({
-          where: (summeries, { eq }) => eq(summeries.documentId, invoice.id),
+          where: (summeries, { eq }) => eq(summeries.invoiceid, invoice.id),
         });
 
         // 2. For each summary, delete related summariesToPositions entries
@@ -42,7 +42,7 @@ export default function Documents() {
         // 3. Delete all summaries related to this invoice
         await tx
           .delete(schema.summeries)
-          .where(eq(schema.summeries.documentId, invoice.id));
+          .where(eq(schema.summeries.invoiceid, invoice.id));
 
         // 4. Finally delete the invoice itself
         await tx

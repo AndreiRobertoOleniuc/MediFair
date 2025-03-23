@@ -6,12 +6,30 @@ import ImageSlider from "~/screens/DetailScreen/ImageSlider";
 import SummaryList from "~/screens/DetailScreen/SummaryList";
 import { Text } from "@/components/nativewindui/Text";
 import { Skeleton } from "~/components/custom/Skeleton";
-import { Document } from "~/models/Document";
+
+//DB
+import { useSQLiteContext } from "expo-sqlite";
+import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
+import * as schema from "@/db/schema";
+import { eq} from "drizzle-orm";
 
 export default function DocumentDetail() {
   const { id } = useLocalSearchParams();
-  const document: Document | null = null; // TODO: Fetch document by ID
-  const status = "loading"; // TODO: Fetch status from store
+
+  const db = useSQLiteContext();
+  const drizzleDb = drizzle(db, { schema });
+
+  const { data } = useLiveQuery(
+    drizzleDb
+      .select()
+      .from(schema.summeries)
+      .leftJoin(
+        schema.invoice,
+        eq(schema.summeries.invoiceid, schema.invoice.id)
+      )
+      .where(eq(schema.summeries.invoiceid, +id))
+  );
+
   const [isFitMode, setIsFitMode] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -55,7 +73,7 @@ export default function DocumentDetail() {
   }, []);
 
   // Show loading skeleton with progressive messages
-  if (status === "loading") {
+  if (id == "-1") {
     return (
       <SafeAreaView className="flex-1 bg-background">
         <View className="p-4">
@@ -83,58 +101,63 @@ export default function DocumentDetail() {
     );
   }
 
-  return <></>;
+  if (!data) {
+    return (
+      <SafeAreaView className="flex-1 bg-background">
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-foreground">Document not found</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
-  // if (!document || !document.scanResponse) {
-  //   return (
-  //     <SafeAreaView className="flex-1 bg-background">
-  //       <View className="flex-1 justify-center items-center">
-  //         <Text className="text-foreground">Document not found</Text>
-  //       </View>
-  //     </SafeAreaView>
-  //   );
-  // }
+  let photoUri: string[] = /*document.imageUris ||*/ [];
 
-  // const { summaries } = document.scanResponse;
-  // let photoUri: string[] = document.imageUris;
+  const handlePrev = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
 
-  // const handlePrev = () => {
-  //   if (currentImageIndex > 0) {
-  //     setCurrentImageIndex(currentImageIndex - 1);
-  //   }
-  // };
+  const handleNext = () => {
+    if (currentImageIndex < photoUri.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+  };
 
-  // const handleNext = () => {
-  //   if (currentImageIndex < photoUri.length - 1) {
-  //     setCurrentImageIndex(currentImageIndex + 1);
-  //   }
-  // };
+  return (
+    <SafeAreaView className="flex-1 bg-background">
+      <View>
+        <Text numberOfLines={2} className="text-xl font-bold text-left p-4">
+          {data[0]?.invoice?.titel || "Rechnung"}
+        </Text>
+      </View>
 
-  // return (
-  //   <SafeAreaView className="flex-1 bg-background">
-  //     <View>
-  //       <Text numberOfLines={2} className="text-xl font-bold text-left p-4">
-  //         {document.name}
-  //       </Text>
-  //     </View>
-
-  //     <ImageSlider
-  //       images={photoUri}
-  //       currentIndex={currentImageIndex}
-  //       onPrev={handlePrev}
-  //       onNext={handleNext}
-  //       isFitMode={isFitMode}
-  //       toggleFitMode={() => setIsFitMode(!isFitMode)}
-  //     />
-  //     {isFitMode && (
-  //       <SummaryList
-  //         summaries={summaries.map((summary, index) => ({
-  //           ...summary,
-  //           documentId: document.id,
-  //           id: index.toString(),
-  //         }))}
-  //       />
-  //     )}
-  //   </SafeAreaView>
-  // );
+      {photoUri.length > 0 ? (
+        <ImageSlider
+          images={photoUri}
+          currentIndex={currentImageIndex}
+          onPrev={handlePrev}
+          onNext={handleNext}
+          isFitMode={isFitMode}
+          toggleFitMode={() => setIsFitMode(!isFitMode)}
+        />
+      ) : (
+        <View className="flex-1 justify-center items-center">
+          <Text className="text-foreground">No images found</Text>
+        </View>
+      )}
+      {isFitMode && (
+        <SummaryList
+          summaries={data.map((entry) => {
+            return {
+              ...entry.summeries,
+              documentId: +id,
+              id: entry.summeries.id.toString(),
+            };
+          })}
+        />
+      )}
+    </SafeAreaView>
+  );
 }

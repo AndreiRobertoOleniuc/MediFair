@@ -1,4 +1,5 @@
 import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
 
 export const invoice = sqliteTable("invoice", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -23,7 +24,7 @@ export const invoicePositions = sqliteTable("invoicePositions", {
 
 export const summeries = sqliteTable("summeries", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  documentId: integer("document_id")
+  invoiceid: integer("invoiceid")
     .notNull()
     .references(() => invoice.id),
   datum: text("datum").notNull(),
@@ -45,6 +46,31 @@ export const summeriesToPositions = sqliteTable("summeriesToPositions", {
     .notNull()
     .references(() => invoicePositions.id),
 });
+
+
+// Invoice to Summeries (one-to-many)
+export const invoiceRelations = relations(invoice, ({ many }) => ({
+  summeries: many(summeries),
+}));
+
+// Summeries to Junction (one-to-many)
+export const summeriesRelations = relations(summeries, ({ many }) => ({
+  summeriesToPositions: many(summeriesToPositions),
+}));
+
+// Junction to Summeries and InvoicePositions (each is a one-to-one relation in the junction)
+export const summeriesToPositionsRelations = relations(summeriesToPositions, ({ one }) => ({
+  // Link back to summeries
+  summeries: one(summeries, {
+    fields: [summeriesToPositions.summeries_id],
+    references: [summeries.id],
+  }),
+  // Link to invoicePositions
+  invoicePositions: one(invoicePositions, {
+    fields: [summeriesToPositions.invoicePositions_id],
+    references: [invoicePositions.id],
+  }),
+}));
 
 export type Invoice = typeof invoice.$inferSelect;
 export type InvoicePositions = typeof invoicePositions.$inferSelect;
