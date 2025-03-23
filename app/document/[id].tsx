@@ -11,13 +11,18 @@ import { Skeleton } from "~/components/custom/Skeleton";
 import { useSQLiteContext } from "expo-sqlite";
 import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
 import * as schema from "@/db/schema";
-import { eq} from "drizzle-orm";
+import { eq } from "drizzle-orm";
+
+//Image Loading
+import { loadScans, findImageUri } from "~/services/file";
 
 export default function DocumentDetail() {
   const { id } = useLocalSearchParams();
 
   const db = useSQLiteContext();
   const drizzleDb = drizzle(db, { schema });
+
+  const [scannedUri, setScannedUri] = useState<string[]>([]);
 
   const { data } = useLiveQuery(
     drizzleDb
@@ -32,6 +37,23 @@ export default function DocumentDetail() {
 
   const [isFitMode, setIsFitMode] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchScans = async () => {
+      const scans = await loadScans();
+      if (
+        scans &&
+        scans?.length > 0 &&
+        data.length > 0 &&
+        data[0]?.invoice?.titel
+      ) {
+        const imageUri = findImageUri(+id, data[0]?.invoice?.titel, scans);
+        setScannedUri(imageUri);
+      }
+    };
+
+    fetchScans();
+  }, [data]);
 
   // Loading Logic
   const lastRequestDuration = 20000;
@@ -111,8 +133,6 @@ export default function DocumentDetail() {
     );
   }
 
-  let photoUri: string[] = /*document.imageUris ||*/ [];
-
   const handlePrev = () => {
     if (currentImageIndex > 0) {
       setCurrentImageIndex(currentImageIndex - 1);
@@ -120,7 +140,7 @@ export default function DocumentDetail() {
   };
 
   const handleNext = () => {
-    if (currentImageIndex < photoUri.length - 1) {
+    if (currentImageIndex < scannedUri.length - 1) {
       setCurrentImageIndex(currentImageIndex + 1);
     }
   };
@@ -133,9 +153,9 @@ export default function DocumentDetail() {
         </Text>
       </View>
 
-      {photoUri.length > 0 ? (
+      {scannedUri.length > 0 ? (
         <ImageSlider
-          images={photoUri}
+          images={scannedUri}
           currentIndex={currentImageIndex}
           onPrev={handlePrev}
           onNext={handleNext}
@@ -143,7 +163,7 @@ export default function DocumentDetail() {
           toggleFitMode={() => setIsFitMode(!isFitMode)}
         />
       ) : (
-        <View className="flex-1 justify-center items-center">
+        <View className="justify-center p-4">
           <Text className="text-foreground">No images found</Text>
         </View>
       )}
