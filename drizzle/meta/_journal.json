@@ -15,6 +15,20 @@
       "when": 1742722528933,
       "tag": "0001_blue_mulholland_black",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1742753068769,
+      "tag": "0002_unusual_malice",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1742753158500,
+      "tag": "0003_wooden_toxin",
+      "breakpoints": true
     }
   ]
 }

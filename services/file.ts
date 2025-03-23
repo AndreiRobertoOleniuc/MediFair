@@ -6,11 +6,11 @@ const SCANS_FOLDER = FileSystem.documentDirectory + "scans/";
 // Persist a scanned image into the scans folder
 export const persistScannedImage = async (
   temporaryUri: string,
-  documentId: number,
+  invoiceId: number,
   imageIndex: number,
-  documentName: string
+  invoiceName: string
 ): Promise<string> => {
-  const fileName = `${documentName}-${documentId}-${imageIndex}.jpg`;
+  const fileName = `${invoiceName}-${invoiceId}-${imageIndex}.jpg`;
   const destinationUri = SCANS_FOLDER + fileName;
   await ensureScansFolderExists();
   await FileSystem.moveAsync({
@@ -42,17 +42,17 @@ const ensureScansFolderExists = async () => {
 };
 
 export const findImageUri = (
-  documentId: number,
-  documentName: string,
+  invoiceId: number,
+  invoiceName: string,
   scans: string[]
 ): string[] => {
-  const fileName = `${documentName}-${documentId}`;
+  const fileName = `${invoiceName}-${invoiceId}`;
   const foundScan = scans.filter((scan) => scan.includes(fileName));
   return foundScan.sort();
 };
 
-export const deleteScans = async (documentId: number, documentName: string) => {
-  const fileName = `${documentName}-${documentId}`;
+export const deleteScans = async (invoiceId: number, invoiceName: string) => {
+  const fileName = `${invoiceName}-${invoiceId}`;
   const scans = (await loadScans()) ?? [];
   const scansToDelete = scans.filter((scan) => scan.includes(fileName));
   await Promise.all(

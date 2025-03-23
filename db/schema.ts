@@ -13,9 +13,9 @@ export const invoice = sqliteTable("invoice", {
 export const invoicePositions = sqliteTable("invoicePositions", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   datum: text("datum").notNull(),
-  tarif: text("tarif").notNull(),
-  tarifziffer: text("tarifziffer").notNull(),
-  beschreibung: text("beschreibung").notNull(),
+  tarif: text("tarif"),
+  tarifziffer: text("tarifziffer"),
+  beschreibung: text("beschreibung"),
   anzahl: integer("anzahl").notNull(),
   betrag: real("betrag").notNull(),
   titel: text("titel").notNull(),
@@ -28,10 +28,9 @@ export const summeries = sqliteTable("summeries", {
     .notNull()
     .references(() => invoice.id),
   datum: text("datum").notNull(),
-  emoji: text("emoji").notNull(),
+  emoji: text("emoji"),
   titel: text("titel").notNull(),
-  beschreibung: text("beschreibung").notNull(),
-  operation: text("operation").notNull(),
+  beschreibung: text("beschreibung"),
   reasoning: text("reasoning"),
   betrag: real("betrag").notNull(),
 });
@@ -47,7 +46,6 @@ export const summeriesToPositions = sqliteTable("summeriesToPositions", {
     .references(() => invoicePositions.id),
 });
 
-
 // Invoice to Summeries (one-to-many)
 export const invoiceRelations = relations(invoice, ({ many }) => ({
   summeries: many(summeries),
@@ -59,20 +57,29 @@ export const summeriesRelations = relations(summeries, ({ many }) => ({
 }));
 
 // Junction to Summeries and InvoicePositions (each is a one-to-one relation in the junction)
-export const summeriesToPositionsRelations = relations(summeriesToPositions, ({ one }) => ({
-  // Link back to summeries
-  summeries: one(summeries, {
-    fields: [summeriesToPositions.summeries_id],
-    references: [summeries.id],
-  }),
-  // Link to invoicePositions
-  invoicePositions: one(invoicePositions, {
-    fields: [summeriesToPositions.invoicePositions_id],
-    references: [invoicePositions.id],
-  }),
-}));
+export const summeriesToPositionsRelations = relations(
+  summeriesToPositions,
+  ({ one }) => ({
+    // Link back to summeries
+    summeries: one(summeries, {
+      fields: [summeriesToPositions.summeries_id],
+      references: [summeries.id],
+    }),
+    // Link to invoicePositions
+    invoicePositions: one(invoicePositions, {
+      fields: [summeriesToPositions.invoicePositions_id],
+      references: [invoicePositions.id],
+    }),
+  })
+);
 
 export type Invoice = typeof invoice.$inferSelect;
 export type InvoicePositions = typeof invoicePositions.$inferSelect;
 export type Summeries = typeof summeries.$inferSelect;
 export type SummeriesToPositions = typeof summeriesToPositions.$inferSelect;
+
+export type InvoiceInsert = typeof invoice.$inferInsert;
+export type InvoicePositionsInsert = typeof invoicePositions.$inferInsert;
+export type SummeriesInsert = typeof summeries.$inferInsert;
+export type SummeriesToPositionsInsert =
+  typeof summeriesToPositions.$inferInsert;

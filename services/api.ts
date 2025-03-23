@@ -1,4 +1,4 @@
-import { Explanation, TarmedPosition } from "~/models/Document";
+import { Explanation, ProcedureItem } from "~/models/ApiResponse";
 
 export const documentApi = {
   analyseDocument: async (uri: string) => {
@@ -31,7 +31,7 @@ export const documentApi = {
   },
 
   fetchExplainPosition: async (
-    position: TarmedPosition
+    position: ProcedureItem
   ): Promise<Explanation> => {
     const response = await fetch(
       `${process.env.EXPO_PUBLIC_API_URL}/api/explain`,

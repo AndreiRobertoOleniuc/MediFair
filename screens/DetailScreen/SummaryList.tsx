@@ -10,7 +10,7 @@ export default function SummaryList({
   summaries: Array<{
     datum: string;
     titel: string;
-    emoji: string;
+    emoji: string | null;
     betrag: number;
     documentId: number; // Ensure your summary object includes documentId
     id: string; // And a summary id
