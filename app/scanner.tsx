@@ -4,7 +4,7 @@ import { useCameraPermissions } from "expo-camera";
 import CameraComponent from "../screens/Scanning/CameraComponent";
 import PreviewComponent from "../screens/Scanning/PreviewComponent";
 import { router } from "expo-router";
-import { ApiResponse, ProcedureItem } from "~/models/ApiResponse";
+import { ApiResponse, Positions } from "~/models/ApiResponse";
 import { documentApi } from "~/services/api";
 import { persistScannedImage } from "~/services/file";
 import { useSQLiteContext } from "expo-sqlite";

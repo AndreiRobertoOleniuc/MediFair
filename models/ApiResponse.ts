@@ -1,11 +1,11 @@
 export interface ApiResponse {
-  original: ProcedureItem[];
+  original: Positions[];
   analysis: number[][];
   summaries: SummaryItem[];
   overallSummary: OverallSummary;
   classification: Classification;
 }
-export interface ProcedureItem {
+export interface Positions {
   anzahl: number;
   betrag: number;
   datum: string; // ISO date string or you could use Date if you parse it

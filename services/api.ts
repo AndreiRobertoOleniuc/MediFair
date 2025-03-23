@@ -1,4 +1,4 @@
-import { Explanation, ProcedureItem } from "~/models/ApiResponse";
+import { Explanation, Positions } from "~/models/ApiResponse";
 
 export const documentApi = {
   analyseDocument: async (uri: string) => {
@@ -30,9 +30,7 @@ export const documentApi = {
     return response.json();
   },
 
-  fetchExplainPosition: async (
-    position: ProcedureItem
-  ): Promise<Explanation> => {
+  fetchExplainPosition: async (position: Positions): Promise<Explanation> => {
     const response = await fetch(
       `${process.env.EXPO_PUBLIC_API_URL}/api/explain`,
       {
