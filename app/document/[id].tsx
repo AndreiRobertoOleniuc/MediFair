@@ -158,11 +158,18 @@ export default function DocumentDetail() {
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <View>
+      <View className="flex-row justify-between">
         <Text numberOfLines={2} className="text-xl font-bold text-left p-4">
           {data[0]?.invoice?.titel || "Rechnung"}
         </Text>
+        <Text className="text-base text-muted-foreground text-left p-4">
+          {data[0]?.invoice?.datum || "Beschreibung"}
+        </Text>
       </View>
+
+      <Text className="text-base text-muted-foreground text-left px-4 pb-4">
+        Gesamtbetrag: {data[0]?.invoice?.gesamtbetrag}
+      </Text>
 
       {scannedUri.length > 0 ? (
         <ImageViewer
@@ -175,7 +182,7 @@ export default function DocumentDetail() {
         />
       ) : (
         <View className="justify-center p-4">
-          <Text className="text-foreground">No images found</Text>
+          <Text className="text-foreground">Keine Bilder gefunden</Text>
         </View>
       )}
       {isFitMode && (

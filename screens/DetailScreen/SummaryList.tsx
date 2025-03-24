@@ -20,7 +20,7 @@ export default function SummaryList({
   return (
     <View className="p-4">
       <Text variant="title3" className="mb-4 text-foreground font-semibold">
-        Zusammenfassung / Erklärung
+        Zusammenfassung
       </Text>
       <ScrollView
         className="h-[80%]"
