@@ -114,33 +114,95 @@ export default function SummaryDetail() {
           return (
             <View
               key={index}
-              className="bg-card w-full rounded-md  px-4 py-3 mb-4"
+              style={{
+                marginBottom: 20,
+                marginTop: 4,
+                position: "relative",
+              }}
             >
-              <View className="flex-row">
-                <Text className="text-xl font-semibold text-foreground flex-1 mr-2">
-                  {item.invoicePositions?.titel}
-                </Text>
-                <Text className="text-base text-muted-foreground justify-start">
-                  CHF {item.invoicePositions?.betrag.toFixed(2)}
-                </Text>
-              </View>
-              <View className="flex-row justify-between items-center">
-                <Text className="text-sm text-foreground mt-1 w-3/4">
-                  {item.invoicePositions?.beschreibung}
-                </Text>
-                <TouchableOpacity
-                  onPress={() => fetchExplanation(item.invoicePositions!)}
-                >
-                  <MaterialIcon
-                    name="help-outline"
-                    size={24}
-                    color={colors.primary}
+              {(item.invoicePositions?.anzahl || 1) > 1 && (
+                <>
+                  <View
+                    className="bg-card/50 w-[96%] rounded-md absolute left-[2%]"
+                    style={{
+                      height: "88%",
+                      top: -10,
+                      transform: [{ rotate: "-1.5deg" }],
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 2,
+                      elevation: 1,
+                    }}
                   />
-                </TouchableOpacity>
+                  <View
+                    className="bg-card/70 w-[97%] rounded-md absolute left-[1.5%]"
+                    style={{
+                      height: "92%",
+                      top: -6,
+                      transform: [{ rotate: "1deg" }],
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.15,
+                      shadowRadius: 2,
+                      elevation: 2,
+                    }}
+                  />
+                  <View
+                    className="bg-card/85 w-[98.5%] rounded-md absolute left-[0.75%]"
+                    style={{
+                      height: "96%",
+                      top: -3,
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.2,
+                      shadowRadius: 2,
+                      elevation: 3,
+                    }}
+                  />
+                </>
+              )}
+
+              <View className="bg-card w-full rounded-md px-4 py-3 drop-shadow-xs">
+                <View className="flex-row">
+                  <Text className="text-xl font-semibold text-foreground flex-1 mr-2">
+                    {item.invoicePositions?.titel}
+                  </Text>
+                  <Text className="text-base text-muted-foreground justify-start">
+                    CHF{" "}
+                    {(
+                      (item.invoicePositions?.betrag || 0) *
+                      (item.invoicePositions?.anzahl || 1)
+                    ).toFixed(2)}
+                  </Text>
+                </View>
+                <View className="flex-row justify-between items-center">
+                  <View className="w-3/4">
+                    <Text className="text-sm text-foreground mt-1">
+                      {item.invoicePositions?.beschreibung}
+                    </Text>
+                    {(item.invoicePositions?.anzahl || 1) > 1 &&
+                      item.invoicePositions?.betrag != null && (
+                        <Text className="text-sm text-primary font-medium mt-1">
+                          {item.invoicePositions.anzahl}x à CHF{" "}
+                          {item.invoicePositions.betrag.toFixed(2)}
+                        </Text>
+                      )}
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => fetchExplanation(item.invoicePositions!)}
+                  >
+                    <MaterialIcon
+                      name="help-outline"
+                      size={24}
+                      color={colors.primary}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <Text className="text-sm text-muted-foreground mt-1">
+                  {item.invoicePositions?.tarifziffer}
+                </Text>
               </View>
-              <Text className="text-sm text-muted-foreground mt-1">
-                {item.invoicePositions?.tarifziffer}
-              </Text>
             </View>
           );
         })}
