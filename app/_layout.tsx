@@ -12,13 +12,13 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migration from "@/drizzle/migrations";
 import { SQLiteProvider, openDatabaseSync } from "expo-sqlite";
-import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import { Button } from "../components/nativewindui/Button";
 
 // Expo Router
 import { Stack, useRouter } from "expo-router";
 
 // React Native Components & Reanimated
-import { Button, ActivityIndicator } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
 import "react-native-reanimated";
 
 // Redux & Navigation
@@ -31,6 +31,7 @@ import {
 } from "../hooks/useColorScheme";
 import { NAV_THEME } from "../theme";
 import "../global.css";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 SplashScreen.preventAutoHideAsync();
 const DATABASE_NAME = "medifair.db";
@@ -87,13 +88,17 @@ export default function RootLayout() {
               name="document/[id]"
               options={{
                 headerShown: true,
-                title: "Rückforderungsbeleg Analysieren",
+                title: "Rückforderungsbeleg",
                 headerLeft: () => (
-                  <Button
-                    title="Back"
+                  <TouchableOpacity
                     onPress={() => router.dismissTo("/document")}
-                    color={colors.primary}
-                  />
+                  >
+                    <MaterialIcons
+                      name="arrow-back-ios"
+                      size={24}
+                      color={colors.primary}
+                    />
+                  </TouchableOpacity>
                 ),
               }}
             />
@@ -103,11 +108,13 @@ export default function RootLayout() {
                 headerShown: true,
                 title: "",
                 headerLeft: () => (
-                  <Button
-                    title="Back"
-                    onPress={() => router.back()}
-                    color={colors.primary}
-                  />
+                  <TouchableOpacity onPress={() => router.back()}>
+                    <MaterialIcons
+                      name="arrow-back-ios"
+                      size={24}
+                      color={colors.primary}
+                    />
+                  </TouchableOpacity>
                 ),
               }}
             />
