@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import { View, SafeAreaView } from "react-native";
+import { View } from "react-native";
 import { useState, useEffect } from "react";
 
 import ImageViewer from "~/screens/DetailScreen/ImageViewer";
@@ -18,6 +18,7 @@ import { eq } from "drizzle-orm";
 
 //Image Loading
 import { loadScans, findImageUri } from "~/services/file";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DocumentDetail() {
   const { id } = useLocalSearchParams();

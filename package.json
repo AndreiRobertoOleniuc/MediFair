@@ -4,11 +4,13 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "expo run:android",
+    "android": "expo run:android --device",
     "ios": "expo run:ios --device",
     "web": "expo start --web",
     "lint": "expo lint",
-    "migrate": "npx drizzle-kit generate"
+    "migrate": "npx drizzle-kit generate",
+    "ios-dev-build": "eas build --platform ios --profile development",
+    "android-dev-build": "eas build --platform android --profile development"
   },
   "jest": {
     "preset": "jest-expo"

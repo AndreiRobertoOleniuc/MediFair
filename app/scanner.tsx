@@ -4,7 +4,7 @@ import { useCameraPermissions } from "expo-camera";
 import CameraComponent from "../screens/Scanning/CameraComponent";
 import PreviewComponent from "../screens/Scanning/PreviewComponent";
 import { router } from "expo-router";
-import { ApiResponse, Positions } from "~/models/ApiResponse";
+import { ApiResponse } from "~/models/ApiResponse";
 import { documentApi } from "~/services/api";
 import { persistScannedImage } from "~/services/file";
 import { useSQLiteContext } from "expo-sqlite";
@@ -15,6 +15,7 @@ import {
   InvoicePositionsInsert,
   SummeriesInsert,
 } from "@/db/schema";
+import DeviceInfo from "react-native-device-info";
 
 export default function Scanner() {
   const db = useSQLiteContext();
@@ -23,6 +24,7 @@ export default function Scanner() {
   const [permission, requestPermission] = useCameraPermissions();
   const [capturedPhotos, setCapturedPhotos] = useState<string[]>([]);
   const [showCamera, setShowCamera] = useState<boolean>(true);
+  const [isSimulator, setIsSimulator] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -30,7 +32,20 @@ export default function Scanner() {
         await requestPermission();
       }
     })();
+
+    (async () => {
+      const isEmulator = await DeviceInfo.isEmulator();
+      setIsSimulator(isEmulator);
+    })();
   }, []);
+
+  useEffect(() => {
+    if (isSimulator) {
+      setCapturedPhotos([
+        "https://blocks.astratic.com/img/general-img-square.png",
+      ]);
+    }
+  }, [isSimulator]);
 
   const continueWithImages = async () => {
     if (capturedPhotos.length > 0) {
@@ -153,7 +168,7 @@ export default function Scanner() {
     return <View />;
   }
 
-  if (showCamera && capturedPhotos.length === 0) {
+  if (showCamera && capturedPhotos.length === 0 && !isSimulator) {
     return (
       <CameraComponent
         onCapture={(photos: string[]) => {

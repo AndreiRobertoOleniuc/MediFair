@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView, View, Image, ScrollView } from "react-native";
-import { Button } from "@/components/nativewindui/Button";
+import { Button } from "../../components/nativewindui/Button";
 import { Text } from "@/components/nativewindui/Text";
 
 interface PreviewComponentProps {
@@ -44,17 +44,12 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
           ))}
         </ScrollView>
 
-        <View className="flex-row justify-between w-full gap-3 px-5">
-          <Button
-            variant="secondary"
-            size={"lg"}
-            className="flex-1"
-            onPress={onRetake}
-          >
+        <View className="flex-row justify-between w-full border-red-600 border ">
+          <Button size="md" onPress={onRetake}>
             <Text>Erneut Scannen</Text>
           </Button>
 
-          <Button size={"lg"} className="flex-1" onPress={onContinue}>
+          <Button size="md" onPress={onContinue}>
             <Text>Analysieren</Text>
           </Button>
         </View>

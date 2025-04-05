@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, SafeAreaView, ScrollView, TouchableOpacity } from "react-native";
+import { View, ScrollView, TouchableOpacity } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { Text } from "@/components/nativewindui/Text";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
@@ -14,6 +14,7 @@ import { eq } from "drizzle-orm";
 import { Explanation } from "~/models/ApiResponse";
 import { InvoicePositions } from "@/db/schema";
 import { documentApi } from "~/services/api";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SummaryDetail() {
   const { summaryId } = useLocalSearchParams();

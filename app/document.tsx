@@ -1,5 +1,5 @@
 import React from "react";
-import { View, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
+import { View, TouchableOpacity, ScrollView } from "react-native";
 import { Link } from "expo-router";
 import { Button } from "../components/nativewindui/Button";
 import { Text } from "../components/nativewindui/Text";
@@ -13,6 +13,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
 import * as schema from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Documents() {
   const db = useSQLiteContext();
