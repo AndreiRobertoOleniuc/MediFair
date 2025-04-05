@@ -44,7 +44,7 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
           ))}
         </ScrollView>
 
-        <View className="flex-row justify-between w-full border-red-600 border ">
+        <View className="flex-row justify-between w-full px-8">
           <Button size="md" onPress={onRetake}>
             <Text>Erneut Scannen</Text>
           </Button>
