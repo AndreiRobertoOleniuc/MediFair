@@ -6,6 +6,7 @@ import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { useColorScheme } from "~/hooks/useColorScheme";
 import { Dialog } from "~/components/custom/Dialog";
 import { Skeleton } from "~/components/custom/Skeleton";
+import { SafeAreaViewComponent } from "~/components/custom/SafeAreaComponent";
 
 import { useSQLiteContext } from "expo-sqlite";
 import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
@@ -14,7 +15,6 @@ import { eq } from "drizzle-orm";
 import { Explanation } from "~/models/ApiResponse";
 import { InvoicePositions } from "@/db/schema";
 import { documentApi } from "~/services/api";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SummaryDetail() {
   const { summaryId } = useLocalSearchParams();
@@ -49,17 +49,17 @@ export default function SummaryDetail() {
 
   if (error) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <SafeAreaViewComponent className="flex-1 justify-center items-center">
         <Text>Error beim laden der datan: {error.message}</Text>
-      </View>
+      </SafeAreaViewComponent>
     );
   }
 
   if (data.length === 0) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <SafeAreaViewComponent className="flex-1 justify-center items-center">
         <Text>Keine Daten gefunden</Text>
-      </View>
+      </SafeAreaViewComponent>
     );
   }
 
@@ -92,7 +92,7 @@ export default function SummaryDetail() {
       : "Loading...";
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaViewComponent className="flex-1 bg-background">
       <ScrollView
         contentContainerStyle={{ padding: 16 }}
         showsVerticalScrollIndicator={false}
@@ -239,6 +239,6 @@ export default function SummaryDetail() {
           </Text>
         )}
       </Dialog>
-    </SafeAreaView>
+    </SafeAreaViewComponent>
   );
 }

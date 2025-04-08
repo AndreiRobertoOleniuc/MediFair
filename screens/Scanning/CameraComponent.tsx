@@ -21,7 +21,8 @@ const CameraComponent: React.FC<CameraComponentProps> = ({ onCapture }) => {
         onCapture(scannedImages);
       }
     } catch (error) {
-      console.error("Error scanning document:", error);
+      console.error("Document Scanner Error:", error);
+      console.error("Error details:", JSON.stringify(error, null, 2));
       router.replace("/document");
     }
   };

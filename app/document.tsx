@@ -3,6 +3,7 @@ import { View, TouchableOpacity, ScrollView } from "react-native";
 import { Link } from "expo-router";
 import { Button } from "../components/nativewindui/Button";
 import { Text } from "../components/nativewindui/Text";
+import { SafeAreaViewComponent } from "~/components/custom/SafeAreaComponent";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 import { useColorScheme } from "../hooks/useColorScheme";
 import { router } from "expo-router";
@@ -13,7 +14,6 @@ import { useSQLiteContext } from "expo-sqlite";
 import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
 import * as schema from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Documents() {
   const db = useSQLiteContext();
@@ -58,7 +58,7 @@ export default function Documents() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaViewComponent className="flex-1 bg-background">
       <View className="flex-1 p-5">
         <View className="flex-row justify-between items-center mb-4">
           <Text variant="title1" className="text-center font-black">
@@ -147,6 +147,6 @@ export default function Documents() {
           </Button>
         </Link>
       </View>
-    </SafeAreaView>
+    </SafeAreaViewComponent>
   );
 }

@@ -6,6 +6,7 @@ import ImageViewer from "~/screens/DetailScreen/ImageViewer";
 import SummaryList from "~/screens/DetailScreen/SummaryList";
 import { Text } from "@/components/nativewindui/Text";
 import { Skeleton } from "~/components/custom/Skeleton";
+import { SafeAreaViewComponent } from "~/components/custom/SafeAreaComponent";
 
 //For Simulator
 import DeviceInfo from "react-native-device-info";
@@ -18,7 +19,6 @@ import { eq } from "drizzle-orm";
 
 //Image Loading
 import { loadScans, findImageUri } from "~/services/file";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DocumentDetail() {
   const { id } = useLocalSearchParams();
@@ -109,7 +109,7 @@ export default function DocumentDetail() {
   // Show loading skeleton with progressive messages
   if (id == "-1") {
     return (
-      <SafeAreaView className="flex-1 bg-background">
+      <SafeAreaViewComponent className="flex-1 bg-background">
         <View className="p-4">
           <View className="mb-6">
             <View className="mb-4">
@@ -131,17 +131,17 @@ export default function DocumentDetail() {
             <Skeleton className="w-full h-24 rounded-lg mb-2" />
           </View>
         </View>
-      </SafeAreaView>
+      </SafeAreaViewComponent>
     );
   }
 
   if (!data) {
     return (
-      <SafeAreaView className="flex-1 bg-background">
+      <SafeAreaViewComponent className="flex-1 bg-background">
         <View className="flex-1 justify-center items-center">
           <Text className="text-foreground">Document not found</Text>
         </View>
-      </SafeAreaView>
+      </SafeAreaViewComponent>
     );
   }
 
@@ -158,12 +158,12 @@ export default function DocumentDetail() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <View className="flex-row justify-between">
-        <Text numberOfLines={2} className="text-xl font-bold text-left p-4">
+    <SafeAreaViewComponent className="flex-1 bg-background">
+      <View className="flex-row justify-between items-center flex-wrap px-4 mb-2 mt-4">
+        <Text className="text-xl font-bold text-left">
           {data[0]?.invoice?.titel || "Rechnung"}
         </Text>
-        <Text className="text-base text-muted-foreground text-left p-4">
+        <Text className="text-base text-muted-foreground text-left">
           {data[0]?.invoice?.datum || "Beschreibung"}
         </Text>
       </View>
@@ -196,6 +196,6 @@ export default function DocumentDetail() {
           })}
         />
       )}
-    </SafeAreaView>
+    </SafeAreaViewComponent>
   );
 }

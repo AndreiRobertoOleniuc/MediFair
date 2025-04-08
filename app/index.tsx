@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
 import { ScrollView, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaViewComponent } from "~/components/custom/SafeAreaComponent";
 import MaterialIcon from "@expo/vector-icons/MaterialIcons";
 
 import { Button } from "../components/nativewindui/Button";
@@ -17,7 +17,7 @@ export default function WelcomeConsentScreen() {
   const { colors } = useColorScheme();
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaViewComponent className="flex-1 bg-background">
       <ScrollView className="flex-1" contentContainerStyle={{ flexGrow: 1 }}>
         <View className="flex-1 justify-between px-4 py-8">
           <View>
@@ -78,7 +78,7 @@ export default function WelcomeConsentScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaViewComponent>
   );
 }
 
