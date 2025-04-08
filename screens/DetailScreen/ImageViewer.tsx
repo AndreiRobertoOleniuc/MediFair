@@ -22,7 +22,7 @@ export default function ImageViewer({
 
   return (
     <View
-      className={`relative bg-card mx-4 rounded-sm ${isFitMode ? "" : "flex-1 px-4"}`}
+      className={`relative bg-card mx-4 rounded-sm ${isFitMode ? "" : "flex-1 px-4 mb-8"}`}
     >
       {isFitMode ? (
         <View className="p-4 w-full flex flex-row justify-between">
