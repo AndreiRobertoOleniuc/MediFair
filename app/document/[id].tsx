@@ -167,9 +167,14 @@ export default function DocumentDetail() {
         </Text>
       </View>
 
-      <Text className="text-base text-muted-foreground text-left px-4 pb-4">
-        Gesamtbetrag: {data[0]?.invoice?.gesamtbetrag}
-      </Text>
+      <View className="px-4 pb-4 flex flex-row">
+        <Text className="text-base text-muted-foreground text-left mr-1">
+          Gesamtbetrag:
+        </Text>
+        <Text className="text-base font-medium">
+          {data[0]?.invoice?.gesamtbetrag}
+        </Text>
+      </View>
 
       {scannedUri.length > 0 ? (
         <ImageViewer
