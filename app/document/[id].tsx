@@ -1,12 +1,11 @@
 import { useLocalSearchParams } from "expo-router";
-import { View } from "react-native";
+import { View, SafeAreaView } from "react-native";
 import { useState, useEffect } from "react";
 
 import ImageViewer from "~/screens/DetailScreen/ImageViewer";
 import SummaryList from "~/screens/DetailScreen/SummaryList";
 import { Text } from "@/components/nativewindui/Text";
 import { Skeleton } from "~/components/custom/Skeleton";
-import { SafeAreaViewComponent } from "~/components/custom/SafeAreaComponent";
 
 //For Simulator
 import DeviceInfo from "react-native-device-info";
@@ -109,7 +108,7 @@ export default function DocumentDetail() {
   // Show loading skeleton with progressive messages
   if (id == "-1") {
     return (
-      <SafeAreaViewComponent className="flex-1 bg-background">
+      <SafeAreaView className="flex-1 bg-background">
         <View className="p-4">
           <View className="mb-6">
             <View className="mb-4">
@@ -131,17 +130,17 @@ export default function DocumentDetail() {
             <Skeleton className="w-full h-24 rounded-lg mb-2" />
           </View>
         </View>
-      </SafeAreaViewComponent>
+      </SafeAreaView>
     );
   }
 
   if (!data) {
     return (
-      <SafeAreaViewComponent className="flex-1 bg-background">
+      <SafeAreaView className="flex-1 bg-background">
         <View className="flex-1 justify-center items-center">
           <Text className="text-foreground">Document not found</Text>
         </View>
-      </SafeAreaViewComponent>
+      </SafeAreaView>
     );
   }
 
@@ -158,7 +157,7 @@ export default function DocumentDetail() {
   };
 
   return (
-    <SafeAreaViewComponent className="flex-1 bg-background">
+    <SafeAreaView className="flex-1 bg-background">
       <View className="flex-row justify-between items-center flex-wrap px-4 mb-2 mt-4">
         <Text className="text-xl font-bold text-left">
           {data[0]?.invoice?.titel || "Rechnung"}
@@ -196,6 +195,6 @@ export default function DocumentDetail() {
           })}
         />
       )}
-    </SafeAreaViewComponent>
+    </SafeAreaView>
   );
 }

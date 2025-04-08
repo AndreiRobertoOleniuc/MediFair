@@ -1,7 +1,8 @@
 import React from "react";
-import { SafeAreaView, View, Image, ScrollView } from "react-native";
+import { View, Image, ScrollView } from "react-native";
 import { Button } from "../../components/nativewindui/Button";
 import { Text } from "@/components/nativewindui/Text";
+import { SafeAreaViewComponent } from "~/components/custom/SafeAreaComponent";
 
 interface PreviewComponentProps {
   photoUris: string[];
@@ -15,8 +16,11 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
   onContinue,
 }) => {
   return (
-    <SafeAreaView className="flex-1 bg-background py-10 px-20">
-      <View className="flex-1 justify-center items-center py-14">
+    <SafeAreaViewComponent className="bg-background flex-1 flex justify-center flex-col">
+      <View className="self-start">
+        <Text>Back</Text>
+      </View>
+      <View>
         <Text variant="title1" className="text-center font-bold mb-4">
           Rechnungs Vorschau
         </Text>
@@ -28,7 +32,7 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
             justifyContent: "center",
             alignItems: "center",
           }}
-          className="mb-8"
+          className="mb-8 self-center"
         >
           {photoUris.map((uri, index) => (
             <View
@@ -44,7 +48,7 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
           ))}
         </ScrollView>
 
-        <View className="flex-row justify-between w-full px-9">
+        <View className="flex-row justify-center gap-4 w-full">
           <Button size="md" variant="secondary" onPress={onRetake}>
             <Text>Erneut Scannen</Text>
           </Button>
@@ -54,7 +58,7 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
           </Button>
         </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaViewComponent>
   );
 };
 

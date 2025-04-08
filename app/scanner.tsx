@@ -16,6 +16,7 @@ import {
   SummeriesInsert,
 } from "@/db/schema";
 import DeviceInfo from "react-native-device-info";
+import { Platform } from "react-native";
 
 export default function Scanner() {
   const db = useSQLiteContext();
@@ -35,7 +36,7 @@ export default function Scanner() {
 
     (async () => {
       const isEmulator = await DeviceInfo.isEmulator();
-      setIsSimulator(isEmulator);
+      setIsSimulator(isEmulator && Platform.OS === "ios");
     })();
   }, []);
 

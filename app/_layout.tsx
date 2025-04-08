@@ -12,7 +12,7 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migration from "@/drizzle/migrations";
 import { SQLiteProvider, openDatabaseSync } from "expo-sqlite";
-import { Button } from "../components/nativewindui/Button";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Expo Router
 import { Stack, useRouter } from "expo-router";
@@ -79,47 +79,49 @@ export default function RootLayout() {
         options={{ enableChangeListener: true }}
         useSuspense
       >
-        <NavThemeProvider value={NAV_THEME[colorScheme]}>
-          <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="scanner" options={{ headerShown: false }} />
-            <Stack.Screen name="document" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="document/[id]"
-              options={{
-                headerShown: true,
-                title: "Rückforderungsbeleg",
-                headerLeft: () => (
-                  <TouchableOpacity
-                    onPress={() => router.dismissTo("/document")}
-                  >
-                    <MaterialIcons
-                      name="arrow-back-ios"
-                      size={24}
-                      color={colors.primary}
-                    />
-                  </TouchableOpacity>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="document/detail/[summaryId]"
-              options={{
-                headerShown: true,
-                title: "",
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <MaterialIcons
-                      name="arrow-back-ios"
-                      size={24}
-                      color={colors.primary}
-                    />
-                  </TouchableOpacity>
-                ),
-              }}
-            />
-          </Stack>
-        </NavThemeProvider>
+        <SafeAreaProvider>
+          <NavThemeProvider value={NAV_THEME[colorScheme]}>
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen name="scanner" options={{ headerShown: false }} />
+              <Stack.Screen name="document" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="document/[id]"
+                options={{
+                  headerShown: true,
+                  title: "Rückforderungsbeleg",
+                  headerLeft: () => (
+                    <TouchableOpacity
+                      onPress={() => router.dismissTo("/document")}
+                    >
+                      <MaterialIcons
+                        name="arrow-back-ios"
+                        size={24}
+                        color={colors.primary}
+                      />
+                    </TouchableOpacity>
+                  ),
+                }}
+              />
+              <Stack.Screen
+                name="document/detail/[summaryId]"
+                options={{
+                  headerShown: true,
+                  title: "",
+                  headerLeft: () => (
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <MaterialIcons
+                        name="arrow-back-ios"
+                        size={24}
+                        color={colors.primary}
+                      />
+                    </TouchableOpacity>
+                  ),
+                }}
+              />
+            </Stack>
+          </NavThemeProvider>
+        </SafeAreaProvider>
         <StatusBar
           key={`root-status-bar-${isDarkColorScheme ? "light" : "dark"}`}
           style={isDarkColorScheme ? "light" : "dark"}
