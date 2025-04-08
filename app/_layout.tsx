@@ -18,7 +18,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
 
 // React Native Components & Reanimated
-import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
+import { ActivityIndicator, TouchableOpacity } from "react-native";
 import "react-native-reanimated";
 
 // Redux & Navigation
@@ -32,6 +32,10 @@ import {
 import { NAV_THEME } from "../theme";
 import "../global.css";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+
+//Custom Providers
+import { ToastProvider } from "../components/custom/ToastProvider";
+import { ToastContainer } from "../components/custom/ToastContainer";
 
 SplashScreen.preventAutoHideAsync();
 const DATABASE_NAME = "medifair.db";
@@ -79,53 +83,59 @@ export default function RootLayout() {
         options={{ enableChangeListener: true }}
         useSuspense
       >
-        <SafeAreaProvider>
-          <NavThemeProvider value={NAV_THEME[colorScheme]}>
-            <Stack>
-              <Stack.Screen name="index" options={{ headerShown: false }} />
-              <Stack.Screen name="scanner" options={{ headerShown: false }} />
-              <Stack.Screen name="document" options={{ headerShown: false }} />
-              <Stack.Screen
-                name="document/[id]"
-                options={{
-                  headerShown: true,
-                  title: "Rückforderungsbeleg",
-                  headerLeft: () => (
-                    <TouchableOpacity
-                      onPress={() => router.dismissTo("/document")}
-                    >
-                      <MaterialIcons
-                        name="arrow-back-ios"
-                        size={24}
-                        color={colors.primary}
-                      />
-                    </TouchableOpacity>
-                  ),
-                }}
-              />
-              <Stack.Screen
-                name="document/detail/[summaryId]"
-                options={{
-                  headerShown: true,
-                  title: "",
-                  headerLeft: () => (
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <MaterialIcons
-                        name="arrow-back-ios"
-                        size={24}
-                        color={colors.primary}
-                      />
-                    </TouchableOpacity>
-                  ),
-                }}
-              />
-            </Stack>
-          </NavThemeProvider>
-        </SafeAreaProvider>
-        <StatusBar
-          key={`root-status-bar-${isDarkColorScheme ? "light" : "dark"}`}
-          style={isDarkColorScheme ? "light" : "dark"}
-        />
+        <ToastProvider>
+          <SafeAreaProvider>
+            <NavThemeProvider value={NAV_THEME[colorScheme]}>
+              <Stack>
+                <Stack.Screen name="index" options={{ headerShown: false }} />
+                <Stack.Screen name="scanner" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="document"
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="document/[id]"
+                  options={{
+                    headerShown: true,
+                    title: "Rückforderungsbeleg",
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => router.dismissTo("/document")}
+                      >
+                        <MaterialIcons
+                          name="arrow-back-ios"
+                          size={24}
+                          color={colors.primary}
+                        />
+                      </TouchableOpacity>
+                    ),
+                  }}
+                />
+                <Stack.Screen
+                  name="document/detail/[summaryId]"
+                  options={{
+                    headerShown: true,
+                    title: "",
+                    headerLeft: () => (
+                      <TouchableOpacity onPress={() => router.back()}>
+                        <MaterialIcons
+                          name="arrow-back-ios"
+                          size={24}
+                          color={colors.primary}
+                        />
+                      </TouchableOpacity>
+                    ),
+                  }}
+                />
+              </Stack>
+            </NavThemeProvider>
+          </SafeAreaProvider>
+          <StatusBar
+            key={`root-status-bar-${isDarkColorScheme ? "light" : "dark"}`}
+            style={isDarkColorScheme ? "light" : "dark"}
+          />
+          <ToastContainer />
+        </ToastProvider>
       </SQLiteProvider>
     </Suspense>
   );

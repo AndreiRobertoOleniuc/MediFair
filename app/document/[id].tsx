@@ -172,7 +172,7 @@ export default function DocumentDetail() {
           Gesamtbetrag:
         </Text>
         <Text className="text-base font-medium">
-          {data[0]?.invoice?.gesamtbetrag}
+          {data[0]?.invoice?.gesamtbetrag} CHF
         </Text>
       </View>
 

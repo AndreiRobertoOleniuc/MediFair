@@ -17,6 +17,7 @@ import {
 } from "@/db/schema";
 import DeviceInfo from "react-native-device-info";
 import { Platform } from "react-native";
+import { useToast } from "~/components/custom/ToastProvider";
 
 export default function Scanner() {
   const db = useSQLiteContext();
@@ -26,6 +27,8 @@ export default function Scanner() {
   const [capturedPhotos, setCapturedPhotos] = useState<string[]>([]);
   const [showCamera, setShowCamera] = useState<boolean>(true);
   const [isSimulator, setIsSimulator] = useState<boolean>(false);
+
+  const { toast } = useToast();
 
   useEffect(() => {
     (async () => {
@@ -69,14 +72,22 @@ export default function Scanner() {
             params: { id: invoice.invoiceId },
           });
         } else {
-          console.error("Failed to persist invoice:", invoice);
           router.replace({
             pathname: "/document",
             params: { id: invoice.invoiceId },
           });
         }
       } catch (error) {
-        console.error(error);
+        router.replace({
+          pathname: "/document",
+        });
+        toast({
+          message:
+            "Fehler bei der Analyse des Dokuments. Bitte versuchen Sie es erneut.",
+          variant: "error",
+          position: "bottom",
+          duration: 5000,
+        });
       }
     }
   };

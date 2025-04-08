@@ -17,9 +17,6 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
 }) => {
   return (
     <SafeAreaViewComponent className="bg-background flex-1 flex justify-center flex-col">
-      <View className="self-start">
-        <Text>Back</Text>
-      </View>
       <View>
         <Text variant="title1" className="text-center font-bold mb-4">
           Rechnungs Vorschau

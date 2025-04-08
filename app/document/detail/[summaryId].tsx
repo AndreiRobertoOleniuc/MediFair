@@ -14,6 +14,7 @@ import { eq } from "drizzle-orm";
 import { Explanation } from "~/models/ApiResponse";
 import { InvoicePositions } from "@/db/schema";
 import { documentApi } from "~/services/api";
+import { useToast } from "~/components/custom/ToastProvider";
 
 export default function SummaryDetail() {
   const { summaryId } = useLocalSearchParams();
@@ -27,6 +28,8 @@ export default function SummaryDetail() {
     "loading" | "succeeded" | "failed"
   >("loading");
   const [explanation, setExplanation] = useState<Explanation>();
+
+  const { toast } = useToast();
 
   const { data, error } = useLiveQuery(
     drizzleDb
@@ -79,8 +82,16 @@ export default function SummaryDetail() {
       setExplanation(response);
       setExplanationStatus("succeeded");
     } catch (error) {
-      console.log("Error fetching explanation", error);
-      setExplanationStatus("failed");
+      setDialogVisible(false);
+      setTimeout(() => {
+        toast({
+          message:
+            "Fehler bei der Ladung der Erklärung. Bitte versuchen Sie es erneut.",
+          variant: "error",
+          position: "bottom",
+          duration: 5000,
+        });
+      }, 500);
     }
   };
 

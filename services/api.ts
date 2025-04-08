@@ -1,5 +1,34 @@
 import { Explanation, Positions } from "~/models/ApiResponse";
 
+export type ApiError = {
+  status: number;
+  message: string;
+  details?: any;
+};
+
+const handleResponse = async (response: Response) => {
+  if (!response.ok) {
+    let errorBody = {};
+    try {
+      errorBody = await response.json();
+    } catch (_) {
+      // fallback if response body is not JSON
+    }
+
+    const error: ApiError = {
+      status: response.status,
+      message:
+        (errorBody as any)?.message ||
+        `Request failed with status ${response.status}`,
+      details: errorBody,
+    };
+
+    throw error;
+  }
+
+  return response.json();
+};
+
 export const documentApi = {
   analyseDocument: async (uri: string) => {
     const formData = new FormData();
@@ -21,13 +50,7 @@ export const documentApi = {
       }
     );
 
-    if (!response.ok) {
-      console.log(response.status);
-      console.log("Error", response);
-      throw new Error("Network response was not ok");
-    }
-
-    return response.json();
+    return handleResponse(response);
   },
 
   fetchExplainPosition: async (position: Positions): Promise<Explanation> => {
@@ -56,14 +79,7 @@ export const documentApi = {
       }
     );
 
-    if (!response.ok) {
-      console.log(response.status);
-      console.log("Error", response);
-      throw new Error("Network response was not ok");
-    }
-
-    const data = await response.json();
-    // Extract the nested explanation object
+    const data = await handleResponse(response);
     return data.explanation as Explanation;
   },
 };
