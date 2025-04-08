@@ -123,21 +123,21 @@ export const getDynamicAppConfig = (
 
   if (environment === "preview") {
     return {
-      name: `${APP_NAME} Preview`,
+      name: `${APP_NAME} P.`,
       bundleIdentifier: `${BUNDLE_IDENTIFIER}.preview`,
       packageName: `${PACKAGE_NAME}.preview`,
-      icon: "./assets/images/icon.png",
-      adaptiveIcon: "./assets/images/adaptive-icon.png",
+      icon: "./assets/images/icon-dev.png",
+      adaptiveIcon: "./assets/images/adaptive-icon-dev.png",
       scheme: `${SCHEME}-prev`,
     };
   }
 
   return {
-    name: `${APP_NAME} Development`,
+    name: `${APP_NAME} D.`,
     bundleIdentifier: `${BUNDLE_IDENTIFIER}.dev`,
     packageName: `${PACKAGE_NAME}.dev`,
-    icon: "./assets/images/icon.png",
-    adaptiveIcon: "./assets/images/adaptive-icon.png",
+    icon: "./assets/images/icon-dev.png",
+    adaptiveIcon: "./assets/images/adaptive-icon-dev.png",
     scheme: `${SCHEME}-dev`,
   };
 };
