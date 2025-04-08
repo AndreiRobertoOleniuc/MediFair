@@ -4,7 +4,7 @@ import { Button } from "../../components/nativewindui/Button";
 import { Text } from "@/components/nativewindui/Text";
 
 interface PreviewComponentProps {
-  photoUris: string[]; // array of image URIs for multiple pages
+  photoUris: string[];
   onRetake: () => void;
   onContinue: () => void;
 }
@@ -44,8 +44,8 @@ const PreviewComponent: React.FC<PreviewComponentProps> = ({
           ))}
         </ScrollView>
 
-        <View className="flex-row justify-between w-full px-8">
-          <Button size="md" onPress={onRetake}>
+        <View className="flex-row justify-between w-full px-9">
+          <Button size="md" variant="secondary" onPress={onRetake}>
             <Text>Erneut Scannen</Text>
           </Button>
 
