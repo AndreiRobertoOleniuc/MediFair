@@ -1,0 +1,16 @@
+# Pull environment variables from EAS
+eas env pull --env production
+eas env pull --env production
+eas env pull --env production
+
+# Build for different profiles
+eas build --profile development --platform ios
+eas build --profile development --platform android
+eas build --profile preview --platform ios
+eas build --profile preview --platform android
+eas build --profile production --platform ios
+eas build --profile production --platform android
+
+# Submit the build to app stores
+eas submit --platform ios --latest
+eas submit --platform android --latest

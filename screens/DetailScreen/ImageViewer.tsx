@@ -26,15 +26,13 @@ export default function ImageViewer({
     >
       {isFitMode ? (
         <View className="p-4 w-full flex flex-row justify-between">
-          <TouchableOpacity onPress={toggleFitMode}>
-            <View className="flex flex-row items-center">
-              <Text className="font-semibold mr-2">View Image</Text>
+          <TouchableOpacity onPress={toggleFitMode} className="flex flex-row items-center flex-wrap max-w-[40%]">
+              <Text className="font-semibold mr-2">Rechnung Anschauen</Text>
               <MaterialIcon
                 name="zoom-in"
                 size={24}
                 color={colors.foreground}
               />
-            </View>
           </TouchableOpacity>
           <View className="flex flex-row justify-end items-start">
             {images.slice(0, 3).map((image, index) => (

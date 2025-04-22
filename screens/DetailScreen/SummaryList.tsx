@@ -24,7 +24,7 @@ export default function SummaryList({
       </Text>
       <ScrollView
         className="h-[80%]"
-        contentContainerStyle={{ paddingBottom: 80 }}
+        contentContainerStyle={{ paddingBottom: 120 }}
       >
         {summaries.map((summary, index) => (
           <TouchableOpacity

@@ -10,7 +10,8 @@
     "lint": "expo lint",
     "migrate": "npx drizzle-kit generate",
     "ios-dev-build": "eas build --platform ios --profile development",
-    "android-dev-build": "eas build --platform android --profile development"
+    "android-dev-build": "eas build --platform android --profile development",
+    "ci": "npm install"
   },
   "jest": {
     "preset": "jest-expo"
